@@ -5,6 +5,9 @@ const router = useRouter();
 function goToServices() {
   router.push("/services");
 }
+function goToAdmin(){
+  router.push("/admin");
+}
 </script>
 
 <template>
@@ -13,5 +16,6 @@ function goToServices() {
         <p>Book your appointment with us!</p>
 
     <button @click="goToServices">Book now!</button>
+    <button @click="goToAdmin">Admin</button>
   </div>
 </template>

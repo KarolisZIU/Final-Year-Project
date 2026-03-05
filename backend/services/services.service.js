@@ -4,3 +4,8 @@ export async function listPublicServices() {
   const result = await repo.getActiveServices();
   return result.rows;
 }
+
+export async function listAdminServices(){
+  const result = await repo.adminGetAllServices();
+  return result.rows;
+}
