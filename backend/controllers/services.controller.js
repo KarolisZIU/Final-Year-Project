@@ -30,3 +30,14 @@ export async function deleteService(req, res) {
     res.status(500).json({ error: "Failed to delete service" });
   }
 }
+
+export async function addService(req, res) {
+  const { name, price, duration } = req.body;
+  try {
+    await servicesService.addService(name, price, duration);
+    res.json({ message: "Service added successfully" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Failed to add service" });
+  }
+}

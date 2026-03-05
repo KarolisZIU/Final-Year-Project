@@ -13,3 +13,7 @@ export async function listAdminServices(){
 export async function deleteService(serviceId){
   await repo.adminDeleteService(serviceId);
 }
+
+export async function addService(name, price, duration){
+  await repo.adminAddService(name, price, duration);
+}
