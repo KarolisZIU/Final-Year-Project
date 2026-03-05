@@ -16,3 +16,10 @@ export function adminGetAllServices(){
      ORDER BY service_id`
   );
 }
+
+export function adminDeleteService(serviceId){
+  return pool.query(
+    `DELETE FROM services
+     WHERE service_id = $1`, [serviceId]
+  );
+}

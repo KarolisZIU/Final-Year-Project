@@ -19,6 +19,20 @@ async function loadServices(){
   }
 }
 
+async function deleteService(serviceId) {
+  try {
+    const res = await fetch(`/api/admin/services/${serviceId}`, {
+      method: "DELETE",
+    });
+    if (!res.ok) {
+      throw new Error("Failed to delete service");
+    }
+    loadServices();
+  } catch (error) {
+    console.error("Error deleting service:", error);
+  }
+}
+
 onMounted(loadServices)
 </script>
 
@@ -44,6 +58,7 @@ onMounted(loadServices)
           <td>{{ s.service_price }}</td>
           <td>{{ s.service_duration }}</td>
           <td>{{ s.is_active ? "Yes" : "No" }}</td>
+          <td><button @click="deleteService(s.service_id)">Delete</button></td>
         </tr>
       </tbody>
     </table>

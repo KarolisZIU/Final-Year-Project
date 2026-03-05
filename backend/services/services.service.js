@@ -9,3 +9,7 @@ export async function listAdminServices(){
   const result = await repo.adminGetAllServices();
   return result.rows;
 }
+
+export async function deleteService(serviceId){
+  await repo.adminDeleteService(serviceId);
+}
