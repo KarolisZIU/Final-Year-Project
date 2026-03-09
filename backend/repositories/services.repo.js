@@ -8,6 +8,7 @@ export async function getActiveServices() {
      WHERE is_active = true
      ORDER BY service_id`
   );
+  // admin functions
 }
 export async function adminGetAllServices(){
   return pool.query(
@@ -43,5 +44,13 @@ export async function adminDeleteStaff(staffId){
   return pool.query(
     `DELETE FROM staff
      WHERE staff_id = $1`, [staffId]
+  );
+}
+
+export async function adminEditService(serviceId, name, price, duration, isActive){
+  return pool.query(
+    `UPDATE services
+     SET service_name = $2, service_price = $3, service_duration = $4, is_active = $5
+     WHERE service_id = $1`, [serviceId, name, price, duration, isActive]
   );
 }

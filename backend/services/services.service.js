@@ -26,3 +26,7 @@ export async function listAllStaff(){
 export async function deleteStaff(staffId){
   const result = await repo.adminDeleteStaff(staffId);
 }
+
+export async function editService(serviceId, name, price, duration, isActive){
+  await repo.adminEditService(serviceId, name, price, duration, isActive);
+}

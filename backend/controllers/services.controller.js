@@ -66,3 +66,15 @@ export async function deleteStaff(req, res) {
     }
   }
 }
+
+export async function editService(req, res) {
+  const serviceId = parseInt(req.params.id);
+  const { name, price, duration, isActive } = req.body;
+  try {
+    await servicesService.editService(serviceId, name, price, duration, isActive);
+    res.json({ message: "Service updated successfully" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Failed to update service" });
+  }
+}
