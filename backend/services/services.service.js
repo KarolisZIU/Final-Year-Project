@@ -22,3 +22,7 @@ export async function listAllStaff(){
   const result = await repo.adminGetAllStaff();
   return result.rows;
 }
+
+export async function deleteStaff(staffId){
+  const result = await repo.adminDeleteStaff(staffId);
+}

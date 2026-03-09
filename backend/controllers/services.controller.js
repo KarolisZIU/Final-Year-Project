@@ -51,3 +51,18 @@ export async function getAllStaff(req, res) {
     res.status(500).json({ error: "Failed to load staff" });
   }
 }
+
+export async function deleteStaff(req, res) {
+  const staffId = parseInt(req.params.id);
+  try {
+    await servicesService.deleteStaff(staffId);
+    res.json({ message: "Staff member deleted successfully" });
+  } catch (err) {
+    console.error(err);
+    if (err.message === "Cannot delete the last admin") {
+      res.status(400).json({ error: "Cannot delete the last admin. There must be at least one admin." });
+    } else {
+      res.status(500).json({ error: "Failed to delete staff member" });
+    }
+  }
+}

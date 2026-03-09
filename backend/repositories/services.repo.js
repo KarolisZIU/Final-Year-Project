@@ -38,3 +38,10 @@ export async function adminGetAllStaff(){
      ORDER BY staff_id`
   );
 }
+
+export async function adminDeleteStaff(staffId){
+  return pool.query(
+    `DELETE FROM staff
+     WHERE staff_id = $1`, [staffId]
+  );
+}
