@@ -30,3 +30,11 @@ export async function adminAddService(name, price, duration){
      VALUES ($1, $2, $3, true)`, [name, price, duration]
   );
 }
+
+export async function adminGetAllStaff(){
+  return pool.query(
+    `SELECT staff_id, staff_name, staff_role
+     FROM staff
+     ORDER BY staff_id`
+  );
+}

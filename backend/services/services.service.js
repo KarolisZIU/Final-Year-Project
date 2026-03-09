@@ -17,3 +17,8 @@ export async function deleteService(serviceId){
 export async function addService(name, price, duration){
   await repo.adminAddService(name, price, duration);
 }
+
+export async function listAllStaff(){
+  const result = await repo.adminGetAllStaff();
+  return result.rows;
+}

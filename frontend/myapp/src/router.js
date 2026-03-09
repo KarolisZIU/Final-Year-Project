@@ -5,6 +5,7 @@ import Staff from "./pages/Staff.vue";
 import Summary from "./pages/Summary.vue";
 import AdminDashboard from "./pages/AdminDashboard.vue";
 import AdminDisplayServices from "./pages/AdminDisplayServices.vue";
+import AdminDisplayStaff from "./pages/AdminDisplayStaff.vue";
 const router = createRouter({
   history: createWebHistory(),
   routes: [
@@ -13,7 +14,8 @@ const router = createRouter({
     { path: "/staff/:serviceId", component: Staff },
     { path: "/summary/:serviceId/:staffId", component: Summary },
     { path: "/admin", component: AdminDashboard },
-    { path: "/admin/services", component: AdminDisplayServices }
+    { path: "/admin/services", component: AdminDisplayServices },
+    { path: "/admin/staff", component: AdminDisplayStaff }
   ],
 });
 
