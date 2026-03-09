@@ -3,9 +3,15 @@ import { onMounted, ref} from "vue";
 import { useRouter } from "vue-router";
 const services = ref([]);
 const router = useRouter();
+
 function goBack() {
   router.push("/admin");
 }
+
+function goToAddService() {
+  router.push("/admin/services/add");
+}
+
 async function loadServices(){
   try {
     const res = await fetch("/api/admin/services");
@@ -38,7 +44,7 @@ onMounted(loadServices)
 
 <template>
     <h1>Your Services</h1>
-    
+    <button @click="goToAddService">Add Service</button>
 
     <table border="1" cellpadding="8">
       <thead>
