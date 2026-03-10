@@ -3,6 +3,7 @@ import { onMounted, ref } from "vue";
 import { useRouter } from "vue-router";
 import PageWrapper from "../components/PageWrapper.vue";
 import AppButton from "../components/AppButton.vue";
+import { authHeaders } from "../auth.js";
 const services = ref([]);
 const router = useRouter();
 const errorMessage = ref("");
@@ -12,7 +13,7 @@ function goBack() {
 }
 async function loadStaff(){
   try {
-    const res = await fetch("/api/admin/staff");
+    const res = await fetch("/api/admin/staff", { headers: authHeaders() });
     if (!res.ok) {
       throw new Error("Failed to fetch staff");
     }
@@ -27,6 +28,7 @@ async function deleteService(serviceId) {
   try {
     const res = await fetch(`/api/admin/staff/${serviceId}`, {
       method: "DELETE",
+      headers: authHeaders(),
     });
     if (!res.ok) {
       const data = await res.json();

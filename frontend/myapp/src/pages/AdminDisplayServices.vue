@@ -3,6 +3,7 @@ import { onMounted, ref } from "vue";
 import { useRouter } from "vue-router";
 import PageWrapper from "../components/PageWrapper.vue";
 import AppButton from "../components/AppButton.vue";
+import { authHeaders } from "../auth.js";
 const services = ref([]);
 const router = useRouter();
 const editingId = ref(null);
@@ -18,7 +19,7 @@ function goToAddService() {
 
 async function loadServices() {
   try {
-    const res = await fetch("/api/admin/services");
+    const res = await fetch("/api/admin/services", { headers: authHeaders() });
     if (!res.ok) {
       throw new Error("Failed to fetch services");
     }
@@ -32,6 +33,7 @@ async function deleteService(serviceId) {
   try {
     const res = await fetch(`/api/admin/services/${serviceId}`, {
       method: "DELETE",
+      headers: authHeaders(),
     });
     if (!res.ok) {
       throw new Error("Failed to delete service");
@@ -60,7 +62,7 @@ async function saveEdit(serviceId) {
   try {
     const res = await fetch(`/api/admin/services/${serviceId}`, {
       method: "PUT",
-      headers: { "Content-Type": "application/json" },
+      headers: authHeaders(),
       body: JSON.stringify(editForm.value),
     });
     if (!res.ok) {

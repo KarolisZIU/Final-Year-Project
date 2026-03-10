@@ -4,6 +4,7 @@ import { useRouter } from "vue-router";
 import PageWrapper from "../components/PageWrapper.vue";
 import AppButton from "../components/AppButton.vue";
 import FormField from "../components/FormField.vue";
+import { authHeaders } from "../auth.js";
 const router = useRouter();
 
 const newService = ref({
@@ -19,9 +20,7 @@ function goBack() {
 async function addService() {
   await fetch("/api/admin/services", {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
+    headers: authHeaders(),
     body: JSON.stringify({
       name: newService.value.name,
       price: parseFloat(newService.value.price),

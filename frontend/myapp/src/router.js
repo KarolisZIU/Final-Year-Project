@@ -6,17 +6,30 @@ import AdminDashboard from "./pages/AdminDashboard.vue";
 import AdminDisplayServices from "./pages/AdminDisplayServices.vue";
 import AdminDisplayStaff from "./pages/AdminDisplayStaff.vue";
 import AddService from "./pages/AddService.vue";
+import Login from "./pages/Login.vue";
+import StaffDashboard from "./pages/StaffDashboard.vue";
+import { isLoggedIn, getRole } from "./auth.js";
+
 const router = createRouter({
   history: createWebHistory(),
   routes: [
     { path: "/", component: Home },
+    { path: "/login", component: Login },
     { path: "/services", component: Services },
     { path: "/staff/:serviceId", component: Staff },
-    { path: "/admin", component: AdminDashboard },
-    { path: "/admin/services", component: AdminDisplayServices },
-    { path: "/admin/staff", component: AdminDisplayStaff },
-    { path: "/admin/services/add", component: AddService }
+    { path: "/staff/dashboard", component: StaffDashboard, meta: { requiresAuth: true, role: "staff" } },
+    { path: "/admin", component: AdminDashboard, meta: { requiresAuth: true, role: "admin" } },
+    { path: "/admin/services", component: AdminDisplayServices, meta: { requiresAuth: true, role: "admin" } },
+    { path: "/admin/staff", component: AdminDisplayStaff, meta: { requiresAuth: true, role: "admin" } },
+    { path: "/admin/services/add", component: AddService, meta: { requiresAuth: true, role: "admin" } },
   ],
+});
+
+router.beforeEach((to) => {
+  if (!to.meta.requiresAuth) return true;
+  if (!isLoggedIn()) return "/login";
+  if (to.meta.role && getRole() !== to.meta.role) return "/login";
+  return true;
 });
 
 export default router;
