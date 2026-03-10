@@ -28,7 +28,7 @@ export async function addService(req, res) {
     res.json({ message: "Service added successfully" });
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: "Failed to add service" });
+    res.status(400).json({ error: err.message || "Failed to add service" });
   }
 }
 
@@ -40,7 +40,7 @@ export async function editService(req, res) {
     res.json({ message: "Service updated successfully" });
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: "Failed to update service" });
+    res.status(400).json({ error: err.message || "Failed to update service" });
   }
 }
 

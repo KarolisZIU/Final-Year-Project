@@ -5,6 +5,7 @@ import PageWrapper from "../components/PageWrapper.vue";
 import AppButton from "../components/AppButton.vue";
 import FormField from "../components/FormField.vue";
 import { authHeaders } from "../auth.js";
+import ErrorMessage from "../components/ErrorMessage.vue";
 const router = useRouter();
 
 const newService = ref({
@@ -12,13 +13,15 @@ const newService = ref({
   price: "",
   duration: ""
 });
+const errorMessage = ref("");
 
 function goBack() {
   router.push("/admin/services");
 }
 
 async function addService() {
-  await fetch("/api/admin/services", {
+  errorMessage.value = "";
+  const res = await fetch("/api/admin/services", {
     method: "POST",
     headers: authHeaders(),
     body: JSON.stringify({
@@ -27,7 +30,13 @@ async function addService() {
       duration: parseInt(newService.value.duration)
     }),
   });
-  
+
+  if (!res.ok) {
+    const data = await res.json();
+    errorMessage.value = data.error;
+    return;
+  }
+
   router.push("/admin/services");
 }
 </script>
@@ -36,6 +45,8 @@ async function addService() {
   <div class="min-h-screen bg-slate-50 flex items-center justify-center">
     <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-8 w-full max-w-md mx-4">
       <h1 class="text-2xl font-bold text-slate-800 mb-6">Create New Service</h1>
+
+      <ErrorMessage :message="errorMessage" />
 
       <form class="flex flex-col gap-4" @submit.prevent="addService">
         <FormField id="name" label="Service Name" v-model="newService.name" />

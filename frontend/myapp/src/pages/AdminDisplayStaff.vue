@@ -4,6 +4,7 @@ import { useRouter } from "vue-router";
 import PageWrapper from "../components/PageWrapper.vue";
 import AppButton from "../components/AppButton.vue";
 import { authHeaders } from "../auth.js";
+import ErrorMessage from "../components/ErrorMessage.vue";
 const services = ref([]);
 const router = useRouter();
 const errorMessage = ref("");
@@ -47,9 +48,7 @@ onMounted(loadStaff)
 
 <template>
   <PageWrapper title="Staff" max-width="max-w-3xl">
-    <div v-if="errorMessage" class="mb-4 text-red-600 bg-red-50 border border-red-200 rounded-lg px-4 py-3 text-sm">
-      {{ errorMessage }}
-    </div>
+    <ErrorMessage :message="errorMessage" />
 
     <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
       <table class="w-full text-sm text-left">

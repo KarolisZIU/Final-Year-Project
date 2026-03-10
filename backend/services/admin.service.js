@@ -10,6 +10,15 @@ export async function deleteService(serviceId) {
 }
 
 export async function addService(name, price, duration) {
+  if (!name) {
+    throw new Error("Please enter a service name");
+  }
+  if (!price || isNaN(price)) {
+    throw new Error("Please enter a valid price");
+  }
+  if (!duration || isNaN(duration)) {
+    throw new Error("Please enter a valid duration");
+  }
   await adminRepo.adminAddService(name, price, duration);
 }
 
