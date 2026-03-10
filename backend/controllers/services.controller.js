@@ -9,3 +9,13 @@ export async function getPublicServices(req, res) {
     res.status(500).json({ error: "Failed to load services" });
   }
 }
+
+export async function getAllStaff(req, res) {
+  try {
+    const staff = await servicesService.listAllStaff();
+    res.json(staff);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Failed to load staff" });
+  }
+}

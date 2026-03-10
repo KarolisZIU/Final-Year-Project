@@ -22,7 +22,7 @@ onMounted(async () => {
 });
 
 function selectStaff(member) {
-  router.push(`/summary/${serviceId.value}/${member.staff_id}`);
+  console.log("Selected staff:", member.staff_id, "for service:", serviceId.value);
 }
 </script>
 

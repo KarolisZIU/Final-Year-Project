@@ -8,3 +8,11 @@ export async function getActiveServices() {
      ORDER BY service_id`
   );
 }
+
+export async function getAllStaff(){
+  return pool.query(
+    `SELECT staff_id, staff_name
+     FROM staff
+     ORDER BY staff_id`
+  );
+}
