@@ -1,6 +1,8 @@
 <script setup>
 import { ref, onMounted } from "vue";
 import { useRouter } from "vue-router";
+import PageWrapper from "../components/PageWrapper.vue";
+import AppButton from "../components/AppButton.vue";
 const router = useRouter();
 
 const services = ref([]);
@@ -20,16 +22,21 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div style="padding: 20px">
-    <h1>Services</h1>
+  <PageWrapper title="Our Services" max-width="max-w-2xl">
+    <p v-if="error" class="text-red-500 mb-4">{{ error }}</p>
 
-    <p v-if="error">{{ error }}</p>
-
-    <ul>
-      <li v-for="service in services" :key="service.service_id">
-        {{ service.service_name }} — €{{ service.service_price }} — {{ service.service_duration }} mins
-        <button @click="bookService(service)">Book</button>
-      </li>
-    </ul>
-  </div>
+    <div class="flex flex-col gap-4">
+      <div
+        v-for="service in services"
+        :key="service.service_id"
+        class="bg-white rounded-xl border border-slate-200 shadow-sm p-5 flex items-center justify-between"
+      >
+        <div>
+          <p class="font-semibold text-slate-800 text-lg">{{ service.service_name }}</p>
+          <p class="text-slate-500 text-sm mt-1">{{ service.service_duration }} mins &middot; €{{ service.service_price }}</p>
+        </div>
+        <AppButton @click="bookService(service)">Book</AppButton>
+      </div>
+    </div>
+  </PageWrapper>
 </template>
