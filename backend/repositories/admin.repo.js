@@ -48,3 +48,12 @@ export async function adminDeleteStaff(staffId) {
     [staffId]
   );
 }
+
+export async function getStaffById(staffId) {
+  return pool.query(`SELECT * FROM staff 
+    WHERE staff_id = $1`, [staffId]);
+}
+
+export async function countAdmins(){
+  return pool.query(`SELECT COUNT(*) FROM staff WHERE staff_role = 'admin'`);
+}

@@ -23,5 +23,14 @@ export async function listAllStaff() {
 }
 
 export async function deleteStaff(staffId) {
+  const staffResult = await adminRepo.getStaffById(staffId);
+  const staff = staffResult.rows[0];
+  if (staff.staff_role === "admin") {
+    const adminCountResult = await adminRepo.countAdmins();
+    const adminCount = parseInt(adminCountResult.rows[0].count);
+    if (adminCount <= 1) {
+      throw new Error("Cannot delete the last admin. There must be at least one admin.");
+    }
+  }
   await adminRepo.adminDeleteStaff(staffId);
 }

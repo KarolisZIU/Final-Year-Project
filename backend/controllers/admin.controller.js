@@ -61,10 +61,6 @@ export async function deleteStaff(req, res) {
     res.json({ message: "Staff member deleted successfully" });
   } catch (err) {
     console.error(err);
-    if (err.message === "Cannot delete the last admin") {
-      res.status(400).json({ error: "Cannot delete the last admin. There must be at least one admin." });
-    } else {
-      res.status(500).json({ error: "Failed to delete staff member" });
-    }
+    res.status(400).json({ error: err.message || "Failed to delete staff member" });
   }
 }
