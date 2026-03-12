@@ -1,11 +1,26 @@
 <script setup>
 import { useRouter } from "vue-router";
 import PageWrapper from "../components/PageWrapper.vue";
+import { clearAuth } from "../auth.js";
 const router = useRouter();
+
+function signOut() {
+  clearAuth();
+  router.push("/login");
+}
 </script>
 
 <template>
   <PageWrapper title="Admin Dashboard" max-width="max-w-2xl">
+    <div class="fixed top-4 right-4 z-50">
+      <button
+        @click="signOut"
+        class="bg-red-600 hover:bg-red-700 border border-red-700 rounded-lg px-4 py-2 text-white transition"
+      >
+        Sign Out
+      </button>
+    </div>
+
     <p class="text-slate-500 -mt-4 mb-8">Manage your services and staff.</p>
 
     <div class="grid grid-cols-2 gap-4">
@@ -25,5 +40,6 @@ const router = useRouter();
         <p class="text-slate-500 text-sm mt-1">View and manage staff members</p>
       </button>
     </div>
+
   </PageWrapper>
 </template>
