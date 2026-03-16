@@ -1,4 +1,5 @@
 import * as adminRepo from "../repositories/admin.repo.js";
+import bcrypt from "bcrypt";
 
 export async function listAdminServices() {
   const result = await adminRepo.adminGetAllServices();
@@ -42,4 +43,19 @@ export async function deleteStaff(staffId) {
     }
   }
   await adminRepo.adminDeleteStaff(staffId);
+}
+
+export async function addStaff(name, username, password, role) {
+  if (!name) {
+    throw new Error("Please enter a staff name");
+  }
+  if (!username) {
+    throw new Error("Please enter a username");
+  }
+  if (!password) {
+    throw new Error("Please enter a password");
+  }
+  
+  const hashedPassword = await bcrypt.hash(password, 10);
+  return await adminRepo.addStaff(name, username, hashedPassword, role);
 }

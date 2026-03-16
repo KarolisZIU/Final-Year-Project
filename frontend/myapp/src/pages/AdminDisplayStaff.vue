@@ -12,6 +12,9 @@ const errorMessage = ref("");
 function goBack() {
   router.push("/admin");
 }
+function goAddStaff() {
+  router.push("/admin/staff/add");
+}
 async function loadStaff(){
   try {
     const res = await fetch("/api/admin/staff", { headers: authHeaders() });
@@ -71,7 +74,8 @@ onMounted(loadStaff)
       </table>
     </div>
 
-    <div class="mt-4">
+    <div class="flex gap-3 mt-4">
+      <AppButton variant="primary" @click="goAddStaff">Add new staff</AppButton>
       <AppButton variant="secondary" @click="goBack">Back</AppButton>
     </div>
   </PageWrapper>

@@ -6,6 +6,7 @@ import {
   editService,
   getAllStaff,
   deleteStaff,
+  addStaff
 } from "../controllers/admin.controller.js";
 
 import { requireAuth, requireRole } from "../middleware/auth.middleware.js";
@@ -20,5 +21,6 @@ router.delete("/services/:id", ...isAdmin, deleteService);
 
 router.get("/staff", ...isAdmin, getAllStaff);
 router.delete("/staff/:id", ...isAdmin, deleteStaff);
+router.post("/staff", ...isAdmin, addStaff);
 
 export default router;

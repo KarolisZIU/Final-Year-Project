@@ -7,6 +7,7 @@ import AdminDisplayServices from "./pages/AdminDisplayServices.vue";
 import AdminDisplayStaff from "./pages/AdminDisplayStaff.vue";
 import AddService from "./pages/AddService.vue";
 import Login from "./pages/Login.vue";
+import AddStaff from "./pages/addStaff.vue";
 import StaffDashboard from "./pages/StaffDashboard.vue";
 import { isLoggedIn, getRole } from "./auth.js";
 
@@ -22,6 +23,7 @@ const router = createRouter({
     { path: "/admin/services", component: AdminDisplayServices, meta: { requiresAuth: true, role: "admin" } },
     { path: "/admin/staff", component: AdminDisplayStaff, meta: { requiresAuth: true, role: "admin" } },
     { path: "/admin/services/add", component: AddService, meta: { requiresAuth: true, role: "admin" } },
+    { path: "/admin/staff/add", component: AddStaff, meta: { requiresAuth: true, role: "admin" } }
   ],
 });
 

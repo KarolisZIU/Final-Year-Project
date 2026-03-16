@@ -64,3 +64,14 @@ export async function deleteStaff(req, res) {
     res.status(400).json({ error: err.message || "Failed to delete staff member" });
   }
 }
+
+export async function addStaff(req, res) {
+  const { name, username, password, role } = req.body;
+  try {
+    await adminService.addStaff(name, username, password, role);
+    res.json({ message: "Staff member added successfully" });
+  } catch (err) {
+    console.error(err);
+    res.status(400).json({ error: err.message || "Failed to add staff member" });
+  }
+}

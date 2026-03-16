@@ -57,3 +57,11 @@ export async function getStaffById(staffId) {
 export async function countAdmins(){
   return pool.query(`SELECT COUNT(*) FROM staff WHERE staff_role = 'admin'`);
 }
+
+export async function addStaff(name, username, password, role){
+  return pool.query(
+    `INSERT INTO staff (staff_name, staff_username, staff_password_hash, staff_role)
+     VALUES ($1, $2, $3, $4)`,
+    [name, username, password, role]
+  );
+}
