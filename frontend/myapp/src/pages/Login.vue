@@ -2,8 +2,6 @@
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 import { saveAuth } from "../auth.js";
-import FormField from "../components/FormField.vue";
-import AppButton from "../components/AppButton.vue";
 
 const router = useRouter();
 const username = ref("");
@@ -36,17 +34,23 @@ async function login() {
 </script>
 
 <template>
-  <div class="min-h-screen bg-slate-50 flex items-center justify-center">
-    <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-8 w-full max-w-sm mx-4">
-      <h1 class="text-2xl font-bold text-slate-800 mb-6">Sign In</h1>
+  <div>
+    <div>
+      <h1>Sign In</h1>
 
-      <form class="flex flex-col gap-4" @submit.prevent="login">
-        <FormField id="username" label="Username" v-model="username" />
-        <FormField id="password" label="Password" type="password" v-model="password" />
+      <form @submit.prevent="login">
+        <div>
+          <label for="username">Username</label>
+          <input id="username" type="text" v-model="username" />
+        </div>
+        <div>
+          <label for="password">Password</label>
+          <input id="password" type="password" v-model="password" />
+        </div>
 
-        <p v-if="error" class="text-red-500 text-sm">{{ error }}</p>
+        <p v-if="error">{{ error }}</p>
 
-        <AppButton class="w-full mt-2" @click="login">Sign In</AppButton>
+        <button @click="login">Sign In</button>
       </form>
     </div>
   </div>
