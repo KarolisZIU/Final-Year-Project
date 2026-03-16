@@ -54,7 +54,6 @@ onMounted(loadStaff)
       <table class="w-full text-sm text-left">
         <thead class="bg-slate-50 border-b border-slate-200">
           <tr>
-            <th class="px-4 py-3 font-semibold text-slate-600">ID</th>
             <th class="px-4 py-3 font-semibold text-slate-600">Name</th>
             <th class="px-4 py-3 font-semibold text-slate-600">Role</th>
             <th class="px-4 py-3 font-semibold text-slate-600">Actions</th>
@@ -62,7 +61,6 @@ onMounted(loadStaff)
         </thead>
         <tbody class="divide-y divide-slate-100">
           <tr v-for="s in services" :key="s.staff_id" class="hover:bg-slate-50">
-            <td class="px-4 py-3 text-slate-500">{{ s.staff_id }}</td>
             <td class="px-4 py-3 text-slate-800 font-medium">{{ s.staff_name }}</td>
             <td class="px-4 py-3 text-slate-600">{{ s.staff_role }}</td>
             <td class="px-4 py-3">
