@@ -13,7 +13,7 @@ defineEmits(["update:modelValue"]);
 
 <template>
   <div>
-    <label :for="id" class="block text-sm font-medium text-slate-700 mb-1">{{ label }}</label>
+    <label :for="id">{{ label }}</label>
     <input
       :id="id"
       :type="type"
@@ -21,7 +21,6 @@ defineEmits(["update:modelValue"]);
       :min="min"
       :value="modelValue"
       @input="$emit('update:modelValue', $event.target.value)"
-      class="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
     />
   </div>
 </template>

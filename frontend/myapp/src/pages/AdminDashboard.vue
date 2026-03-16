@@ -12,32 +12,23 @@ function signOut() {
 
 <template>
   <PageWrapper title="Admin Dashboard" max-width="max-w-2xl">
-    <div class="fixed top-4 right-4 z-50">
-      <button
-        @click="signOut"
-        class="bg-red-600 hover:bg-red-700 border border-red-700 rounded-lg px-4 py-2 text-white transition"
-      >
+    <div>
+      <button @click="signOut">
         Sign Out
       </button>
     </div>
 
-    <p class="text-slate-500 -mt-4 mb-8">Manage your services and staff.</p>
+    <p>Manage your services and staff.</p>
 
-    <div class="grid grid-cols-2 gap-4">
-      <button
-        @click="router.push('/admin/services')"
-        class="bg-white hover:bg-indigo-50 border border-slate-200 rounded-xl p-6 text-left shadow-sm transition"
-      >
-        <p class="text-xl font-semibold text-slate-800">Services</p>
-        <p class="text-slate-500 text-sm mt-1">Add, edit or remove services</p>
+    <div>
+      <button @click="router.push('/admin/services')">
+        <p>Services</p>
+        <p>Add, edit or remove services</p>
       </button>
 
-      <button
-        @click="router.push('/admin/staff')"
-        class="bg-white hover:bg-indigo-50 border border-slate-200 rounded-xl p-6 text-left shadow-sm transition"
-      >
-        <p class="text-xl font-semibold text-slate-800">Staff</p>
-        <p class="text-slate-500 text-sm mt-1">View and manage staff members</p>
+      <button @click="router.push('/admin/staff')">
+        <p>Staff</p>
+        <p>View and manage staff members</p>
       </button>
     </div>
 
