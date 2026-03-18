@@ -11,7 +11,16 @@ const newStaff = ref({
   name: "",
   username: "",
   password: "",
-  role: ""
+  role: "",
+  schedule: [
+    { dayOfWeek: "Monday", startTime: "", endTime: "" },
+    { dayOfWeek: "Tuesday", startTime: "", endTime: "" },
+    { dayOfWeek: "Wednesday", startTime: "", endTime: "" },
+    { dayOfWeek: "Thursday", startTime: "", endTime: "" },
+    { dayOfWeek: "Friday", startTime: "", endTime: "" },
+    { dayOfWeek: "Saturday", startTime: "", endTime: "" },
+    { dayOfWeek: "Sunday", startTime: "", endTime: "" },
+  ]
 });
 const errorMessage = ref("");
 
@@ -37,7 +46,17 @@ async function addStaff() {
     errorMessage.value = data.error;
     return;
   }
+  const data = await res.json();
+  const staffId = data.staffId;
+  const filteredSchedule = newStaff.value.schedule.filter(day => day.startTime && day.endTime);
 
+  if (filteredSchedule.length > 0) {
+    await fetch(`/api/admin/staff/${staffId}/schedule`, {
+      method: "POST",
+      headers: authHeaders(),
+      body: JSON.stringify({ schedule: filteredSchedule }),
+    });
+  }
   router.push("/admin/staff");
 }
 </script>
@@ -60,6 +79,15 @@ async function addStaff() {
     <option value="staff">Staff</option>
     <option value="admin">Admin</option>
   </select>
+</div>
+
+<div class="border-t border-slate-200 pt-6 mt-4">
+  <h2 class="text-lg font-semibold text-slate-800 mb-4">Weekly Schedule</h2>
+  <div v-for="day in newStaff.schedule" :key="day.dayOfWeek" class="flex items-center gap-3 mb-3">
+    <label class="w-24 text-sm font-medium text-slate-700">{{ day.dayOfWeek }}</label>
+    <input type="time" v-model="day.startTime" class="px-3 py-2 border border-slate-300 rounded-lg">
+    <input type="time" v-model="day.endTime" class="px-3 py-2 border border-slate-300 rounded-lg">
+  </div>
 </div>
 
         <div class="flex gap-3 pt-2">

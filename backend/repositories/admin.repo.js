@@ -61,7 +61,16 @@ export async function countAdmins(){
 export async function addStaff(name, username, password, role){
   return pool.query(
     `INSERT INTO staff (staff_name, staff_username, staff_password_hash, staff_role)
-     VALUES ($1, $2, $3, $4)`,
+     VALUES ($1, $2, $3, $4)
+     RETURNING staff_id`,
     [name, username, password, role]
+  );
+}
+
+export async function addSchedule(staffId, dayOfWeek, startTime, endTime) {
+  return pool.query(
+    `INSERT INTO staff_schedule (staff_id, day_of_week, start_time, end_time)
+     VALUES ($1, $2, $3, $4)`,
+    [staffId, dayOfWeek, startTime, endTime]
   );
 }

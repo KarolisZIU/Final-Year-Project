@@ -59,3 +59,10 @@ export async function addStaff(name, username, password, role) {
   const hashedPassword = await bcrypt.hash(password, 10);
   return await adminRepo.addStaff(name, username, hashedPassword, role);
 }
+
+export async function addSchedule(staffId, scheduleArray) {
+  for (const schedule of scheduleArray) {
+    const { dayOfWeek, startTime, endTime } = schedule;
+    await adminRepo.addSchedule(staffId, dayOfWeek, startTime, endTime);
+  }
+}

@@ -68,10 +68,23 @@ export async function deleteStaff(req, res) {
 export async function addStaff(req, res) {
   const { name, username, password, role } = req.body;
   try {
-    await adminService.addStaff(name, username, password, role);
-    res.json({ message: "Staff member added successfully" });
+    const result = await adminService.addStaff(name, username, password, role);
+    
+    res.json({ message: "Staff member added successfully", staffId: result.rows[0].staff_id });
   } catch (err) {
     console.error(err);
     res.status(400).json({ error: err.message || "Failed to add staff member" });
+  }
+}
+
+export async function addSchedule(req, res) {
+  const staffId = parseInt(req.params.id);
+  const scheduleArray = req.body.schedule;
+  try {
+    await adminService.addSchedule(staffId, scheduleArray);
+    res.json({ message: "Schedule added successfully" });
+  } catch (err) {
+    console.error(err);
+    res.status(400).json({ error: err.message || "Failed to add schedule" });
   }
 }
