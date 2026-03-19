@@ -75,5 +75,3 @@ export async function getStaffById(staffId){
     FROM staff
     WHERE staff_id = $1`, [staffId]);
 }
-
-export async function
