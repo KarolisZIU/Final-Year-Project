@@ -88,3 +88,15 @@ export async function addSchedule(req, res) {
     res.status(400).json({ error: err.message || "Failed to add schedule" });
   }
 }
+
+export async function updateStaff(req, res) {
+  const staffId = parseInt(req.params.id);
+  const { name, username, role } = req.body;
+  try {
+    await adminService.updateStaff(staffId, name, username, role);
+    res.json({ message: "Staff member updated successfully" });
+  } catch (err) {
+    console.error(err);
+    res.status(400).json({ error: err.message || "Failed to update staff member" });
+  }
+}

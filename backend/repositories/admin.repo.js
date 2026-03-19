@@ -75,3 +75,12 @@ export async function getStaffById(staffId){
     FROM staff
     WHERE staff_id = $1`, [staffId]);
 }
+
+export async function updateStaff(staffId, name, username, role){
+  return pool.query(
+    `UPDATE staff
+     SET staff_name = $2, staff_username = $3, staff_role = $4
+     WHERE staff_id = $1`,
+    [staffId, name, username, role]
+  );
+}

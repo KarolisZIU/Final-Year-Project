@@ -66,3 +66,16 @@ export async function addSchedule(staffId, scheduleArray) {
     await adminRepo.addSchedule(staffId, dayOfWeek, startTime, endTime);
   }
 }
+
+export async function updateStaff(staffId, name, username, role){
+  if (!name) {
+    throw new Error("Please enter a staff name");
+  }
+  if (!username) {
+    throw new Error("Please enter a username");
+  }
+  if (!role){
+    throw new Error("Please select a role");
+  }
+  await adminRepo.updateStaff(staffId, name, username, role);
+}
