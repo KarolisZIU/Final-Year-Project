@@ -49,11 +49,6 @@ export async function adminDeleteStaff(staffId) {
   );
 }
 
-export async function getStaffById(staffId) {
-  return pool.query(`SELECT * FROM staff 
-    WHERE staff_id = $1`, [staffId]);
-}
-
 export async function countAdmins(){
   return pool.query(`SELECT COUNT(*) FROM staff WHERE staff_role = 'admin'`);
 }
@@ -74,3 +69,11 @@ export async function addSchedule(staffId, dayOfWeek, startTime, endTime) {
     [staffId, dayOfWeek, startTime, endTime]
   );
 }
+
+export async function getStaffById(staffId){
+  return pool.query(`SELECT staff_name, staff_username, staff_role
+    FROM staff
+    WHERE staff_id = $1`, [staffId]);
+}
+
+export async function
