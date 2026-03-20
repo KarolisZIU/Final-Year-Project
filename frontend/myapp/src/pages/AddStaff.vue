@@ -24,6 +24,11 @@ const newStaff = ref({
 });
 const errorMessage = ref("");
 
+const dayMap = {
+  Monday: 1, Tuesday: 2, Wednesday: 3,
+  Thursday: 4, Friday: 5, Saturday: 6, Sunday: 0
+};
+
 function goBack() {
   router.push("/admin/staff");
 }
@@ -48,7 +53,12 @@ async function addStaff() {
   }
   const data = await res.json();
   const staffId = data.staffId;
-  const filteredSchedule = newStaff.value.schedule.filter(day => day.isAvailable && day.startTime && day.endTime);
+  const filteredSchedule = newStaff.value.schedule
+  .filter(day => day.isAvailable && day.startTime && day.endTime)
+  .map(day => ({
+    ...day,
+    dayOfWeek: dayMap[day.dayOfWeek]
+  }));
 
   if (filteredSchedule.length > 0) {
     await fetch(`/api/admin/staff/${staffId}/schedule`, {
