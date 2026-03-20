@@ -84,3 +84,29 @@ export async function updateStaff(staffId, name, username, role){
     [staffId, name, username, role]
   );
 }
+
+export async function getStaffSchedule(staffId){
+  return pool.query(
+    `SELECT day_of_week, start_time, end_time
+     FROM staff_schedule
+     WHERE staff_id = $1
+     ORDER BY CASE day_of_week
+       WHEN 'Monday' THEN 1
+       WHEN 'Tuesday' THEN 2
+       WHEN 'Wednesday' THEN 3
+       WHEN 'Thursday' THEN 4
+       WHEN 'Friday' THEN 5
+       WHEN 'Saturday' THEN 6
+       WHEN 'Sunday' THEN 7
+     END`,
+    [staffId]
+  );
+}
+
+export async function deleteStaffSchedule(staffId){
+  return pool.query(
+    `DELETE FROM staff_schedule
+     WHERE staff_id = $1`,
+    [staffId]
+  );
+}

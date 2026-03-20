@@ -66,7 +66,8 @@ onMounted(loadStaff)
           <tr v-for="s in services" :key="s.staff_id" class="hover:bg-slate-50">
             <td class="px-4 py-3 text-slate-800 font-medium">{{ s.staff_name }}</td>
             <td class="px-4 py-3 text-slate-600">{{ s.staff_role }}</td>
-            <td class="px-4 py-3">
+            <td class="px-4 py-2 flex gap-2">
+              <AppButton variant="secondary" @click="router.push(`/admin/staff/edit/${s.staff_id}`)">Edit</AppButton>
               <AppButton variant="danger" @click="deleteService(s.staff_id)">Delete</AppButton>
             </td>
           </tr>
