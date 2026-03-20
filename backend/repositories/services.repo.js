@@ -16,3 +16,12 @@ export async function getAllStaff(){
      ORDER BY staff_id`
   );
 }
+
+export async function getServiceById(serviceId) {
+  return pool.query(
+    `SELECT service_duration
+    FROM services
+    WHERE service_id = $1`,
+    [serviceId]
+  );
+}
