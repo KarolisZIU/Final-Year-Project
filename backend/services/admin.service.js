@@ -66,3 +66,40 @@ export async function addSchedule(staffId, scheduleArray) {
     await adminRepo.addSchedule(staffId, dayOfWeek, startTime, endTime);
   }
 }
+
+export async function updateStaff(staffId, name, username, role){
+  if (!name) {
+    throw new Error("Please enter a staff name");
+  }
+  if (!username) {
+    throw new Error("Please enter a username");
+  }
+  if (!role){
+    throw new Error("Please select a role");
+  }
+  await adminRepo.updateStaff(staffId, name, username, role);
+}
+
+export async function getStaffById(staffId){
+  const staffResult = await adminRepo.getStaffById(staffId);
+  const scheduleResult = await adminRepo.getStaffSchedule(staffId);
+  
+  if (staffResult.rows.length === 0) {
+    throw new Error("Staff member not found");
+  }
+  
+  return {
+    staff_name: staffResult.rows[0].staff_name,
+    staff_username: staffResult.rows[0].staff_username,
+    staff_role: staffResult.rows[0].staff_role,
+    schedule: scheduleResult.rows
+  };
+}
+
+export async function updateStaffSchedule(staffId, scheduleArray){
+  await adminRepo.deleteStaffSchedule(staffId);
+  for (const schedule of scheduleArray) {
+    const { dayOfWeek, startTime, endTime } = schedule;
+    await adminRepo.addSchedule(staffId, dayOfWeek, startTime, endTime);
+  }
+}

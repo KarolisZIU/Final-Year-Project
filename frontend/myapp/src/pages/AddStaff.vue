@@ -13,13 +13,13 @@ const newStaff = ref({
   password: "",
   role: "",
   schedule: [
-    { dayOfWeek: "Monday", startTime: "", endTime: "" },
-    { dayOfWeek: "Tuesday", startTime: "", endTime: "" },
-    { dayOfWeek: "Wednesday", startTime: "", endTime: "" },
-    { dayOfWeek: "Thursday", startTime: "", endTime: "" },
-    { dayOfWeek: "Friday", startTime: "", endTime: "" },
-    { dayOfWeek: "Saturday", startTime: "", endTime: "" },
-    { dayOfWeek: "Sunday", startTime: "", endTime: "" },
+    { dayOfWeek: "Monday", isAvailable: false, startTime: "", endTime: "" },
+    { dayOfWeek: "Tuesday", isAvailable: false, startTime: "", endTime: "" },
+    { dayOfWeek: "Wednesday", isAvailable: false, startTime: "", endTime: "" },
+    { dayOfWeek: "Thursday", isAvailable: false, startTime: "", endTime: "" },
+    { dayOfWeek: "Friday", isAvailable: false, startTime: "", endTime: "" },
+    { dayOfWeek: "Saturday", isAvailable: false, startTime: "", endTime: "" },
+    { dayOfWeek: "Sunday", isAvailable: false, startTime: "", endTime: "" },
   ]
 });
 const errorMessage = ref("");
@@ -48,7 +48,7 @@ async function addStaff() {
   }
   const data = await res.json();
   const staffId = data.staffId;
-  const filteredSchedule = newStaff.value.schedule.filter(day => day.startTime && day.endTime);
+  const filteredSchedule = newStaff.value.schedule.filter(day => day.isAvailable && day.startTime && day.endTime);
 
   if (filteredSchedule.length > 0) {
     await fetch(`/api/admin/staff/${staffId}/schedule`, {
@@ -83,10 +83,23 @@ async function addStaff() {
 
 <div class="border-t border-slate-200 pt-6 mt-4">
   <h2 class="text-lg font-semibold text-slate-800 mb-4">Weekly Schedule</h2>
-  <div v-for="day in newStaff.schedule" :key="day.dayOfWeek" class="flex items-center gap-3 mb-3">
-    <label class="w-24 text-sm font-medium text-slate-700">{{ day.dayOfWeek }}</label>
-    <input type="time" v-model="day.startTime" class="px-3 py-2 border border-slate-300 rounded-lg">
-    <input type="time" v-model="day.endTime" class="px-3 py-2 border border-slate-300 rounded-lg">
+  <div v-for="day in newStaff.schedule" :key="day.dayOfWeek" class="mb-4 p-4 border border-slate-200 rounded-lg">
+    <div class="flex items-center gap-3 mb-3">
+      <input 
+        type="checkbox" 
+        v-model="day.isAvailable" 
+        :id="'toggle-' + day.dayOfWeek"
+        class="w-4 h-4 rounded"
+      >
+      <label :for="'toggle-' + day.dayOfWeek" class="text-sm font-medium text-slate-700 cursor-pointer">
+        {{ day.dayOfWeek }}
+      </label>
+    </div>
+    <div v-if="day.isAvailable" class="flex items-center gap-3 ml-7">
+      <input type="time" v-model="day.startTime" placeholder="Start time" class="px-3 py-2 border border-slate-300 rounded-lg">
+      <span class="text-sm text-slate-500">to</span>
+      <input type="time" v-model="day.endTime" placeholder="End time" class="px-3 py-2 border border-slate-300 rounded-lg">
+    </div>
   </div>
 </div>
 

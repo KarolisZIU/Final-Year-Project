@@ -88,3 +88,29 @@ export async function addSchedule(req, res) {
     res.status(400).json({ error: err.message || "Failed to add schedule" });
   }
 }
+
+export async function updateStaff(req, res) {
+  const staffId = parseInt(req.params.id);
+  const { name, username, role, schedule } = req.body;
+  try {
+    await adminService.updateStaff(staffId, name, username, role);
+    if (schedule && schedule.length > 0) {
+      await adminService.updateStaffSchedule(staffId, schedule);
+    }
+    res.json({ message: "Staff member updated successfully" });
+  } catch (err) {
+    console.error(err);
+    res.status(400).json({ error: err.message || "Failed to update staff member" });
+  }
+}
+
+export async function getStaffById(req, res) {
+  const staffId = parseInt(req.params.id);
+  try {
+    const staff = await adminService.getStaffById(staffId);
+    res.json(staff);
+  } catch (err) {
+    console.error(err);
+    res.status(400).json({ error: err.message || "Failed to load staff member" });
+  }
+}
