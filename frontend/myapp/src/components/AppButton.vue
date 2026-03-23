@@ -15,9 +15,9 @@ defineEmits(["click"]);
     type="button"
     @click="$emit('click')"
     :class="{
-      'bg-indigo-600 hover:bg-indigo-700 text-white': variant === 'primary',
-      'bg-white hover:bg-slate-100 text-slate-700 border border-slate-300': variant === 'secondary',
-      'bg-red-50 hover:bg-red-100 text-red-600': variant === 'danger',
+      'bg-indigo-600 hover:bg-indigo-800 text-white': variant === 'primary',
+      'bg-white hover:bg-slate-400 text-slate-700 border border-slate-300': variant === 'secondary',
+      'bg-red-500 hover:bg-red-800 text-white': variant === 'danger',
     }"
     class="font-semibold px-5 py-2 rounded-lg transition text-sm"
   >
