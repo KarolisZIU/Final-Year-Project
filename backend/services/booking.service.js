@@ -15,9 +15,11 @@ function generateSlots(startTime, endTime, date) {
   return slots;
 }
 
-function filterAvailableSlots(slots, bookings, serviceDuration) {
+function filterAvailableSlots(slots, bookings, serviceDuration, workEnd) {
   return slots.filter(slot => {
     const slotEnd = new Date(slot.getTime() + serviceDuration * 60000);
+
+    if (slotEnd > workEnd) return false;
 
     return !bookings.some(booking =>
       new Date(booking.booking_start_time) < slotEnd &&
@@ -40,7 +42,8 @@ export async function getAvailableSlots(staffId, serviceId, date) {
   const service = serviceResult.rows[0];
   if (!service) return [];
 
-  return filterAvailableSlots(allSlots, bookings, service.service_duration);
+  const workEnd = new Date(`${date}T${schedule.end_time}`);
+  return filterAvailableSlots(allSlots, bookings, service.service_duration, workEnd);
 }
 
 export async function createBooking(serviceId, staffId, customerName, customerEmail, slotTime, date) {
