@@ -2,18 +2,15 @@
 defineProps({
   variant: {
     type: String,
-    default: "primary",
-    validator: (v) => ["primary", "secondary", "danger"].includes(v),
+    default: "primary"
   },
 });
 
-defineEmits(["click"]);
 </script>
 
 <template>
   <button
     type="button"
-    @click="$emit('click')"
     :class="{
       'bg-indigo-600 hover:bg-indigo-800 text-white': variant === 'primary',
       'bg-white hover:bg-slate-400 text-slate-700 border border-slate-300': variant === 'secondary',

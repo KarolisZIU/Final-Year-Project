@@ -99,7 +99,7 @@ const filteredSchedule = staffData.value.schedule
 </script>
 
 <template>
-  <div class="min-h-screen bg-slate-50 flex items-center justify-center">
+  <div class="min-h-screen flex items-center justify-center">
     <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-8 w-full max-w-md mx-4">
       <h1 class="text-2xl font-bold text-slate-800 mb-6">Edit Staff Member</h1>
 

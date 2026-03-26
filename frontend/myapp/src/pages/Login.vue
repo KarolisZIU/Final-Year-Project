@@ -36,9 +36,9 @@ async function login() {
 </script>
 
 <template>
-  <div class="min-h-screen bg-slate-50 flex items-center justify-center">
-    <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-8 w-full max-w-sm mx-4">
-      <h1 class="text-2xl font-bold text-slate-800 mb-6">Sign In</h1>
+  <div class="min-h-screen flex items-center justify-center">
+    <div class="bg-blue-500 rounded-xl border border-slate-200 shadow-sm p-8 w-full max-w-sm mx-4">
+      <h1 class="text-2xl font-bold text-center text-black mb-6">Sign In</h1>
 
       <form class="flex flex-col gap-4" @submit.prevent="login">
         <FormField id="username" label="Username" v-model="username" />
