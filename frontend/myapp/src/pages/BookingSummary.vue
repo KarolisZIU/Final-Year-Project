@@ -1,9 +1,10 @@
 <script setup>
 
-import { computed } from "vue";
+import { computed, onMounted, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import PageWrapper from "../components/PageWrapper.vue";
 import AppButton from "../components/AppButton.vue";
+import ErrorMessage from "../components/ErrorMessage.vue";
 
 const route = useRoute();
 const router = useRouter();
@@ -13,6 +14,26 @@ const date = computed(() => route.query.date);
 const time = computed(() => route.query.time);
 const name = computed(() => route.query.name);
 const email = computed(() => route.query.email);
+
+const staff = ref(null)
+const service = ref(null)
+const confirmed = ref(false)
+const error = ref("")
+
+onMounted(async () => {
+    try {
+        const [staffRes, serviceRes] = await Promise.all([
+            fetch("/api/staff"),
+            fetch("/api/services")
+        ]);
+        const staffList = await staffRes.json();
+        const serviceList = await serviceRes.json();
+        staff.value = staffList.find(s => s.staff_id == staffId.value);
+        service.value = serviceList.find(s => s.service_id == serviceId.value);
+    } catch (e) {
+        error.value = "Failed to load booking details";
+    }
+})
 
 async function confirmBooking() {
     try {
@@ -29,12 +50,13 @@ async function confirmBooking() {
             }),
         });
         if (!res.ok) {
-            throw new Error("Failed to confirm booking");
+            const data = await res.json();
+            error.value = data.error || "Failed to confirm booking";
+            return;
         }
-        alert("Booking confirmed!");
-        router.push("/");
+        confirmed.value = true;
     } catch (e) {
-        alert("Failed to confirm booking");
+        error.value = "Failed to confirm booking. Please try again.";
     }
 }
 </script>
@@ -42,16 +64,31 @@ async function confirmBooking() {
 
 <template>
     <PageWrapper title="Booking Summary" max-width="max-w-2xl">
+        <div v-if="confirmed" class="bg-green-50 border border-green-200 rounded-xl p-5 mb-4">
+            <p class="text-green-700 font-semibold text-lg">Booking Confirmed!</p>
+            <p class="text-green-600 text-sm mt-1">Your appointment has been successfully booked.</p>
+        </div>
         <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-5">
-            <p class="font-semibold text-slate-800 text-lg mb-4">Please confirm your booking details:</p>
-            <p><span class="font-medium">Service ID:</span> {{ serviceId }}</p>
-            <p><span class="font-medium">Staff ID:</span> {{ staffId }}</p>
+            <p class="font-semibold text-slate-800 text-lg mb-4">
+                {{ confirmed ? 'Booking Details' : 'Please confirm your booking details:' }}
+            </p>
+            <p v-if="service"><span class="font-medium">Service:</span> {{ service.service_name }}</p>
+            <p v-if="service"><span class="font-medium">Price:</span> €{{ service.service_price }}</p>
+            <p v-if="service"><span class="font-medium">Duration:</span> {{ service.service_duration }} mins</p>
+            <p v-if="staff"><span class="font-medium">Staff:</span> {{ staff.staff_name }}</p>
             <p><span class="font-medium">Date:</span> {{ date }}</p>
             <p><span class="font-medium">Time:</span> {{ time }}</p>
             <p><span class="font-medium">Name:</span> {{ name }}</p>
             <p><span class="font-medium">Email:</span> {{ email }}</p>
         </div>
-        <AppButton class="mt-4" @click="confirmBooking">Confirm Booking</AppButton>
+        <div class="flex gap-3 mt-4">
+            <template v-if="!confirmed">
+                <AppButton @click="confirmBooking">Confirm Booking</AppButton>
+                <AppButton variant="secondary" @click="router.push(`/book/${serviceId}/${staffId}/slotselection`)">Back</AppButton>
+            </template>
+            <AppButton v-else @click="router.push('/')">Back to Home</AppButton>
+        </div>
+        <ErrorMessage class = "mt-4" :message="error" />
     </PageWrapper>
 
 </template>
