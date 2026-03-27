@@ -10,7 +10,7 @@ const router = useRouter();
       <h1 class="text-4xl font-bold text-slate-800 mb-3">Welcome</h1>
       <p class="text-slate-500 text-lg mb-8">Book your appointment with us!</p>
       <div class="flex gap-4 justify-center">
-        <AppButton @click="router.push('/services')">Book Now</AppButton>
+        <AppButton @click="router.push('/book/services')">Book Now</AppButton>
         <AppButton variant="secondary" @click="router.push('/admin')">Admin</AppButton>
       </div>
     </div>

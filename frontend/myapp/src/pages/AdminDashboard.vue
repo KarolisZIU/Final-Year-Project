@@ -33,7 +33,7 @@ function signOut() {
       </button>
       
     </div>
-    <div class="flex item-center justify-center mt-10">
+    <div class="flex items-center justify-center mt-10">
       <AppButton variant="danger" @click="signOut">
         Sign Out
       </AppButton>

@@ -15,7 +15,7 @@ function logout() {
 <template>
   <PageWrapper title="Staff Dashboard" max-width="max-w-2xl">
     <p class="text-slate-500 -mt-4 mb-8">View your upcoming bookings</p>
-    <div class="flex item-center justify-center mt-10">
+    <div class="flex items-center justify-center mt-10">
       <AppButton variant="danger" @click="logout">
         Sign Out
       </AppButton>

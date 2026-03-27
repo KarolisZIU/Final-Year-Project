@@ -9,7 +9,7 @@ const services = ref([]);
 const error = ref("");
 
 function bookService(service) {
-    router.push(`/staff/${service.service_id}`);
+    router.push(`/book/${service.service_id}/staff`);
 }
 onMounted(async () => {
   try {
