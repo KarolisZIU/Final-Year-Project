@@ -4,11 +4,13 @@ import cors from "cors";
 import servicesRoutes from "./routes/services.routes.js";
 import adminRoutes from "./routes/admin.routes.js";
 import authRoutes from "./routes/auth.routes.js";
+import bookingRoutes from "./routes/booking.routes.js";
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 app.use("/api", servicesRoutes);
+app.use("/api/booking", bookingRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api/auth", authRoutes);
 

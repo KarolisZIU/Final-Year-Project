@@ -5,7 +5,7 @@ import PageWrapper from "../components/PageWrapper.vue";
 import AppButton from "../components/AppButton.vue";
 import { authHeaders } from "../auth.js";
 import ErrorMessage from "../components/ErrorMessage.vue";
-const services = ref([]);
+const staff = ref([]);
 const router = useRouter();
 const errorMessage = ref("");
 
@@ -21,16 +21,16 @@ async function loadStaff(){
     if (!res.ok) {
       throw new Error("Failed to fetch staff");
     }
-    services.value = await res.json();
+    staff.value = await res.json();
   }
-  catch (error) {
-    console.error("Error loading staff:", error);
+  catch (e) {
+    errorMessage.value = "Failed to load staff";
   }
 }
-async function deleteService(serviceId) {
+async function deleteStaff(staffId) {
   errorMessage.value = "";
   try {
-    const res = await fetch(`/api/admin/staff/${serviceId}`, {
+    const res = await fetch(`/api/admin/staff/${staffId}`, {
       method: "DELETE",
       headers: authHeaders(),
     });
@@ -40,8 +40,7 @@ async function deleteService(serviceId) {
       return;
     }
     loadStaff();
-  } catch (error) {
-    console.error("Error deleting staff:", error);
+  } catch (e) {
     errorMessage.value = "Failed to delete staff member";
   }
 }
@@ -63,12 +62,12 @@ onMounted(loadStaff)
           </tr>
         </thead>
         <tbody class="divide-y divide-slate-100">
-          <tr v-for="s in services" :key="s.staff_id" class="hover:bg-slate-50">
+          <tr v-for="s in staff" :key="s.staff_id" class="hover:bg-slate-50">
             <td class="px-4 py-3 text-slate-800 font-medium">{{ s.staff_name }}</td>
             <td class="px-4 py-3 text-slate-600">{{ s.staff_role }}</td>
             <td class="px-4 py-2 flex gap-2">
               <AppButton variant="secondary" @click="router.push(`/admin/staff/edit/${s.staff_id}`)">Edit</AppButton>
-              <AppButton variant="danger" @click="deleteService(s.staff_id)">Delete</AppButton>
+              <AppButton variant="danger" @click="deleteStaff(s.staff_id)">Delete</AppButton>
             </td>
           </tr>
         </tbody>

@@ -25,7 +25,14 @@ const staffData = ref({
   ]
 });
 const errorMessage = ref("");
-
+const dayMap = {
+  Monday: 1, Tuesday: 2, Wednesday: 3,
+  Thursday: 4, Friday: 5, Saturday: 6, Sunday: 0
+}
+const dayMapReverse = {
+  1: "Monday", 2: "Tuesday", 3: "Wednesday",
+  4: "Thursday", 5: "Friday", 6: "Saturday", 0: "Sunday"
+};
 onMounted(async () => {
   try {
     const res = await fetch(`/api/admin/staff/${staffId}`, {
@@ -43,7 +50,7 @@ onMounted(async () => {
     // Prepopulate schedule
     if (data.schedule && data.schedule.length > 0) {
       data.schedule.forEach(s => {
-        const dayIndex = staffData.value.schedule.findIndex(d => d.dayOfWeek === s.day_of_week);
+const dayIndex = staffData.value.schedule.findIndex(d => d.dayOfWeek === dayMapReverse[s.day_of_week]);
         if (dayIndex !== -1) {
           staffData.value.schedule[dayIndex].startTime = s.start_time;
           staffData.value.schedule[dayIndex].endTime = s.end_time;
@@ -64,8 +71,13 @@ async function updateStaff() {
   errorMessage.value = "";
   
   // Only send schedule for enabled days with times
-  const filteredSchedule = staffData.value.schedule.filter(day => day.isAvailable && day.startTime && day.endTime);
-  
+const filteredSchedule = staffData.value.schedule
+  .filter(day => day.isAvailable && day.startTime && day.endTime)
+  .map(day => ({
+    ...day,
+    dayOfWeek: dayMap[day.dayOfWeek]
+  }));
+    
   const res = await fetch(`/api/admin/staff/${staffId}`, {
     method: "PUT",
     headers: authHeaders(),
@@ -87,7 +99,7 @@ async function updateStaff() {
 </script>
 
 <template>
-  <div class="min-h-screen bg-slate-50 flex items-center justify-center">
+  <div class="min-h-screen flex items-center justify-center">
     <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-8 w-full max-w-md mx-4">
       <h1 class="text-2xl font-bold text-slate-800 mb-6">Edit Staff Member</h1>
 

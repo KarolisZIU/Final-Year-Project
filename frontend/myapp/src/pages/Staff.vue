@@ -3,6 +3,7 @@ import { ref, onMounted, computed } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import PageWrapper from "../components/PageWrapper.vue";
 import AppButton from "../components/AppButton.vue";
+import ErrorMessage from "../components/ErrorMessage.vue";
 
 const route = useRoute();
 const router = useRouter();
@@ -22,13 +23,13 @@ onMounted(async () => {
 });
 
 function selectStaff(member) {
-  console.log("Selected staff:", member.staff_id, "for service:", serviceId.value);
+  router.push(`/book/${serviceId.value}/${member.staff_id}/slotselection`);
 }
 </script>
 
 <template>
   <PageWrapper title="Select a Staff Member" max-width="max-w-2xl">
-    <p v-if="error" class="text-red-500 mb-4">{{ error }}</p>
+    <ErrorMessage :message="error" />
 
     <div class="flex flex-col gap-4">
       <div
@@ -38,7 +39,6 @@ function selectStaff(member) {
       >
         <div>
           <p class="font-semibold text-slate-800 text-lg">{{ m.staff_name }}</p>
-          <p class="text-slate-500 text-sm">{{ m.staff_role }}</p>
         </div>
         <AppButton @click="selectStaff(m)">Select</AppButton>
       </div>

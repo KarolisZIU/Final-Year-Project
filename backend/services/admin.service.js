@@ -14,16 +14,25 @@ export async function addService(name, price, duration) {
   if (!name) {
     throw new Error("Please enter a service name");
   }
-  if (!price || isNaN(price)) {
-    throw new Error("Please enter a valid price");
+  if (!price || isNaN(price) || price <= 0) {
+    throw new Error("Please enter a valid positive price");
   }
-  if (!duration || isNaN(duration)) {
-    throw new Error("Please enter a valid duration");
+  if (!duration || isNaN(duration) || duration <= 0) {
+    throw new Error("Please enter a valid positive duration");
   }
   await adminRepo.adminAddService(name, price, duration);
 }
 
 export async function editService(serviceId, name, price, duration, isActive) {
+  if (!name) {
+    throw new Error("Please enter a service name");
+  }
+  if (!price || isNaN(price) || price <= 0) {
+    throw new Error("Please enter a valid positive price");
+  }
+  if (!duration || isNaN(duration) || duration <= 0) {
+    throw new Error("Please enter a valid positive duration");
+  }
   await adminRepo.adminEditService(serviceId, name, price, duration, isActive);
 }
 
