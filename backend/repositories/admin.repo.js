@@ -102,3 +102,23 @@ export async function deleteStaffSchedule(staffId){
     [staffId]
   );
 }
+
+export async function getBookingsByDate(date) {
+  return pool.query(
+    `SELECT
+      b.booking_id,
+      c.customer_name,
+      c.customer_email,
+      s.service_name,
+      st.staff_name,
+      b.booking_start_time,
+      b.booking_end_time
+     FROM bookings b
+     JOIN customers c ON b.customer_id = c.customer_id
+     JOIN services s ON b.service_id = s.service_id
+     JOIN staff st ON b.staff_id = st.staff_id
+     WHERE DATE(b.booking_start_time) = $1
+     ORDER BY b.booking_start_time ASC`,
+    [date]
+  );
+}

@@ -105,6 +105,11 @@ export async function getStaffById(staffId){
   };
 }
 
+export async function getBookingsByDate(date) {
+  const result = await adminRepo.getBookingsByDate(date);
+  return result.rows;
+}
+
 export async function updateStaffSchedule(staffId, scheduleArray){
   await adminRepo.deleteStaffSchedule(staffId);
   for (const schedule of scheduleArray) {
