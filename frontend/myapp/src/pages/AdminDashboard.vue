@@ -13,7 +13,6 @@ function signOut() {
 
 <template>
   <PageWrapper title="Admin Dashboard" max-width="max-w-2xl">
-    <p class="text-slate-500 -mt-4 mb-8">Manage your services and staff.</p>
 
     <div class="grid grid-cols-2 gap-4">
       <button

@@ -59,11 +59,9 @@ watch(selectedDate, (val) => {
     <div class = "flex gap-6 bg-white rounded-xl">
         <div>
             <VDatePicker v-model="selectedDate" :min-date="new Date()" />
-
-            
         </div>
         <div class="flex flex-col items-center justify-center">
-  <div v-if="availableSlots.length" class="flex flex-wrap gap-2">
+  <div v-if="availableSlots.length" class="flex flex-wrap gap-2 max-h-64 overflow-y-auto">
     <div v-for="slots in availableSlots" :key="slots">
     <AppButton :variant="selectedSlot === slots ? 'primary' : 'secondary'" @click="selectedSlot = slots">{{ formatTime(slots) }}</AppButton>
     </div>
@@ -77,8 +75,10 @@ watch(selectedDate, (val) => {
 <ErrorMessage :message="error"/>
     <FormField id="name" label="Your Name" v-model="name" />
     <FormField id="email" label="Your Email" type="email" v-model="email" />
-    <AppButton class="mt-4" @click="nextStep">Next</AppButton>
 </div>
-
+<div class="flex gap-3 mt-4">
+    <AppButton variant="secondary" @click="router.push(`/book/${serviceId}/staff`)">Back</AppButton>
+    <AppButton v-if="selectedSlot" @click="nextStep">Next</AppButton>
+</div>
 </PageWrapper>
 </template>

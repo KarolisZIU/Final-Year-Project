@@ -43,5 +43,6 @@ function selectStaff(member) {
         <AppButton @click="selectStaff(m)">Select</AppButton>
       </div>
     </div>
+    <AppButton variant="secondary" class="mt-4" @click="router.push('/book/services')">Back</AppButton>
   </PageWrapper>
 </template>
