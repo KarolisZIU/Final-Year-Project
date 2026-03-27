@@ -7,9 +7,11 @@ import AdminDisplayServices from "./pages/AdminDisplayServices.vue";
 import AdminDisplayStaff from "./pages/AdminDisplayStaff.vue";
 import AddService from "./pages/AddService.vue";
 import Login from "./pages/Login.vue";
-import AddStaff from "./pages/addStaff.vue";
-import EditStaff from "./pages/editStaff.vue";
+import AddStaff from "./pages/AddStaff.vue";
+import EditStaff from "./pages/EditStaff.vue";
 import StaffDashboard from "./pages/StaffDashboard.vue";
+import SlotSelection from "./pages/SlotSelection.vue";
+import BookingSummary from "./pages/BookingSummary.vue";
 import { isLoggedIn, getRole } from "./auth.js";
 
 const router = createRouter({
@@ -17,8 +19,10 @@ const router = createRouter({
   routes: [
     { path: "/", component: Home },
     { path: "/login", component: Login },
-    { path: "/services", component: Services },
-    { path: "/staff/:serviceId", component: Staff },
+    { path: "/book/services", component: Services },
+    { path: "/book/:serviceId/staff", component: Staff },
+    { path: "/book/:serviceId/:staffId/slotselection", component: SlotSelection },
+    { path: "/book/:serviceId/:staffId/summary", component: BookingSummary },
     { path: "/staff/dashboard", component: StaffDashboard, meta: { requiresAuth: true, role: "staff" } },
     { path: "/admin", component: AdminDashboard, meta: { requiresAuth: true, role: "admin" } },
     { path: "/admin/services", component: AdminDisplayServices, meta: { requiresAuth: true, role: "admin" } },
