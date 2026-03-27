@@ -9,8 +9,7 @@ import {
   addStaff,
   addSchedule,
   updateStaff,
-  getStaffById,
-  getBookingsByDate
+  getStaffById
 } from "../controllers/admin.controller.js";
 
 import { requireAuth, requireRole } from "../middleware/auth.middleware.js";
@@ -29,5 +28,4 @@ router.delete("/staff/:id", ...isAdmin, deleteStaff);
 router.post("/staff", ...isAdmin, addStaff);
 router.post("/staff/:id/schedule", ...isAdmin, addSchedule);
 router.put("/staff/:id", ...isAdmin, updateStaff);
-router.get("/bookings", ...isAdmin, getBookingsByDate);
 export default router;

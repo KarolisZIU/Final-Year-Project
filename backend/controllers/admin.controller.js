@@ -104,18 +104,6 @@ export async function updateStaff(req, res) {
   }
 }
 
-export async function getBookingsByDate(req, res) {
-  const { date } = req.query;
-  if (!date) return res.status(400).json({ error: "date is required" });
-  try {
-    const bookings = await adminService.getBookingsByDate(date);
-    res.json(bookings);
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: "Failed to load bookings" });
-  }
-}
-
 export async function getStaffById(req, res) {
   const staffId = parseInt(req.params.id);
   try {
