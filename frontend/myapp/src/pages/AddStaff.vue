@@ -61,11 +61,15 @@ async function addStaff() {
   }));
 
   if (filteredSchedule.length > 0) {
-    await fetch(`/api/admin/staff/${staffId}/schedule`, {
+    const scheduleRes = await fetch(`/api/admin/staff/${staffId}/schedule`, {
       method: "POST",
       headers: authHeaders(),
       body: JSON.stringify({ schedule: filteredSchedule }),
     });
+    if (!scheduleRes.ok) {
+      errorMessage.value = "Staff created but failed to save schedule";
+      return;
+    }
   }
   router.push("/admin/staff");
 }
@@ -114,7 +118,7 @@ async function addStaff() {
 </div>
 
         <div class="flex gap-3 pt-2">
-          <AppButton @click="addStaff" class="flex-1">Add Staff</AppButton>
+          <AppButton type="submit" class="flex-1">Add Staff</AppButton>
           <AppButton variant="secondary" @click="goBack" class="flex-1">Back</AppButton>
         </div>
       </form>

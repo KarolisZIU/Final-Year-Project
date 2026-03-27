@@ -23,8 +23,8 @@ async function loadStaff(){
     }
     staff.value = await res.json();
   }
-  catch (error) {
-    console.error("Error loading staff:", error);
+  catch (e) {
+    errorMessage.value = "Failed to load staff";
   }
 }
 async function deleteStaff(staffId) {
@@ -40,8 +40,7 @@ async function deleteStaff(staffId) {
       return;
     }
     loadStaff();
-  } catch (error) {
-    console.error("Error deleting staff:", error);
+  } catch (e) {
     errorMessage.value = "Failed to delete staff member";
   }
 }

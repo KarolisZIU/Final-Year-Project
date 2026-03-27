@@ -4,6 +4,7 @@ import { useRouter } from "vue-router";
 import { saveAuth } from "../auth.js";
 import FormField from "../components/FormField.vue";
 import AppButton from "../components/AppButton.vue";
+import ErrorMessage from "../components/ErrorMessage.vue";
 
 const router = useRouter();
 const username = ref("");
@@ -44,9 +45,9 @@ async function login() {
         <FormField id="username" label="Username" v-model="username" />
         <FormField id="password" label="Password" type="password" v-model="password" />
 
-        <p v-if="error" class="text-red-500 text-sm">{{ error }}</p>
+        <ErrorMessage :message="error" />
 
-        <AppButton class="w-full mt-2" @click="login">Sign In</AppButton>
+        <AppButton class="w-full mt-2" type="submit">Sign In</AppButton>
       </form>
     </div>
   </div>

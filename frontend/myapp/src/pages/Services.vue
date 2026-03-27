@@ -3,6 +3,7 @@ import { ref, onMounted } from "vue";
 import { useRouter } from "vue-router";
 import PageWrapper from "../components/PageWrapper.vue";
 import AppButton from "../components/AppButton.vue";
+import ErrorMessage from "../components/ErrorMessage.vue";
 const router = useRouter();
 
 const services = ref([]);
@@ -23,7 +24,7 @@ onMounted(async () => {
 
 <template>
   <PageWrapper title="Our Services" max-width="max-w-2xl">
-    <p v-if="error" class="text-red-500 mb-4">{{ error }}</p>
+    <ErrorMessage :message="error" />
 
     <div class="flex flex-col gap-4">
       <div

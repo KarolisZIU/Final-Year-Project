@@ -21,7 +21,7 @@ defineEmits(["update:modelValue"]);
       :min="min"
       :value="modelValue"
       @input="$emit('update:modelValue', $event.target.value)"
-      class="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+      class="w-full bg-white border border-slate-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
     />
   </div>
 </template>

@@ -4,6 +4,7 @@ import { useRoute, useRouter } from "vue-router";
 import PageWrapper from "../components/PageWrapper.vue";
 import AppButton from "../components/AppButton.vue";
 import FormField from "../components/FormField.vue";
+import ErrorMessage from "../components/ErrorMessage.vue";
 
 const route = useRoute();
 const router = useRouter();
@@ -55,7 +56,7 @@ watch(selectedDate, (val) => {
 
 <template>
     <PageWrapper title="Select Date" max-width="max-w-2xl">
-    <div class = "flex gap-8 bg-white">
+    <div class = "flex gap-6 bg-white rounded-xl">
         <div>
             <VDatePicker v-model="selectedDate" :min-date="new Date()" />
 
@@ -72,8 +73,8 @@ watch(selectedDate, (val) => {
   </div> 
     </div>
 </div>
-<div v-if="selectedSlot">
-<p v-if="error">{{ error }}</p>
+<div v-if="selectedSlot" class="mt-4">
+<ErrorMessage :message="error"/>
     <FormField id="name" label="Your Name" v-model="name" />
     <FormField id="email" label="Your Email" type="email" v-model="email" />
     <AppButton class="mt-4" @click="nextStep">Next</AppButton>

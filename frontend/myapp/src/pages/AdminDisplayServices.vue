@@ -3,11 +3,13 @@ import { onMounted, ref } from "vue";
 import { useRouter } from "vue-router";
 import PageWrapper from "../components/PageWrapper.vue";
 import AppButton from "../components/AppButton.vue";
+import ErrorMessage from "../components/ErrorMessage.vue";
 import { authHeaders } from "../auth.js";
 const services = ref([]);
 const router = useRouter();
 const editingId = ref(null);
 const editForm = ref({});
+const error = ref("");
 
 function goBack() {
   router.push("/admin");
@@ -21,11 +23,13 @@ async function loadServices() {
   try {
     const res = await fetch("/api/admin/services", { headers: authHeaders() });
     if (!res.ok) {
-      throw new Error("Failed to fetch services");
+      const data = await res.json();
+      error.value = data.error || "Failed to load services";
+      return;
     }
     services.value = await res.json();
-  } catch (error) {
-    console.error("Error loading services:", error);
+  } catch (e) {
+    error.value = "Failed to load services";
   }
 }
 
@@ -36,11 +40,13 @@ async function deleteService(serviceId) {
       headers: authHeaders(),
     });
     if (!res.ok) {
-      throw new Error("Failed to delete service");
+      const data = await res.json();
+      error.value = data.error || "Failed to delete service";
+      return;
     }
     loadServices();
-  } catch (error) {
-    console.error("Error deleting service:", error);
+  } catch (e) {
+    error.value = "Failed to delete service";
   }
 }
 
@@ -66,12 +72,14 @@ async function saveEdit(serviceId) {
       body: JSON.stringify(editForm.value),
     });
     if (!res.ok) {
-      throw new Error("Failed to update service");
+      const data = await res.json();
+      error.value = data.error || "Failed to update service";
+      return;
     }
     editingId.value = null;
     loadServices();
-  } catch (error) {
-    console.error("Error updating service:", error);
+  } catch (e) {
+    error.value = "Failed to update service";
   }
 }
 
@@ -80,6 +88,7 @@ onMounted(loadServices)
 
 <template>
   <PageWrapper title="Services" max-width="max-w-4xl">
+    <ErrorMessage :message="error" />
     <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
       <table class="w-full text-sm text-left">
         <colgroup>

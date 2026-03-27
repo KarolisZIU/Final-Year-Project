@@ -6,12 +6,12 @@ const router = useRouter();
 
 <template>
   <div class="min-h-screen flex items-center justify-center">
-    <div class="bg-white text-start px-6">
-      <h1 class="text-4xl font-bold text-slate-800 mb-3">Welcome</h1>
-      <p class="text-slate-500 text-lg mb-8">Book your appointment with us!</p>
-      <div class="flex gap-4 justify-center">
-        <AppButton @click="router.push('/book/services')">Book Now</AppButton>
-        <AppButton variant="secondary" @click="router.push('/admin')">Admin</AppButton>
+    <div class="bg-white text-start rounded-xl px-6">
+      <h1 class="text-7xl font-bold text-black text-center mb-4">Welcome</h1>
+      <p class="text-slate-500 text-2xl mb-10 text-center">Book your appointment with us!</p>
+      <div class="flex gap-6 justify-center p-10">
+        <AppButton class="text-xl px-10 py-4" @click="router.push('/book/services')">Book Now</AppButton>
+        <AppButton class="text-xl px-10 py-4" variant="secondary" @click="router.push('/admin')">Admin</AppButton>
       </div>
     </div>
   </div>
