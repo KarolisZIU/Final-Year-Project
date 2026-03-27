@@ -14,6 +14,7 @@ const staffId = computed(() => route.params.staffId);
 const selectedDate = ref("");
 const availableSlots = ref([]);
 const selectedSlot = ref(null);
+const formattedDate = ref("");
 const name = ref("");
 const email = ref("");
 const error = ref("");
@@ -30,12 +31,12 @@ function nextStep(){
         error.value = "Please enter a valid email address";
         return;
     }
-    router.push(`/book/${serviceId.value}/${staffId.value}/summary?date=${selectedDate.value}&time=${formatTime(selectedSlot.value)}&name=${name.value}&email=${email.value}`);
+    router.push(`/book/${serviceId.value}/${staffId.value}/summary?date=${formattedDate.value}&time=${formatTime(selectedSlot.value)}&name=${name.value}&email=${email.value}`);
 
     }
 async function fetchSlots(){
     try {
-        const res = await fetch(`/api/booking/slots?serviceId=${serviceId.value}&staffId=${staffId.value}&date=${selectedDate.value}`);
+        const res = await fetch(`/api/booking/slots?serviceId=${serviceId.value}&staffId=${staffId.value}&date=${formattedDate.value}`);
         if (!res.ok) {
         throw new Error("Failed to fetch slots");
         }
@@ -45,8 +46,10 @@ async function fetchSlots(){
         error.value = "Failed to load available slots";
     }
 }
-watch(selectedDate, () => {
-  fetchSlots()
+watch(selectedDate, (val) => {
+    if (!val) return;
+    formattedDate.value = new Date(val).toISOString().split("T")[0];
+    fetchSlots()
 })
 </script>
 
@@ -54,25 +57,26 @@ watch(selectedDate, () => {
     <PageWrapper title="Select Date" max-width="max-w-2xl">
     <div class = "flex gap-8 bg-white">
         <div>
-            <input type="date" min="today" v-model="selectedDate">
+            <VDatePicker v-model="selectedDate" :min-date="new Date()" />
+
             
         </div>
-        <div>
-  <div v-if="availableSlots.length">
+        <div class="flex flex-col items-center justify-center">
+  <div v-if="availableSlots.length" class="flex flex-wrap gap-2">
     <div v-for="slots in availableSlots" :key="slots">
-      <AppButton @click="selectedSlot = slots">{{ formatTime(slots) }}</AppButton>
+    <AppButton :variant="selectedSlot === slots ? 'primary' : 'secondary'" @click="selectedSlot = slots">{{ formatTime(slots) }}</AppButton>
     </div>
   </div>
   <div v-else>
-    <p>No available slots for selected date</p>
-  </div>
+    <p class="text-gray-500 text-xl ">No available slots for selected date</p>
+  </div> 
     </div>
 </div>
 <div v-if="selectedSlot">
 <p v-if="error">{{ error }}</p>
     <FormField id="name" label="Your Name" v-model="name" />
     <FormField id="email" label="Your Email" type="email" v-model="email" />
-    <AppButton class="mt-4" @click="nextStep">Book Appointment</AppButton>
+    <AppButton class="mt-4" @click="nextStep">Next</AppButton>
 </div>
 
 </PageWrapper>
