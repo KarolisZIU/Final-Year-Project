@@ -49,7 +49,7 @@ async function fetchSlots(){
 }
 watch(selectedDate, (val) => {
     if (!val) return;
-    formattedDate.value = new Date(val).toISOString().split("T")[0];
+    formattedDate.value = val.toLocaleDateString("en-CA");
     fetchSlots()
 })
 </script>
