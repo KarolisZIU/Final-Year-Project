@@ -28,7 +28,8 @@ export async function getBookingsByEmail(email) {
      JOIN customers c ON b.customer_id = c.customer_id
      JOIN services s ON b.service_id = s.service_id
      JOIN staff st ON b.staff_id = st.staff_id
-     WHERE c.customer_email = $1`,
+     WHERE c.customer_email = $1
+     AND b.booking_status = 'pending'`,
     [email]
   );
 }
