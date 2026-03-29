@@ -9,14 +9,6 @@ export async function getActiveServices() {
   );
 }
 
-export async function getAllStaff(){
-  return pool.query(
-    `SELECT staff_id, staff_name
-     FROM staff
-     ORDER BY staff_id`
-  );
-}
-
 export async function getServiceById(serviceId) {
   return pool.query(
     `SELECT service_duration
