@@ -18,3 +18,16 @@ export async function createBooking(serviceId, staffId, customerId, startTime, e
     [serviceId, staffId, customerId, startTime, endTime]
   );
 }
+
+export async function getBookingsByEmail(email) {
+  return pool.query(
+    `SELECT b.booking_id, b.booking_start_time, b.booking_end_time, b.booking_status,
+            s.service_name, st.staff_name
+     FROM bookings b
+     JOIN customers c ON b.customer_id = c.customer_id
+     JOIN services s ON b.service_id = s.service_id
+     JOIN staff st ON b.staff_id = st.staff_id
+     WHERE c.customer_email = $1`,
+    [email]
+  );
+}

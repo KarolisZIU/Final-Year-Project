@@ -92,3 +92,8 @@ export async function createBooking(serviceId, staffId, customerName, customerEm
 
   return booking.rows[0];
 }
+
+export async function getBookingsByEmail(email){
+  const result = await bookingRepo.getBookingsByEmail(email);
+  return result.rows;
+}

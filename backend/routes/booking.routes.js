@@ -5,5 +5,6 @@ const router = express.Router();
 
 router.get("/slots", bookingController.getAvailableSlots);
 router.post("/", bookingController.createBooking);
+router.get("/customer-bookings", bookingController.getBookingsByEmail);
 
 export default router;

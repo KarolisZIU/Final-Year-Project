@@ -39,3 +39,17 @@ export async function createBooking(req, res) {
     res.status(400).json({ error: err.message });
   }
 }
+
+export async function getBookingsByEmail(req, res){
+  try{
+    const { email } = req.query;
+    if(!email){
+      return res.status(400).json({ error: "Email is required" });
+    }
+    const bookings = await bookingService.getBookingsByEmail(email);
+    res.json(bookings);
+    } catch (err){
+      console.error(err);
+      res.status(400).json({ error: err.message });
+    }
+}
