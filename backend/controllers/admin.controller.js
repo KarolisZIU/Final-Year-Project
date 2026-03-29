@@ -91,9 +91,9 @@ export async function addSchedule(req, res) {
 
 export async function updateStaff(req, res) {
   const staffId = parseInt(req.params.id);
-  const { name, username, role, schedule } = req.body;
+  const { name, username, role, isActive, schedule } = req.body;
   try {
-    await adminService.updateStaff(staffId, name, username, role);
+    await adminService.updateStaff(staffId, name, username, role, isActive);
     if (schedule && schedule.length > 0) {
       await adminService.updateStaffSchedule(staffId, schedule);
     }
