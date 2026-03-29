@@ -6,7 +6,7 @@ export async function getAdminServices(req, res) {
     res.json(services);
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: "Failed to load services" });
+    res.status(500).json({ error: err.message || "Failed to load services" });
   }
 }
 
@@ -17,7 +17,7 @@ export async function deleteService(req, res) {
     res.json({ message: "Service deleted successfully" });
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: "Failed to delete service" });
+    res.status(400).json({ error: err.message || "Failed to delete service" });
   }
 }
 
@@ -25,7 +25,7 @@ export async function addService(req, res) {
   const { name, price, duration } = req.body;
   try {
     await adminService.addService(name, price, duration);
-    res.json({ message: "Service added successfully" });
+    res.status(201).json({ message: "Service added successfully" });
   } catch (err) {
     console.error(err);
     res.status(400).json({ error: err.message || "Failed to add service" });
@@ -50,7 +50,7 @@ export async function getAllStaff(req, res) {
     res.json(staff);
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: "Failed to load staff" });
+    res.status(500).json({ error: err.message || "Failed to load staff" });
   }
 }
 
@@ -70,7 +70,7 @@ export async function addStaff(req, res) {
   try {
     const result = await adminService.addStaff(name, username, password, role);
     
-    res.json({ message: "Staff member added successfully", staffId: result.rows[0].staff_id });
+    res.status(201).json({ message: "Staff member added successfully", staffId: result.rows[0].staff_id });
   } catch (err) {
     console.error(err);
     res.status(400).json({ error: err.message || "Failed to add staff member" });
