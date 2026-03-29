@@ -14,6 +14,7 @@ const staffData = ref({
   name: "",
   username: "",
   role: "",
+  isActive: true,
   schedule: [
     { dayOfWeek: "Monday", isAvailable: false, startTime: "", endTime: "" },
     { dayOfWeek: "Tuesday", isAvailable: false, startTime: "", endTime: "" },
@@ -46,6 +47,7 @@ onMounted(async () => {
     staffData.value.name = data.staff_name;
     staffData.value.username = data.staff_username;
     staffData.value.role = data.staff_role;
+    staffData.value.isActive = data.is_active;
     
     // Prepopulate schedule
     if (data.schedule && data.schedule.length > 0) {
@@ -85,6 +87,7 @@ const filteredSchedule = staffData.value.schedule
       name: staffData.value.name,
       username: staffData.value.username,
       role: staffData.value.role,
+      isActive: staffData.value.isActive,
       schedule: filteredSchedule
     }),
   });
@@ -115,6 +118,11 @@ const filteredSchedule = staffData.value.schedule
             <option value="staff">Staff</option>
             <option value="admin">Admin</option>
           </select>
+        </div>
+
+        <div class="flex items-center gap-3">
+          <input type="checkbox" v-model="staffData.isActive" id="isActive" class="w-4 h-4 rounded" />
+          <label for="isActive" class="text-sm font-medium text-slate-700 cursor-pointer">Active</label>
         </div>
 
         <div class="border-t border-slate-200 pt-6 mt-4">

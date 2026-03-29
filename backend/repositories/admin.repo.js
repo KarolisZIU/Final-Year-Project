@@ -35,7 +35,7 @@ export async function adminEditService(serviceId, name, price, duration, isActiv
 
 export async function adminGetAllStaff() {
   return pool.query(
-    `SELECT staff_id, staff_name, staff_role
+    `SELECT staff_id, staff_name, staff_role, is_active
      FROM staff
      ORDER BY staff_id`
   );
@@ -71,17 +71,17 @@ export async function addSchedule(staffId, dayOfWeek, startTime, endTime) {
 }
 
 export async function getStaffById(staffId){
-  return pool.query(`SELECT staff_name, staff_username, staff_role
+  return pool.query(`SELECT staff_name, staff_username, staff_role, is_active
     FROM staff
     WHERE staff_id = $1`, [staffId]);
 }
 
-export async function updateStaff(staffId, name, username, role){
+export async function updateStaff(staffId, name, username, role, isActive){
   return pool.query(
     `UPDATE staff
-     SET staff_name = $2, staff_username = $3, staff_role = $4
+     SET staff_name = $2, staff_username = $3, staff_role = $4, is_active = $5
      WHERE staff_id = $1`,
-    [staffId, name, username, role]
+    [staffId, name, username, role, isActive]
   );
 }
 

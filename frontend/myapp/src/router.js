@@ -13,6 +13,7 @@ import StaffDashboard from "./pages/StaffDashboard.vue";
 import SlotSelection from "./pages/SlotSelection.vue";
 import BookingSummary from "./pages/BookingSummary.vue";
 import { isLoggedIn, getRole } from "./auth.js";
+import ManageBooking from "./pages/ManageBooking.vue";
 
 const router = createRouter({
   history: createWebHistory(),
@@ -29,7 +30,9 @@ const router = createRouter({
     { path: "/admin/staff", component: AdminDisplayStaff, meta: { requiresAuth: true, role: "admin" } },
     { path: "/admin/services/add", component: AddService, meta: { requiresAuth: true, role: "admin" } },
     { path: "/admin/staff/add", component: AddStaff, meta: { requiresAuth: true, role: "admin" } },
-    { path: "/admin/staff/edit/:id", component: EditStaff, meta: { requiresAuth: true, role: "admin" } }
+    { path: "/admin/staff/edit/:id", component: EditStaff, meta: { requiresAuth: true, role: "admin" } },
+    { path: "/manage-booking", component: ManageBooking }
+
   ],
 });
 
