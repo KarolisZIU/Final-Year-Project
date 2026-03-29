@@ -5,7 +5,8 @@ export async function getBookingsForStaffOnDay(staffId, date) {
     `SELECT booking_start_time, booking_end_time
      FROM bookings
      WHERE staff_id = $1
-     AND DATE(booking_start_time) = $2`,
+     AND DATE(booking_start_time) = $2
+     AND booking_status = 'pending'`,
     [staffId, date]
   );
 }
@@ -29,5 +30,14 @@ export async function getBookingsByEmail(email) {
      JOIN staff st ON b.staff_id = st.staff_id
      WHERE c.customer_email = $1`,
     [email]
+  );
+}
+
+export async function cancelBooking(bookingId) {
+  return pool.query(
+    `UPDATE bookings
+     SET booking_status = 'cancelled'
+     WHERE booking_id = $1`,
+    [bookingId]
   );
 }

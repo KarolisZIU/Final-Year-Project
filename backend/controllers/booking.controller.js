@@ -53,3 +53,17 @@ export async function getBookingsByEmail(req, res){
       res.status(400).json({ error: err.message });
     }
 }
+
+export async function cancelBooking(req, res) {
+  try {
+    const { bookingId } = req.params;
+    if (!bookingId) {
+      return res.status(400).json({ error: "Booking ID is required" });
+    }
+    await bookingService.cancelBooking(bookingId);
+    res.json({ message: "Booking cancelled successfully" });
+  } catch (err) {
+    console.error(err);
+    res.status(400).json({ error: err.message });
+  }
+}

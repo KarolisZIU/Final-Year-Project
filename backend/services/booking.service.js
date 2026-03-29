@@ -97,3 +97,7 @@ export async function getBookingsByEmail(email){
   const result = await bookingRepo.getBookingsByEmail(email);
   return result.rows;
 }
+
+export async function cancelBooking(bookingId) {
+  await bookingRepo.cancelBooking(bookingId);
+}
