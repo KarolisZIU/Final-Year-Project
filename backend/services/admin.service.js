@@ -7,7 +7,14 @@ export async function listAdminServices() {
 }
 
 export async function deleteService(serviceId) {
-  await adminRepo.adminDeleteService(serviceId);
+  try {
+    await adminRepo.adminDeleteService(serviceId);
+  } catch (err) {
+    if (err.message.includes("violates foreign key constraint")) {
+      throw new Error("Cannot delete service with existing bookings.");
+    }
+    throw err;
+  }
 }
 
 export async function addService(name, price, duration) {
@@ -51,7 +58,14 @@ export async function deleteStaff(staffId) {
       throw new Error("Cannot delete the last admin. There must be at least one admin.");
     }
   }
-  await adminRepo.adminDeleteStaff(staffId);
+  try {
+    await adminRepo.adminDeleteStaff(staffId);
+  } catch (err) {
+    if (err.message.includes("violates foreign key constraint")) {
+      throw new Error("Cannot delete staff member with existing bookings.");
+    }
+    throw err;
+  }
 }
 
 export async function addStaff(name, username, password, role) {
@@ -76,7 +90,7 @@ export async function addSchedule(staffId, scheduleArray) {
   }
 }
 
-export async function updateStaff(staffId, name, username, role){
+export async function updateStaff(staffId, name, username, role, isActive){
   if (!name) {
     throw new Error("Please enter a staff name");
   }
@@ -86,7 +100,7 @@ export async function updateStaff(staffId, name, username, role){
   if (!role){
     throw new Error("Please select a role");
   }
-  await adminRepo.updateStaff(staffId, name, username, role);
+  await adminRepo.updateStaff(staffId, name, username, role, isActive);
 }
 
 export async function getStaffById(staffId){
@@ -101,6 +115,7 @@ export async function getStaffById(staffId){
     staff_name: staffResult.rows[0].staff_name,
     staff_username: staffResult.rows[0].staff_username,
     staff_role: staffResult.rows[0].staff_role,
+    is_active: staffResult.rows[0].is_active,
     schedule: scheduleResult.rows
   };
 }
