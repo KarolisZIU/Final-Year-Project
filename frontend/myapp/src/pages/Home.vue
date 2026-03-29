@@ -12,6 +12,8 @@ const router = useRouter();
       <div class="flex gap-6 justify-center p-10">
         <AppButton class="text-xl px-10 py-4" @click="router.push('/book/services')">Book Now</AppButton>
         <AppButton class="text-xl px-10 py-4" variant="secondary" @click="router.push('/admin')">Admin</AppButton>
+        <AppButton class="text-xl px-10 py-4" variant="secondary" @click="router.push('/manage-booking')">Manage Booking</AppButton>
+
       </div>
     </div>
   </div>
