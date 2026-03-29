@@ -40,7 +40,7 @@ onMounted(async () => {
       </div>
     </div>
     <div class="flex justify-start mt-4">
-    <AppButton variant="secondary" class="mt-4" @click="router.push('/')">Back</AppButton>
+    <AppButton variant="secondary" @click="router.push('/')">Back</AppButton>
     </div>
   </PageWrapper>
 </template>
