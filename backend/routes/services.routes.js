@@ -1,10 +1,9 @@
 import { Router } from "express";
-import { getPublicServices } from "../controllers/services.controller.js";
-import { getAllStaff } from "../controllers/services.controller.js";
+import * as servicesController from "../controllers/services.controller.js";
 
 const router = Router();
 
-router.get("/services", getPublicServices);
-router.get("/staff", getAllStaff);
+router.get("/services", servicesController.getPublicServices);
+router.get("/staff", servicesController.getAllStaff);
 
 export default router;

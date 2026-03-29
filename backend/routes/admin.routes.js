@@ -1,31 +1,19 @@
 import { Router } from "express";
-import {
-  getAdminServices,
-  deleteService,
-  addService,
-  editService,
-  getAllStaff,
-  deleteStaff,
-  addStaff,
-  addSchedule,
-  updateStaff,
-  getStaffById
-} from "../controllers/admin.controller.js";
-
-import { requireAuth, requireRole } from "../middleware/auth.middleware.js";
+import * as adminController from "../controllers/admin.controller.js";
+import * as authMiddleware from "../middleware/auth.middleware.js";
 
 const router = Router();
-const isAdmin = [requireAuth, requireRole("admin")];
+const isAdmin = [authMiddleware.requireAuth, authMiddleware.requireRole("admin")];
 
-router.get("/services", ...isAdmin, getAdminServices);
-router.post("/services", ...isAdmin, addService);
-router.put("/services/:id", ...isAdmin, editService);
-router.delete("/services/:id", ...isAdmin, deleteService);
+router.get("/services", ...isAdmin, adminController.getAdminServices);
+router.post("/services", ...isAdmin, adminController.addService);
+router.put("/services/:id", ...isAdmin, adminController.editService);
+router.delete("/services/:id", ...isAdmin, adminController.deleteService);
 
-router.get("/staff", ...isAdmin, getAllStaff);
-router.get("/staff/:id", ...isAdmin, getStaffById);
-router.delete("/staff/:id", ...isAdmin, deleteStaff);
-router.post("/staff", ...isAdmin, addStaff);
-router.post("/staff/:id/schedule", ...isAdmin, addSchedule);
-router.put("/staff/:id", ...isAdmin, updateStaff);
+router.get("/staff", ...isAdmin, adminController.getAllStaff);
+router.get("/staff/:id", ...isAdmin, adminController.getStaffById);
+router.delete("/staff/:id", ...isAdmin, adminController.deleteStaff);
+router.post("/staff", ...isAdmin, adminController.addStaff);
+router.post("/staff/:id/schedule", ...isAdmin, adminController.addSchedule);
+router.put("/staff/:id", ...isAdmin, adminController.updateStaff);
 export default router;
