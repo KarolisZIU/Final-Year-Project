@@ -67,3 +67,16 @@ export async function cancelBooking(req, res) {
     res.status(400).json({ error: err.message });
   }
 }
+
+export async function getBookingsForStaffForDay(req, res) {
+  try {
+    const staffId = req.user.staffId;
+    const date = req.query.date
+    const bookings = await bookingService.getBookingsForStaffForDay(staffId, date);
+    res.json(bookings);
+  }
+  catch (err) {
+    console.error(err);
+    res.status(400).json({ error: err.message });
+  }
+}

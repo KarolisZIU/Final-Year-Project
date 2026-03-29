@@ -101,3 +101,10 @@ export async function getBookingsByEmail(email){
 export async function cancelBooking(bookingId) {
   await bookingRepo.cancelBooking(bookingId);
 }
+
+
+export async function getBookingsForStaffForDay(staffId, date=new Date().toLocaleDateString("en-CA")) {
+  
+  const result = await bookingRepo.getBookingsForStaffForDay(staffId, date);
+  return result.rows;
+}
