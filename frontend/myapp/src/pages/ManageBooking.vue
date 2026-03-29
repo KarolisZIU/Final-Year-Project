@@ -10,6 +10,7 @@ const router = useRouter();
 const bookings = ref([]);
 const error = ref("");
 const email = ref("");
+const searched = ref(false);
 
 async function fetchBookings() {
     if (!email.value) {
@@ -19,6 +20,7 @@ async function fetchBookings() {
     try {
         const response = await fetch(`/api/booking/customer-bookings?email=${email.value}`);
         bookings.value = await response.json();
+        searched.value = true;
     } catch (err) {
         error.value = "Failed to load bookings";
     }
@@ -62,6 +64,8 @@ async function cancelBooking(bookingId) {
                 <AppButton variant="secondary" @click="cancelBooking(booking.booking_id)">Cancel</AppButton>
             </div>
         </div>
+
+        <p v-if="bookings.length === 0 && searched" class="text-slate-500 text-center mt-6">No bookings found.</p>
 
         <div class="flex justify-start mt-4">
             <AppButton variant="secondary" @click="router.push('/')">Back</AppButton>
