@@ -16,4 +16,5 @@ router.delete("/staff/:id", ...isAdmin, adminController.deleteStaff);
 router.post("/staff", ...isAdmin, adminController.addStaff);
 router.post("/staff/:id/schedule", ...isAdmin, adminController.addSchedule);
 router.put("/staff/:id", ...isAdmin, adminController.updateStaff);
+router.get("/all-bookings", isAdmin, bookingController.getAllBookingsForDay);
 export default router;

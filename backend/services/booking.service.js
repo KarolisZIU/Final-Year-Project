@@ -104,7 +104,12 @@ export async function cancelBooking(bookingId) {
 
 
 export async function getBookingsForStaffForDay(staffId, date=new Date().toLocaleDateString("en-CA")) {
-  
+
   const result = await bookingRepo.getBookingsForStaffForDay(staffId, date);
+  return result.rows;
+}
+
+export async function getAllBookingsForDay(date = new Date().toLocaleDateString("en-CA")) {
+  const result = await bookingRepo.getAllBookingsForDay(date);
   return result.rows;
 }
