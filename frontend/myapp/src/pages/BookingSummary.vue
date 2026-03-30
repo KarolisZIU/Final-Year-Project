@@ -26,6 +26,9 @@ onMounted(async () => {
             fetch("/api/staff"),
             fetch("/api/services")
         ]);
+        if (!staffRes.ok || !serviceRes.ok) {
+            throw new Error("Failed to load staff or service details");
+        }
         const staffList = await staffRes.json();
         const serviceList = await serviceRes.json();
         staff.value = staffList.find(s => s.staff_id == staffId.value);

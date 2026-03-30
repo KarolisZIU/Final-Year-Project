@@ -20,7 +20,7 @@ function filterAvailableSlots(slots, bookings, serviceDuration, workEnd) {
     const slotEnd = new Date(slot.getTime() + serviceDuration * 60000);
 
     if (slotEnd > workEnd) return false;
-
+    if (slot < new Date()) return false;
     return !bookings.some(booking =>
       new Date(booking.booking_start_time) < slotEnd &&
       new Date(booking.booking_end_time) > slot
@@ -100,4 +100,11 @@ export async function getBookingsByEmail(email){
 
 export async function cancelBooking(bookingId) {
   await bookingRepo.cancelBooking(bookingId);
+}
+
+
+export async function getBookingsForStaffForDay(staffId, date=new Date().toLocaleDateString("en-CA")) {
+  
+  const result = await bookingRepo.getBookingsForStaffForDay(staffId, date);
+  return result.rows;
 }

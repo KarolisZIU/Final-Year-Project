@@ -71,33 +71,35 @@ function goBack() {
 
 async function updateStaff() {
   errorMessage.value = "";
-  
-  // Only send schedule for enabled days with times
-const filteredSchedule = staffData.value.schedule
-  .filter(day => day.isAvailable && day.startTime && day.endTime)
-  .map(day => ({
-    ...day,
-    dayOfWeek: dayMap[day.dayOfWeek]
-  }));
-    
-  const res = await fetch(`/api/admin/staff/${staffId}`, {
-    method: "PUT",
-    headers: authHeaders(),
-    body: JSON.stringify({
-      name: staffData.value.name,
-      username: staffData.value.username,
-      role: staffData.value.role,
-      isActive: staffData.value.isActive,
-      schedule: filteredSchedule
-    }),
-  });
+  try {
+    const filteredSchedule = staffData.value.schedule
+      .filter(day => day.isAvailable && day.startTime && day.endTime)
+      .map(day => ({
+        ...day,
+        dayOfWeek: dayMap[day.dayOfWeek]
+      }));
 
-  if (!res.ok) {
-    const data = await res.json();
-    errorMessage.value = data.error;
-    return;
+    const res = await fetch(`/api/admin/staff/${staffId}`, {
+      method: "PUT",
+      headers: authHeaders(),
+      body: JSON.stringify({
+        name: staffData.value.name,
+        username: staffData.value.username,
+        role: staffData.value.role,
+        isActive: staffData.value.isActive,
+        schedule: filteredSchedule
+      }),
+    });
+
+    if (!res.ok) {
+      const data = await res.json();
+      errorMessage.value = data.error || "Failed to update staff member";
+      return;
+    }
+    router.push("/admin/staff");
+  } catch (err) {
+    errorMessage.value = "Failed to update staff member";
   }
-  router.push("/admin/staff");
 }
 </script>
 

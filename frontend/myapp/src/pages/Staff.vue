@@ -16,6 +16,11 @@ const error = ref("");
 onMounted(async () => {
   try {
     const res = await fetch("/api/staff");
+    if (!res.ok) {
+      const data = await res.json();
+      error.value = data.error || "Failed to load staff";
+      return;
+    }
     staff.value = await res.json();
   } catch (e) {
     error.value = "Failed to load staff";
