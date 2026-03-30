@@ -21,8 +21,8 @@ export async function addService(name, price, duration) {
   if (!name) {
     throw new Error("Please enter a service name");
   }
-  if (!price || isNaN(price) || price <= 0) {
-    throw new Error("Please enter a valid positive price");
+  if (price === undefined || price === null || price === "" || isNaN(price) || price < 0) {
+    throw new Error("Please enter a valid price (0 or above)");
   }
   if (!duration || isNaN(duration) || duration <= 0) {
     throw new Error("Please enter a valid positive duration");
@@ -34,8 +34,8 @@ export async function editService(serviceId, name, price, duration, isActive) {
   if (!name) {
     throw new Error("Please enter a service name");
   }
-  if (!price || isNaN(price) || price <= 0) {
-    throw new Error("Please enter a valid positive price");
+  if (price === undefined || price === null || price === "" || isNaN(price) || price < 0) {
+    throw new Error("Please enter a valid price (0 or above)");
   }
   if (!duration || isNaN(duration) || duration <= 0) {
     throw new Error("Please enter a valid positive duration");
