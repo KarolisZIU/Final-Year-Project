@@ -41,11 +41,12 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 // Serve Vue frontend
-app.use(express.static(path.join(__dirname, "frontend/myapp/dist")));
+const frontendDist = path.join(__dirname, "../frontend/myapp/dist");
+app.use(express.static(frontendDist));
 
-// Handle SPA routing — send index.html for all non-API routes
+// SPA fallback
 app.get(/^\/(?!api).*/, (req, res) => {
-  res.sendFile(path.join(__dirname, "../frontend/myapp/dist/index.html"));
+  res.sendFile(path.join(frontendDist, "index.html"));
 });
 
 // Start server
