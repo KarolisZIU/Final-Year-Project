@@ -45,7 +45,7 @@ app.use(express.static(path.join(__dirname, "frontend/myapp/dist")));
 
 // Handle SPA routing — send index.html for all non-API routes
 app.get(/^\/(?!api).*/, (req, res) => {
-  res.sendFile(path.join(__dirname, "frontend/myapp/dist/index.html"));
+  res.sendFile(path.join(__dirname, "../frontend/myapp/dist/index.html"));
 });
 
 // Start server
