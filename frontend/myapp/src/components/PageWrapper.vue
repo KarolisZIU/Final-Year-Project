@@ -9,7 +9,7 @@ defineProps({
 <template>
   <div :class="['min-h-screen', centered ? 'flex items-center justify-center' : '']">
     <div :class="[maxWidth, 'mx-auto px-6 py-10 w-full']">
-      <h1 class="text-5xl font-bold text-center text-black mb-6">{{ title }}</h1>
+      <h1 class="text-5xl font-bold text-center text-black mb-10">{{ title }}</h1>
       <slot />
     </div>
   </div>
