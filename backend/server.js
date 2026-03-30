@@ -25,7 +25,7 @@ app.use("/api/auth", authRoutes);
 // Health check
 app.get("/api/health", (req, res) => res.json({ ok: true, message: "Backend is running" }));
 
-// Postgres DB test on startup (optional)
+// Postgres DB test on startup (optional)/
 async function testDB() {
   try {
     const res = await pool.query("SELECT NOW()");
