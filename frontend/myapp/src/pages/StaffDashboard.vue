@@ -46,8 +46,29 @@ function prevDay() {
   currentDate.value = d.toLocaleDateString("en-CA");
 }
 
+async function cancelBooking(bookingId) {
+  try {
+    const res = await fetch(`/api/booking/${bookingId}/cancel`, {
+      method: "PATCH",
+      headers: authHeaders(),
+    });
+    if (!res.ok) {
+      const data = await res.json();
+      error.value = data.error || "Failed to cancel booking";
+      return;
+    }
+    results.value = results.value.filter(b => b.booking_id !== bookingId);
+  } catch (err) {
+    error.value = "Failed to cancel booking";
+  }
+}
+
+
 onMounted(() => fetchBookings(currentDate.value));
 watch(currentDate, (newDate) => fetchBookings(newDate));
+
+
+
 </script>
 
 <template>
@@ -70,6 +91,7 @@ watch(currentDate, (newDate) => fetchBookings(newDate));
       <p>Service: {{ result.service_name }}</p>
       <p>Duration: {{ result.service_duration }}</p>
       <p>Start Time: {{ formatTime(result.booking_start_time) }}</p>
+      <AppButton variant="danger" class="mt-3" @click="cancelBooking(result.booking_id)">Cancel</AppButton>
     </div>
     <div v-if="!results.length" class="text-slate-500 text-center mt-6">No bookings for this day.</div>
 

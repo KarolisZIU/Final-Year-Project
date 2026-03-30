@@ -45,7 +45,7 @@ export async function cancelBooking(bookingId) {
 
 export async function getBookingsForStaffForDay(staffId, date) {
   return pool.query(
-    `SELECT b.booking_start_time, s.service_name, s.service_duration, c.customer_name
+    `SELECT b.booking_id, b.booking_start_time, s.service_name, s.service_duration, c.customer_name
     FROM bookings b 
     JOIN services s ON b.service_id= s.service_id
     JOIN customers c ON b.customer_id = c.customer_id
