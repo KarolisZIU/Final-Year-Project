@@ -20,6 +20,7 @@ function goBack() {
 
 async function addService() {
   errorMessage.value = "";
+  try {
   const res = await fetch("/api/admin/services", {
     method: "POST",
     headers: authHeaders(),
@@ -37,7 +38,10 @@ async function addService() {
   }
 
   router.push("/admin/services");
-}
+} catch (e) {
+  errorMessage.value = "Failed to add service";
+}}
+
 </script>
 
 <template>

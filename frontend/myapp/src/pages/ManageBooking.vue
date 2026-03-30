@@ -18,8 +18,13 @@ async function fetchBookings() {
         return;
     }
     try {
-        const response = await fetch(`/api/booking/customer-bookings?email=${email.value}`);
-        bookings.value = await response.json();
+        const res = await fetch(`/api/booking/customer-bookings?email=${email.value}`);
+        if (!res.ok) {
+            const data = await res.json();
+            error.value = data.error || "Failed to load bookings";
+            return;
+        }
+        bookings.value = await res.json();
         searched.value = true;
     } catch (err) {
         error.value = "Failed to load bookings";
@@ -28,11 +33,13 @@ async function fetchBookings() {
 
 async function cancelBooking(bookingId) {
     try {
-        const response = await fetch(`/api/booking/${bookingId}/cancel`, {
+        const res = await fetch(`/api/booking/${bookingId}/cancel`, {
             method: "PATCH",
         });
-        if (!response.ok) {
-            throw new Error("Failed to cancel booking");
+        if (!res.ok) {
+            const data = await res.json();
+            error.value = data.error || "Failed to cancel booking";
+            return;
         }
         // Remove the canceled booking from the list
         bookings.value = bookings.value.filter(booking => booking.booking_id !== bookingId);

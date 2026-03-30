@@ -35,6 +35,7 @@ function goBack() {
 
 async function addStaff() {
   errorMessage.value = "";
+  try{
   const res = await fetch("/api/admin/staff", {
     method: "POST",
     headers: authHeaders(),
@@ -72,6 +73,9 @@ async function addStaff() {
     }
   }
   router.push("/admin/staff");
+  } catch (err) {
+    errorMessage.value = "Failed to add staff member";
+  }
 }
 </script>
 

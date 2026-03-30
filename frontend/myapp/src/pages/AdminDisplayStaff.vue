@@ -19,7 +19,9 @@ async function loadStaff(){
   try {
     const res = await fetch("/api/admin/staff", { headers: authHeaders() });
     if (!res.ok) {
-      throw new Error("Failed to fetch staff");
+      const data = await res.json();
+      errorMessage.value = data.error || "Failed to load staff";
+      return;
     }
     staff.value = await res.json();
   }

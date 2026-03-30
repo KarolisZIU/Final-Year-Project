@@ -14,8 +14,13 @@ function bookService(service) {
 }
 onMounted(async () => {
   try {
-    const response = await fetch("/api/services");
-    services.value = await response.json();
+    const res = await fetch("/api/services");
+    if (!res.ok) {
+      const data = await res.json();
+      error.value = data.error || "Failed to load services";
+      return;
+    }
+    services.value = await res.json();
   } catch (err) {
     error.value = "Failed to load services";
   }
