@@ -18,5 +18,9 @@ export const pool = new pkg.Pool({
 
 
 // test
-const res = await pool.query('SELECT NOW()');
-console.log(res.rows);
+try {
+  const res = await pool.query('SELECT NOW()');
+  console.log('✅ DB connection successful:', res.rows);
+} catch (err) {
+  console.error('❌ DB connection failed:', err);
+}
