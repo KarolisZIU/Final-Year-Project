@@ -9,6 +9,7 @@ import { onMounted, ref, watch } from "vue";
 const router = useRouter();
 const error = ref("");
 const results = ref([]);
+const selectedDate = ref(new Date());
 const currentDate = ref(new Date().toLocaleDateString("en-CA"));
 
 function logout() {
@@ -34,18 +35,6 @@ async function fetchBookings(date) {
   }
 }
 
-function nextDay() {
-  const d = new Date(currentDate.value);
-  d.setDate(d.getDate() + 1);
-  currentDate.value = d.toLocaleDateString("en-CA");
-}
-
-function prevDay() {
-  const d = new Date(currentDate.value);
-  d.setDate(d.getDate() - 1);
-  currentDate.value = d.toLocaleDateString("en-CA");
-}
-
 async function cancelBooking(bookingId) {
   try {
     const res = await fetch(`/api/booking/${bookingId}/cancel`, {
@@ -63,37 +52,76 @@ async function cancelBooking(bookingId) {
   }
 }
 
+function nextDay() {
+  const d = new Date(selectedDate.value);
+  d.setDate(d.getDate() + 1);
+  selectedDate.value = d;
+}
+
+function prevDay() {
+  const d = new Date(selectedDate.value);
+  d.setDate(d.getDate() - 1);
+  selectedDate.value = d;
+}
+
+function markAsCompleted(bookingId) {
+  fetch(`/api/booking/${bookingId}/complete`, {
+    method: "PATCH",
+    headers: authHeaders(),
+  }).then(res => {
+    if (res.ok) {
+      results.value = results.value.filter(b => b.booking_id !== bookingId);
+    } else {
+      res.json().then(data => {
+        error.value = data.error || "Failed to mark booking as completed";
+      });
+    }
+  }).catch(() => {
+    error.value = "Failed to mark booking as completed";
+  });
+}
 
 onMounted(() => fetchBookings(currentDate.value));
-watch(currentDate, (newDate) => fetchBookings(newDate));
-
-
-
+watch(selectedDate, (val) => {
+  if (!val) return;
+  currentDate.value = val.toLocaleDateString("en-CA");
+  fetchBookings(currentDate.value);
+});
 </script>
 
 <template>
-  <PageWrapper title="Your Upcoming Bookings" max-width="max-w-2xl">
+  <PageWrapper title="Your Upcoming Bookings" max-width="max-w-4xl">
     <ErrorMessage :message="error" />
 
-    <div class="flex items-center justify-between mb-6">
-      <AppButton variant="secondary" @click="prevDay">Previous Day</AppButton>
-      <p class="font-medium text-slate-700">{{ currentDate }}</p>
-      <AppButton variant="secondary" @click="nextDay">Next Day</AppButton>
-    </div>
+    <div class="flex gap-10">
+      <div class="shrink-0">
+        <VDatePicker v-model="selectedDate" />
+      </div>
 
-    <div
-      v-if="results.length"
-      v-for="result in results"
-      :key="result.booking_id"
-      class="bg-white rounded-xl border text-bold border-slate-200 shadow-sm p-5 mb-4"
-    >
-      <p><span class="font-bold">Customer Name:</span> {{ result.customer_name }}</p>
-      <p><span class="font-bold">Service:</span> {{ result.service_name }}</p>
-      <p><span class="font-bold">Duration:</span> {{ result.service_duration }}</p>
-      <p><span class="font-bold">Start Time:</span> {{ formatTime(result.booking_start_time) }}</p>
-      <AppButton variant="danger" class="mt-3" @click="cancelBooking(result.booking_id)">Cancel</AppButton>
+      <div class="flex-1">
+        <div class="flex items-center justify-between mb-4">
+          <AppButton variant="secondary" @click="prevDay">Previous Day</AppButton>
+          <p class="font-medium text-slate-700">{{ currentDate }}</p>
+          <AppButton variant="secondary" @click="nextDay">Next Day</AppButton>
+        </div>
+
+        <div
+          v-if="results.length"
+          v-for="result in results"
+          :key="result.booking_id"
+          class="bg-white rounded-xl border text-bold border-slate-200 shadow-sm p-5 mb-4"
+        >
+          <p><span class="font-bold">Customer Name:</span> {{ result.customer_name }}</p>
+          <p><span class="font-bold">Service:</span> {{ result.service_name }}</p>
+          <p><span class="font-bold">Duration:</span> {{ result.service_duration }}</p>
+          <p><span class="font-bold">Start Time:</span> {{ formatTime(result.booking_start_time) }}</p>
+          <AppButton variant="danger" class="mt-3" @click="cancelBooking(result.booking_id)">Cancel</AppButton>
+          <AppButton variant="success" class="mt-3 ml-2" @click="markAsCompleted(result.booking_id)">Mark as completed</AppButton>
+        </div>
+
+        <div v-if="!results.length" class="text-slate-500 text-center mt-6">No bookings for this day.</div>
+      </div>
     </div>
-    <div v-if="!results.length" class="text-slate-500 text-center mt-6">No bookings for this day.</div>
 
     <div class="absolute top-4 right-4">
       <AppButton variant="danger" @click="logout">Sign Out</AppButton>

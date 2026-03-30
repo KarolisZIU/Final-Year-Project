@@ -54,3 +54,10 @@ export async function getBookingsForStaffForDay(staffId, date) {
     [staffId, date]
   );
 }
+
+export async function completeBooking(bookingId) {
+  return pool.query(
+    `UPDATE bookings SET booking_status = 'completed' WHERE booking_id = $1`,
+    [bookingId]
+  );
+}
