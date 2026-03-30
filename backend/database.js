@@ -18,9 +18,13 @@ export const pool = new pkg.Pool({
 
 
 // test
-try {
-  const res = await pool.query('SELECT NOW()');
-  console.log('✅ DB connection successful:', res.rows);
-} catch (err) {
-  console.error('❌ DB connection failed:', err);
+async function testDB() {
+  try {
+    const res = await pool.query('SELECT NOW()');
+    console.log('✅ DB connection successful:', res.rows);
+  } catch (err) {
+    console.error('❌ DB connection failed:', err);
+  }
 }
+
+testDB(); // run the test when app starts
