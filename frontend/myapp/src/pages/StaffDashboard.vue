@@ -85,12 +85,12 @@ watch(currentDate, (newDate) => fetchBookings(newDate));
       v-if="results.length"
       v-for="result in results"
       :key="result.booking_id"
-      class="bg-white rounded-xl border border-slate-200 shadow-sm p-5 mb-4"
+      class="bg-white rounded-xl border text-bold border-slate-200 shadow-sm p-5 mb-4"
     >
-      <p>Customer Name: {{ result.customer_name }}</p>
-      <p>Service: {{ result.service_name }}</p>
-      <p>Duration: {{ result.service_duration }}</p>
-      <p>Start Time: {{ formatTime(result.booking_start_time) }}</p>
+      <p><span class="font-bold">Customer Name:</span> {{ result.customer_name }}</p>
+      <p><span class="font-bold">Service:</span> {{ result.service_name }}</p>
+      <p><span class="font-bold">Duration:</span> {{ result.service_duration }}</p>
+      <p><span class="font-bold">Start Time:</span> {{ formatTime(result.booking_start_time) }}</p>
       <AppButton variant="danger" class="mt-3" @click="cancelBooking(result.booking_id)">Cancel</AppButton>
     </div>
     <div v-if="!results.length" class="text-slate-500 text-center mt-6">No bookings for this day.</div>
