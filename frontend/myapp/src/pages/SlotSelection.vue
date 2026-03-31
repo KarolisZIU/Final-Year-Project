@@ -29,7 +29,7 @@ function nextStep(){
         formError.value = "Please enter your name and email";
         return;
     }
-    else if (!email.value.includes("@")) {
+    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value)) {
         formError.value = "Please enter a valid email address";
         return;
     }

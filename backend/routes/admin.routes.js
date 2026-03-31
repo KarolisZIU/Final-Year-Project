@@ -1,5 +1,6 @@
 import { Router } from "express";
 import * as adminController from "../controllers/admin.controller.js";
+import * as bookingController from "../controllers/booking.controller.js";
 import * as authMiddleware from "../middleware/auth.middleware.js";
 
 const router = Router();
@@ -16,4 +17,5 @@ router.delete("/staff/:id", ...isAdmin, adminController.deleteStaff);
 router.post("/staff", ...isAdmin, adminController.addStaff);
 router.post("/staff/:id/schedule", ...isAdmin, adminController.addSchedule);
 router.put("/staff/:id", ...isAdmin, adminController.updateStaff);
+router.get("/all-bookings", ...isAdmin, bookingController.getAllBookingsForDay);
 export default router;

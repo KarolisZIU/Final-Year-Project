@@ -80,3 +80,28 @@ export async function getBookingsForStaffForDay(req, res) {
     res.status(400).json({ error: err.message });
   }
 }
+
+export async function getAllBookingsForDay(req, res) {
+  try {
+    const date = req.query.date;
+    const bookings = await bookingService.getAllBookingsForDay(date);
+    res.json(bookings);
+  } catch (err) {
+    console.error(err);
+    res.status(400).json({ error: err.message });
+  }
+}
+
+export async function completeBooking(req, res) {
+  try {
+    const { bookingId } = req.params;
+    if (!bookingId) {
+      return res.status(400).json({ error: "Booking ID is required" });
+    }
+    await bookingService.completeBooking(bookingId);
+    res.json({ message: "Booking marked as completed" });
+  } catch (err) {
+    console.error(err);
+    res.status(400).json({ error: err.message });
+  }
+}

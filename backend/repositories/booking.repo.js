@@ -54,3 +54,23 @@ export async function getBookingsForStaffForDay(staffId, date) {
     [staffId, date]
   );
 }
+
+export async function getAllBookingsForDay(date) {
+  return pool.query(
+    `SELECT b.booking_id, b.booking_start_time, s.service_name, s.service_duration, c.customer_name, st.staff_name
+     FROM bookings b
+     JOIN services s ON b.service_id = s.service_id
+     JOIN customers c ON b.customer_id = c.customer_id
+     JOIN staff st ON b.staff_id = st.staff_id
+     WHERE DATE(b.booking_start_time) = $1 AND b.booking_status = 'pending'
+     ORDER BY b.booking_start_time`,
+    [date]
+  );
+}
+
+export async function completeBooking(bookingId) {
+  return pool.query(
+    `UPDATE bookings SET booking_status = 'completed' WHERE booking_id = $1`,
+    [bookingId]
+  );
+}
