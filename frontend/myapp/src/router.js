@@ -12,7 +12,7 @@ import EditStaff from "./pages/EditStaff.vue";
 import StaffDashboard from "./pages/StaffDashboard.vue";
 import SlotSelection from "./pages/SlotSelection.vue";
 import BookingSummary from "./pages/BookingSummary.vue";
-import { isLoggedIn, getRole } from "./auth.js";
+import { isLoggedIn, getRole, clearAuth } from "./auth.js";
 import ManageBooking from "./pages/ManageBooking.vue";
 
 const router = createRouter({
@@ -38,7 +38,7 @@ const router = createRouter({
 
 router.beforeEach((to) => {
   if (!to.meta.requiresAuth) return true;
-  if (!isLoggedIn()) return "/login";
+  if (!isLoggedIn()) { clearAuth(); return "/login"; }
   if (to.meta.role && getRole() !== to.meta.role) return "/login";
   return true;
 });
