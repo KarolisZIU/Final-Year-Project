@@ -8,7 +8,7 @@ import AdminDisplayStaff from "./pages/AdminDisplayStaff.vue";
 import AddService from "./pages/AddService.vue";
 import Login from "./pages/Login.vue";
 import AddStaff from "./pages/AddStaff.vue";
-import EditStaff from "./pages/EditStaff.vue";
+import EditStaff from "./pages/editStaff.vue";
 import StaffDashboard from "./pages/StaffDashboard.vue";
 import SlotSelection from "./pages/SlotSelection.vue";
 import BookingSummary from "./pages/BookingSummary.vue";
