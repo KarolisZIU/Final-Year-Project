@@ -52,7 +52,7 @@ export async function createBooking(serviceId, staffId, customerName, customerEm
   const schedule = scheduleResult.rows[0];
   if (!schedule) throw new Error("Staff is not working on this day");
 
-  const slotStart = new Date(`${date}T${slotTime}`);
+  const slotStart = new Date(slotTime);
   const workStart = new Date(`${date}T${schedule.start_time}`);
   const workEnd = new Date(`${date}T${schedule.end_time}`);
   if (slotStart < workStart || slotStart >= workEnd) {

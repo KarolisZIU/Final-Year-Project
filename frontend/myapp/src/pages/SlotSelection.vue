@@ -33,7 +33,7 @@ function nextStep(){
         formError.value = "Please enter a valid email address";
         return;
     }
-    router.push(`/book/${serviceId.value}/${staffId.value}/summary?date=${formattedDate.value}&time=${formatTime(selectedSlot.value)}&name=${name.value}&email=${email.value}`);
+    router.push(`/book/${serviceId.value}/${staffId.value}/summary?date=${formattedDate.value}&time=${encodeURIComponent(selectedSlot.value)}&name=${name.value}&email=${email.value}`);
 
     }
 async function fetchSlots(){

@@ -20,6 +20,10 @@ const service = ref(null)
 const confirmed = ref(false)
 const error = ref("")
 
+function formatTime(isoString) {
+  return new Date(isoString).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false });
+}
+
 onMounted(async () => {
     try {
         const [staffRes, serviceRes] = await Promise.all([
@@ -80,7 +84,7 @@ async function confirmBooking() {
             <p v-if="service"><span class="font-medium">Duration:</span> {{ service.service_duration }} mins</p>
             <p v-if="staff"><span class="font-medium">Staff:</span> {{ staff.staff_name }}</p>
             <p><span class="font-medium">Date:</span> {{ date }}</p>
-            <p><span class="font-medium">Time:</span> {{ time }}</p>
+            <p><span class="font-medium">Time:</span> {{ formatTime(time) }}</p>
             <p><span class="font-medium">Name:</span> {{ name }}</p>
             <p><span class="font-medium">Email:</span> {{ email }}</p>
         </div>
