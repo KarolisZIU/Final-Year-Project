@@ -113,3 +113,7 @@ export async function getAllBookingsForDay(date = new Date().toLocaleDateString(
   const result = await bookingRepo.getAllBookingsForDay(date);
   return result.rows;
 }
+
+export async function completeBooking(bookingId) {
+  await bookingRepo.completeBooking(bookingId);
+}
