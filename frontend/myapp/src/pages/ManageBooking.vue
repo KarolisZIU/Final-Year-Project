@@ -54,8 +54,8 @@ async function cancelBooking(bookingId) {
         <ErrorMessage :message="error" />
 
         <div class="flex gap-3 items-end mb-6">
-            <FormField id="email" label="Email" v-model="email" type="email" />
-            <AppButton @click="fetchBookings">Find Bookings</AppButton>
+            <FormField id="email" label="Email" v-model="email" type="email" class="flex-1" />
+            <AppButton @click="fetchBookings">Find Booking</AppButton>
         </div>
 
         <div class="flex flex-col gap-4">
@@ -66,8 +66,7 @@ async function cancelBooking(bookingId) {
             >
                 <div>
                     <p class="font-semibold text-slate-800 text-lg">{{ booking.service_name }}</p>
-                    <p class="text-slate-500 text-sm mt-1">With {{ booking.staff_name }} &middot; {{ new Date(booking.booking_start_time).toLocaleString() }}</p>
-                </div>
+                    <p class="text-slate-500 text-sm mt-1">With {{ booking.staff_name }} &middot; {{ new Date(booking.booking_start_time).toLocaleString("en-CA", {year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hour12: false}) }}</p>                </div>
                 <AppButton variant="danger" @click="cancelBooking(booking.booking_id)">Cancel</AppButton>
             </div>
         </div>
