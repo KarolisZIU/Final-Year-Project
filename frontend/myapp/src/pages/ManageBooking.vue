@@ -68,7 +68,7 @@ async function cancelBooking(bookingId) {
                     <p class="font-semibold text-slate-800 text-lg">{{ booking.service_name }}</p>
                     <p class="text-slate-500 text-sm mt-1">With {{ booking.staff_name }} &middot; {{ new Date(booking.booking_start_time).toLocaleString() }}</p>
                 </div>
-                <AppButton variant="secondary" @click="cancelBooking(booking.booking_id)">Cancel</AppButton>
+                <AppButton variant="danger" @click="cancelBooking(booking.booking_id)">Cancel</AppButton>
             </div>
         </div>
 
