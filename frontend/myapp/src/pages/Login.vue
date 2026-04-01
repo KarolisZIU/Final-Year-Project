@@ -38,7 +38,7 @@ async function login() {
 
 <template>
   <div class="min-h-screen flex items-center justify-center">
-    <div class="bg-[#C94C4C] rounded-xl border border-black shadow-sm p-8 w-full max-w-sm mx-4">
+    <div class="bg-white text-start rounded-xl px-8 py-8 shadow-lg w-full max-w-sm">
       <h1 class="text-2xl font-bold text-center text-black mb-6">Sign In</h1>
 
       <form class="flex flex-col gap-4" @submit.prevent="login">

@@ -12,12 +12,12 @@ defineProps({
   <button
     type="button"
     :class="{
-      'bg-[#3D5A40] border-1 border-solid border-black hover:bg-[#5A7A63] text-black': variant === 'primary',
-      'bg-[#4A90A4] border-1 border-solid border-black hover:bg-slate-400  text-black': variant === 'secondary',
-      'bg-red-400 border-1 border-solid border-black hover:bg-red-600 text-black': variant === 'danger',
-      'bg-green-300 border-1 border-solid border-black hover:bg-green-500 text-black': variant === 'success',
+      'bg-blue-500 hover:bg-blue-700 text-white ': variant === 'primary',
+      'bg-white border-1 border-slate-300 hover:bg-slate-200 text-black': variant === 'secondary',
+      'bg-red-500 border-1 border-red-500 hover:bg-red-700 text-white': variant === 'danger',
+      'bg-green-600  border-1 border-green-600 hover:bg-green-700 text-white': variant === 'success',
     }"
-    class="font-semibold px-5 py-2 rounded-lg transition text-sm"
+    class="font-semibold px-5 py-2 rounded-lg transition text-sm cursor-pointer shadow-md"
   >
     <slot />
   </button>

@@ -9,8 +9,8 @@ const router = useRouter();
     <div class="absolute top-4 right-4">
       <AppButton variant="secondary" @click="router.push('/admin')">Admin / Staff Login</AppButton>
     </div>
-    <div class="bg-white text-start rounded-xl px-8 py-12 shadow-lg w-full max-w-3xl">
-      <h1 class="text-7xl font-bold text-black text-center mb-4">Welcome</h1>
+    <div class="bg-white text-start rounded-xl px-8 py-8 shadow-lg w-full max-w-3xl">
+      <h1 class="text-7xl font-bold text-black text-center mb-10 mt-10">Welcome</h1>
       <p class="text-slate-500 text-2xl mb-10 text-center">Book your appointment with us!</p>
       <div class="flex gap-6 justify-center p-10">
         <AppButton class="text-xl px-10 py-4" @click="router.push('/book/services')">Book Now</AppButton>

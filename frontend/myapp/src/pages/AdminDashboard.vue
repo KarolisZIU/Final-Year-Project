@@ -105,14 +105,14 @@ watch(selectedDate, (val) => {
         <div class="flex flex-col gap-3 mt-4">
           <button
             @click="router.push('/admin/services')"
-            class="bg-white hover:bg-slate-300 border border-slate-300 rounded-xl p-4 text-left shadow-sm transition"
+            class="bg-white hover:bg-slate-300 border border-slate-300 rounded-xl p-4 text-left shadow-sm transition cursor-pointer"
           >
-            <p class="text-lg font-semibold text-slate-800">Services</p>
+            <p class="text-lg font-semibold text-slate-800 ">Services</p>
             <p class="text-slate-500 text-sm mt-1">Add, edit or remove services</p>
           </button>
           <button
             @click="router.push('/admin/staff')"
-            class="bg-white hover:bg-slate-300 border border-slate-300 rounded-xl p-4 text-left shadow-sm transition"
+            class="bg-white hover:bg-slate-300 border border-slate-300 rounded-xl p-4 text-left shadow-sm transition cursor-pointer"
           >
             <p class="text-lg font-semibold text-slate-800">Staff</p>
             <p class="text-slate-500 text-sm mt-1">View and manage staff members</p>
@@ -125,7 +125,7 @@ watch(selectedDate, (val) => {
           v-model="filterStaff"
           type="text"
           placeholder="Filter by staff name..."
-          class="w-full border-1 border-solid border-black rounded-lg px-3 py-2 text-sm mb-4"
+          class="w-full border focus:outline-none focus:ring-1 focus:ring-slate-300 bg-white border-slate-300 placeholder:text-black rounded-lg px-3 py-2 text-sm mb-5"
         />
 
         <div class="flex items-center justify-between mb-4">
@@ -149,7 +149,7 @@ watch(selectedDate, (val) => {
           <AppButton variant="success" class="mt-3 ml-2" @click="markAsCompleted(result.booking_id)">Mark as completed</AppButton>
         </div>
 
-        <div v-if="!filtered.length" class="text-slate-500 text-center mt-6">No bookings for this day.</div>
+        <div v-if="!filtered.length" class="text-black text-center mt-6">No bookings for this day.</div>
       </div>
     </div>
 
