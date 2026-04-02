@@ -9,6 +9,10 @@ export async function getAllStaff() {
   );
 }
 
+export async function getStaffById(staffId) {
+  return pool.query(`SELECT staff_name FROM staff WHERE staff_id = $1`, [staffId]);
+}
+
 export async function getScheduleForDay(staffId, date) {
   const dayOfWeek = new Date(date + "T00:00:00").getDay();
   return pool.query(

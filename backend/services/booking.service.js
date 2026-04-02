@@ -2,6 +2,35 @@ import * as staffRepo from "../repositories/staff.repo.js";
 import * as bookingRepo from "../repositories/booking.repo.js";
 import * as customerRepo from "../repositories/customer.repo.js";
 import * as servicesRepo from "../repositories/services.repo.js";
+import nodemailer from "nodemailer";
+
+const transporter = nodemailer.createTransport({
+  service: "gmail",
+  auth: {
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS,
+  },
+});
+
+async function sendConfirmationEmail(customerEmail, customerName, serviceName, staffName, slotStart, slotEnd) {
+  const start = new Date(slotStart).toLocaleString("en-IE", { dateStyle: "full", timeStyle: "short" });
+  await transporter.sendMail({
+    from: process.env.EMAIL_USER,
+    to: customerEmail,
+    subject: "Booking Confirmation",
+    html: `
+      <h2>Booking Confirmed!</h2>
+      <p>Hi ${customerName},</p>
+      <p>Your booking has been confirmed. Here are your details:</p>
+      <ul>
+        <li><strong>Service:</strong> ${serviceName}</li>
+        <li><strong>Staff:</strong> ${staffName}</li>
+        <li><strong>Date & Time:</strong> ${start}</li>
+      </ul>
+      <p>To cancel your booking, visit the Manage Bookings page and enter your email address.</p>
+    `,
+  });
+}
 
 function generateSlots(startTime, endTime, date) {
   const slots = [];
@@ -89,6 +118,10 @@ export async function createBooking(serviceId, staffId, customerName, customerEm
     slotStart,
     slotEnd
   );
+
+  const staffResult = await staffRepo.getStaffById(staffId);
+  const staffName = staffResult.rows[0]?.staff_name || "your staff member";
+  await sendConfirmationEmail(customerEmail, customerName, service.service_name, staffName, slotStart, slotEnd);
 
   return booking.rows[0];
 }
