@@ -29,10 +29,6 @@ const dayMap = {
   Thursday: 4, Friday: 5, Saturday: 6, Sunday: 0
 };
 
-function goBack() {
-  router.push("/admin/staff");
-}
-
 async function addStaff() {
   errorMessage.value = "";
   try{
@@ -123,7 +119,7 @@ async function addStaff() {
 
         <div class="flex gap-3 pt-2">
           <AppButton type="submit" class="flex-1">Add Staff</AppButton>
-          <AppButton variant="secondary" @click="goBack" class="flex-1">Back</AppButton>
+          <AppButton variant="secondary" @click="router.back()" class="flex-1">Back</AppButton>
         </div>
       </form>
     </div>

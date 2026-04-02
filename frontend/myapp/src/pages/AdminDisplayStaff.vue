@@ -9,9 +9,6 @@ const staff = ref([]);
 const router = useRouter();
 const errorMessage = ref("");
 
-function goBack() {
-  router.push("/admin");
-}
 function goAddStaff() {
   router.push("/admin/staff/add");
 }
@@ -84,7 +81,7 @@ onMounted(loadStaff)
 
     <div class="flex gap-3 mt-4">
       <AppButton variant="primary" @click="goAddStaff">Add new staff</AppButton>
-      <AppButton variant="secondary" @click="goBack">Back</AppButton>
+      <AppButton variant="secondary" @click="router.back()">Back</AppButton>
     </div>
   </PageWrapper>
 </template>

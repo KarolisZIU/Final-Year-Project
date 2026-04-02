@@ -65,10 +65,6 @@ const dayIndex = staffData.value.schedule.findIndex(d => d.dayOfWeek === dayMapR
   }
 });
 
-function goBack() {
-  router.push("/admin/staff");
-}
-
 async function updateStaff() {
   errorMessage.value = "";
   try {
@@ -151,7 +147,7 @@ async function updateStaff() {
 
         <div class="flex gap-3 pt-2">
           <AppButton @click="updateStaff" class="flex-1">Update</AppButton>
-          <AppButton variant="secondary" @click="goBack" class="flex-1">Back</AppButton>
+          <AppButton variant="secondary" @click="router.back()" class="flex-1">Back</AppButton>
         </div>
       </form>
     </div>

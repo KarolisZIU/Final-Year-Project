@@ -5,6 +5,7 @@ import PageWrapper from "../components/PageWrapper.vue";
 import AppButton from "../components/AppButton.vue";
 import ErrorMessage from '../components/ErrorMessage.vue';
 import FormField from '../components/FormField.vue';
+import NavBar from '../components/NavBar.vue';
 
 const router = useRouter();
 const bookings = ref([]);
@@ -50,12 +51,13 @@ async function cancelBooking(bookingId) {
 </script>
 
 <template>
-    <PageWrapper title="Manage Bookings" max-width="max-w-2xl">
+    <NavBar />
+    <PageWrapper title="Retrieve Your Bookings">
         <ErrorMessage :message="error" />
 
-        <div class="flex gap-3 items-end mb-6">
-            <FormField id="email" label="Email" v-model="email" type="email" class="flex-1" />
-            <AppButton @click="fetchBookings">Find Booking</AppButton>
+        <div class="flex gap-2  items-end justify-center mb-6">
+            <FormField id="email" label="Email" v-model="email" type="email"/>
+            <AppButton variant="secondary"@click="fetchBookings">Find Booking</AppButton>
         </div>
 
         <div class="flex flex-col gap-4">
@@ -72,9 +74,5 @@ async function cancelBooking(bookingId) {
         </div>
 
         <p v-if="bookings.length === 0 && searched" class="text-slate-500 text-center mt-6">No bookings found.</p>
-
-        <div class="flex justify-start mt-4">
-            <AppButton variant="secondary" @click="router.push('/')">Back</AppButton>
-        </div>
     </PageWrapper>
 </template>

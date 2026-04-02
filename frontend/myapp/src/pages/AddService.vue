@@ -14,10 +14,6 @@ const newService = ref({
 });
 const errorMessage = ref("");
 
-function goBack() {
-  router.push("/admin/services");
-}
-
 async function addService() {
   errorMessage.value = "";
   try {
@@ -58,7 +54,7 @@ async function addService() {
 
         <div class="flex gap-3 pt-2">
           <AppButton @click="addService" class="flex-1">Add Service</AppButton>
-          <AppButton variant="secondary" @click="goBack" class="flex-1">Back</AppButton>
+          <AppButton variant="secondary" @click="router.back()" class="flex-1">Back</AppButton>
         </div>
       </form>
     </div>

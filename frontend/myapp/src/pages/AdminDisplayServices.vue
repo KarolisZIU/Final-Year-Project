@@ -11,10 +11,6 @@ const editingId = ref(null);
 const editForm = ref({});
 const error = ref("");
 
-function goBack() {
-  router.push("/admin");
-}
-
 function goToAddService() {
   router.push("/admin/services/add");
 }
@@ -142,7 +138,7 @@ onMounted(loadServices)
 
     <div class="flex gap-3 mt-4">
       <AppButton @click="goToAddService">Add Service</AppButton>
-      <AppButton variant="secondary" @click="goBack">Back</AppButton>
+      <AppButton variant="secondary" @click="router.back()">Back</AppButton>
     </div>
   </PageWrapper>
 </template>

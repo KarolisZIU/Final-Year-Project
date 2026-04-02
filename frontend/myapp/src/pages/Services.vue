@@ -4,6 +4,7 @@ import { useRouter } from "vue-router";
 import PageWrapper from "../components/PageWrapper.vue";
 import AppButton from "../components/AppButton.vue";
 import ErrorMessage from "../components/ErrorMessage.vue";
+import NavBar from "../components/NavBar.vue";
 const router = useRouter();
 
 const services = ref([]);
@@ -28,9 +29,9 @@ onMounted(async () => {
 </script>
 
 <template>
-  <PageWrapper title="Our Services" max-width="max-w-2xl">
+  <NavBar />
+  <PageWrapper title="Our Services" showBack>
     <ErrorMessage :message="error" />
-
     <div class="flex flex-col gap-4">
       <div
         v-for="service in services"
@@ -43,9 +44,6 @@ onMounted(async () => {
         </div>
         <AppButton @click="bookService(service)">Book</AppButton>
       </div>
-    </div>
-    <div class="flex justify-start mt-4">
-    <AppButton variant="secondary" @click="router.push('/')">Back</AppButton>
     </div>
   </PageWrapper>
 </template>

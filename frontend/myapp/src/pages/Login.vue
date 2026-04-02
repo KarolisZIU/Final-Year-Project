@@ -51,7 +51,7 @@ async function login() {
       </form>
     </div>
     <div class="absolute top-4 right-4">
-      <AppButton variant="secondary" @click="router.push('/')">Back to Home Page</AppButton>
+      <AppButton variant="secondary" @click="router.back()">Back to Home Page</AppButton>
     </div>
   </div>
 </template>
