@@ -5,6 +5,7 @@ import PageWrapper from "../components/PageWrapper.vue";
 import AppButton from "../components/AppButton.vue";
 import FormField from "../components/FormField.vue";
 import ErrorMessage from "../components/ErrorMessage.vue";
+import NavBar from "../components/NavBar.vue";
 
 const route = useRoute();
 const router = useRouter();
@@ -59,7 +60,14 @@ watch(selectedDate, (val) => {
 </script>
 
 <template>
-    <PageWrapper title="Select Date" max-width="max-w-2xl">
+    <NavBar />
+    
+    <PageWrapper title="Select Date" showBack max-width="max-w-2xl">
+        <button @click="router.back()">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="black" class="size-7 cursor-pointer hover:bg-black/10 rounded-full mb-2">
+  <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
+</svg>
+    </button>
     <div class = "flex gap-6 bg-white rounded-xl">
         <div>
             <VDatePicker v-model="selectedDate" :min-date="new Date()" />
@@ -82,7 +90,7 @@ watch(selectedDate, (val) => {
     <FormField id="email" label="Your Email" type="email" v-model="email" />
 </div>
 <div class="flex gap-3 mt-4">
-    <AppButton variant="secondary" @click="router.push(`/book/${serviceId}/staff`)">Back</AppButton>
+
     <AppButton v-if="selectedSlot" @click="nextStep">Next</AppButton>
 </div>
 </PageWrapper>
