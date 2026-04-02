@@ -36,6 +36,7 @@ function selectStaff(member) {
 <template>
   <NavBar />
   <PageWrapper title="Select a Staff Member">
+    <ErrorMessage :message="error" />
         <button @click="router.back()">
       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="black" class="size-7 cursor-pointer hover:bg-black/10 rounded-full mb-2">
   <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
@@ -51,7 +52,7 @@ function selectStaff(member) {
         <div>
           <p class="font-semibold text-black text-lg">{{ m.staff_name }}</p>
         </div>
-        <AppButton size="md" @click="selectStaff(m)">Select</AppButton>
+        <AppButton @click="selectStaff(m)">Select</AppButton>
       </div>
     </div>
   </PageWrapper>

@@ -5,6 +5,7 @@ import { saveAuth } from "../auth.js";
 import FormField from "../components/FormField.vue";
 import AppButton from "../components/AppButton.vue";
 import ErrorMessage from "../components/ErrorMessage.vue";
+import NavBar from "../components/NavBar.vue";
 
 const router = useRouter();
 const username = ref("");
@@ -37,6 +38,7 @@ async function login() {
 </script>
 
 <template>
+  <NavBar />
   <div class="min-h-screen flex items-center justify-center">
     <div class="bg-white text-start rounded-xl px-8 py-8 shadow-lg w-full max-w-sm">
       <h1 class="text-2xl font-bold text-center text-black mb-6">Sign In</h1>
@@ -49,9 +51,6 @@ async function login() {
 
         <AppButton class="w-full mt-2" type="submit">Sign In</AppButton>
       </form>
-    </div>
-    <div class="absolute top-4 right-4">
-      <AppButton variant="secondary" @click="router.back()">Back to Home Page</AppButton>
     </div>
   </div>
 </template>

@@ -61,37 +61,37 @@ watch(selectedDate, (val) => {
 
 <template>
     <NavBar />
-    
-    <PageWrapper title="Select Date" showBack max-width="max-w-2xl">
+    <PageWrapper title="Select Time For Your Booking">
+        <ErrorMessage :message="error" />
         <button @click="router.back()">
       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="black" class="size-7 cursor-pointer hover:bg-black/10 rounded-full mb-2">
   <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
 </svg>
+
     </button>
-    <div class = "flex gap-6 bg-white rounded-xl">
+    <div class = "flex gap-23 bg-white rounded-xl">
         <div>
             <VDatePicker v-model="selectedDate" :min-date="new Date()" />
         </div>
-        <div class="flex flex-col items-center justify-center">
+        <div class="flex flex-col items-start justify-center">
             <ErrorMessage :message="slotError"/>
-  <div v-if="availableSlots.length" class="flex flex-wrap gap-2 max-h-64 overflow-y-auto">
-    <div v-for="slots in availableSlots" :key="slots">
-    <AppButton :variant="selectedSlot === slots ? 'primary' : 'secondary'" @click="selectedSlot = slots">{{ formatTime(slots) }}</AppButton>
-    </div>
+  <div v-if="availableSlots.length" class="grid grid-cols-5 gap-2 max-h-64 overflow-y-auto pb-2">
+    <AppButton v-for="slots in availableSlots" :key="slots" class="w-full" size="sm" :variant="selectedSlot === slots ? 'primary' : 'secondary'" @click="selectedSlot = slots">{{ formatTime(slots) }}</AppButton>
   </div>
   <div v-else-if = "selectedDate">
     <p class="text-gray-500 text-xl ">No available slots for selected date</p>
   </div> 
     </div>
 </div>
-<div v-if="selectedSlot" class="mt-4">
+<div v-if="selectedSlot" class="mt-10">
+    <h2 class="text-2xl text-center font-semibold mb-4">Enter Your Details</h2>
 <ErrorMessage :message="formError"/>
     <FormField id="name" label="Your Name" v-model="name" />
     <FormField id="email" label="Your Email" type="email" v-model="email" />
 </div>
 <div class="flex gap-3 mt-4">
 
-    <AppButton v-if="selectedSlot" @click="nextStep">Next</AppButton>
+    <AppButton v-if="selectedSlot" variant="primary" @click="nextStep">Next</AppButton>
 </div>
 </PageWrapper>
 </template>

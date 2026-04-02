@@ -7,9 +7,9 @@ defineProps({
 </script>
 
 <template>
-  <div :class="[centered ? 'flex items-center justify-center' : '']">
-    <div :class="[maxWidth, 'mx-auto px-6 py-10 w-full']">
-      <h1 class="text-5xl font-semibold text-center text-white mb-10">{{ title }}</h1>
+  <div :class="[centered ? 'flex items-center justify-center' : '', 'mt-30']">
+    <div :class="[ maxWidth, 'mx-auto bg-white rounded-2xl px-5 py-5 w-full']">
+      <h1 class="text-3xl font-semibold text-center text-black mb-10">{{ title }}</h1>
       <slot />
     </div>
   </div>

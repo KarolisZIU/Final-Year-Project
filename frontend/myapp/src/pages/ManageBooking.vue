@@ -55,21 +55,24 @@ async function cancelBooking(bookingId) {
     <PageWrapper title="Retrieve Your Bookings">
         <ErrorMessage :message="error" />
 
-        <div class="flex gap-2  items-end justify-center mb-6">
-            <FormField id="email" label="Email" v-model="email" type="email"/>
-            <AppButton variant="secondary"@click="fetchBookings">Find Booking</AppButton>
+        <div class="flex gap-2 items-end justify-center mb-6">
+            <FormField id="email" v-model="email" placeholder="Enter Email" type="email"/>
+            <AppButton variant="primary" size="base" @click="fetchBookings">Find Booking</AppButton>
         </div>
 
         <div class="flex flex-col gap-4">
             <div
                 v-for="booking in bookings"
                 :key="booking.booking_id"
-                class="bg-white rounded-xl border border-slate-200 shadow-sm p-5 flex items-center justify-between"
+                class="bg-white rounded-xl border border-slate-200 shadow-sm p-2 flex items-start justify-between"
             >
                 <div>
                     <p class="font-semibold text-slate-800 text-lg">{{ booking.service_name }}</p>
                     <p class="text-slate-500 text-sm mt-1">With {{ booking.staff_name }} &middot; {{ new Date(booking.booking_start_time).toLocaleString("en-CA", {year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hour12: false}) }}</p>                </div>
-                <AppButton variant="danger" @click="cancelBooking(booking.booking_id)">Cancel</AppButton>
+                    <div class="flex gap-2">
+                        <AppButton variant="secondary">Modify</AppButton>
+                        <AppButton variant="danger" @click="cancelBooking(booking.booking_id)">Cancel</AppButton>
+                    </div>
             </div>
         </div>
 
