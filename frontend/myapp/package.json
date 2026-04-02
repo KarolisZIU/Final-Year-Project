@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@heroicons/vue": "^2.2.0",
     "v-calendar": "^3.1.2",
     "vue": "^3.5.25",
     "vue-router": "^5.0.3"

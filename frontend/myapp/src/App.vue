@@ -1,5 +1,9 @@
+<script setup>
+
+</script>
+
 <template>
-  <div class="min-h-screen flex flex-col bg-gray-300">
+  <div class="min-h-screen flex flex-col bg-blue-500">
     <router-view />
   </div>
 </template>
