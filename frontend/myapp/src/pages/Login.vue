@@ -27,7 +27,7 @@ async function login() {
     return;
   }
 
-  saveAuth(data.token, data.role);
+  saveAuth(data.token, data.role, data.name);
 
   if (data.role === "admin") {
     router.push("/admin");
@@ -40,7 +40,7 @@ async function login() {
 <template>
   <NavBar />
   <div class="min-h-screen flex items-center justify-center">
-    <div class="bg-white text-start rounded-xl px-8 py-8 shadow-lg w-full max-w-sm">
+    <div class="bg-white text-start rounded-xl px-8 py-8 shadow-xl/30 w-full max-w-sm">
       <h1 class="text-2xl font-bold text-center text-black mb-6">Sign In</h1>
 
       <form class="flex flex-col gap-4" @submit.prevent="login">

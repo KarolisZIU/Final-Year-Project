@@ -8,7 +8,7 @@ defineProps({
 
 <template>
   <div :class="[centered ? 'flex items-center justify-center' : '', 'mt-30']">
-    <div :class="[ maxWidth, 'mx-auto bg-white rounded-2xl px-5 py-5 w-full']">
+    <div :class="[ maxWidth, 'mx-auto bg-white rounded-2xl shadow-xl/50 px-5 py-5 w-full']">
       <h1 class="text-3xl font-semibold text-center text-black mb-10">{{ title }}</h1>
       <slot />
     </div>

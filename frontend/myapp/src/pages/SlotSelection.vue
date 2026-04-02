@@ -70,7 +70,7 @@ watch(selectedDate, (val) => {
 
     </button>
     <div class = "flex gap-23 bg-white rounded-xl">
-        <div>
+        <div class = "pl-15">
             <VDatePicker v-model="selectedDate" :min-date="new Date()" />
         </div>
         <div class="flex flex-col items-start justify-center">

@@ -8,8 +8,8 @@ const router = useRouter();
 <template>
   <NavBar />
   <div class="flex items-center justify-center pt-30">
-    <div class="bg-white text-start rounded-xl px-8 py-8 shadow-lg w-full max-w-3xl">
-      <h1 class="text-5xl font-bold text-black text-center mb-10 mt-10">Welcome to Kevin's Barbershop</h1>
+    <div class="bg-white text-start rounded-xl px-8 py-8 shadow-xl/50 w-full max-w-3xl">
+      <h1 class="text-5xl font-bold text-black text-center mb-10 mt-10">Welcome to Klink's Barbershop</h1>
       <p class="text-slate-500 text-2xl mb-10 text-center">Book your appointment with us!</p>
       <div class="flex gap-6 justify-center p-10">
         <AppButton size="lg" variant="primary" @click="router.push('/book/services')">Book Now</AppButton>

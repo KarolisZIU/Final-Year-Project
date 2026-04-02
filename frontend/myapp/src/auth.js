@@ -21,14 +21,20 @@ export function isLoggedIn() {
   return !!getToken() && !isTokenExpired();
 }
 
-export function saveAuth(token, role) {
+export function getName() {
+  return localStorage.getItem("name");
+}
+
+export function saveAuth(token, role, name) {
   localStorage.setItem("token", token);
   localStorage.setItem("role", role);
+  if (name) localStorage.setItem("name", name);
 }
 
 export function clearAuth() {
   localStorage.removeItem("token");
   localStorage.removeItem("role");
+  localStorage.removeItem("name");
 }
 
 export function authHeaders() {

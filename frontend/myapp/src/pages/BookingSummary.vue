@@ -5,6 +5,7 @@ import { useRoute, useRouter } from "vue-router";
 import PageWrapper from "../components/PageWrapper.vue";
 import AppButton from "../components/AppButton.vue";
 import ErrorMessage from "../components/ErrorMessage.vue";
+import NavBar from "../components/NavBar.vue";
 
 const route = useRoute();
 const router = useRouter();
@@ -70,6 +71,7 @@ async function confirmBooking() {
 
 
 <template>
+    <NavBar />
     <PageWrapper title="Booking Summary" max-width="max-w-2xl">
         <div v-if="confirmed" class="bg-green-50 border border-green-200 rounded-xl p-5 mb-4">
             <p class="text-green-700 font-semibold text-lg">Booking Confirmed!</p>
