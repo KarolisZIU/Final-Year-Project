@@ -11,7 +11,7 @@ export async function getActiveServices() {
 
 export async function getServiceById(serviceId) {
   return pool.query(
-    `SELECT service_duration
+    `SELECT service_duration, service_name
     FROM services
     WHERE service_id = $1`,
     [serviceId]
