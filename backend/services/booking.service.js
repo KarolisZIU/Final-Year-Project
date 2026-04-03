@@ -4,6 +4,7 @@ import * as customerRepo from "../repositories/customer.repo.js";
 import * as servicesRepo from "../repositories/services.repo.js";
 import nodemailer from "nodemailer";
 
+// Email transporter setup using Gmail credentials from environment variables
 const transporter = nodemailer.createTransport({
   service: "gmail",
   auth: {
@@ -12,6 +13,7 @@ const transporter = nodemailer.createTransport({
   },
 });
 
+// Sends a confirmation email to the customer after a booking is created
 async function sendConfirmationEmail(
   customerEmail,
   customerName,
@@ -42,6 +44,7 @@ async function sendConfirmationEmail(
   });
 }
 
+// Generates all 30-minute slots between a staff member's start and end time for a given date
 function generateSlots(startTime, endTime, date) {
   const slots = [];
   let current = new Date(`${date}T${startTime}`);
@@ -54,6 +57,7 @@ function generateSlots(startTime, endTime, date) {
   return slots;
 }
 
+// Filters out slots that are in the past, would run over the end of the working day, or overlap an existing booking
 function filterAvailableSlots(slots, bookings, serviceDuration, workEnd) {
   return slots.filter((slot) => {
     const slotEnd = new Date(slot.getTime() + serviceDuration * 60000);
@@ -68,6 +72,7 @@ function filterAvailableSlots(slots, bookings, serviceDuration, workEnd) {
   });
 }
 
+// Returns all available slots for a given staff member, service and date
 export async function getAvailableSlots(staffId, serviceId, date) {
   const scheduleResult = await staffRepo.getScheduleForDay(staffId, date);
   const schedule = scheduleResult.rows[0];
@@ -94,6 +99,7 @@ export async function getAvailableSlots(staffId, serviceId, date) {
   );
 }
 
+// Creates a new booking after validating working hours, double booking, then sends confirmation email
 export async function createBooking(
   serviceId,
   staffId,
@@ -168,15 +174,18 @@ export async function createBooking(
   return booking.rows[0];
 }
 
+// Returns all pending bookings for a customer by their email
 export async function getBookingsByEmail(email) {
   const result = await bookingRepo.getBookingsByEmail(email);
   return result.rows;
 }
 
+// Cancels a booking by setting its status to cancelled
 export async function cancelBooking(bookingId) {
   await bookingRepo.cancelBooking(bookingId);
 }
 
+// Returns all bookings for a staff member on a specific day, defaults to today
 export async function getBookingsForStaffForDay(
   staffId,
   date = new Date().toLocaleDateString("en-CA"),
@@ -185,6 +194,7 @@ export async function getBookingsForStaffForDay(
   return result.rows;
 }
 
+// Returns all bookings across all staff for a specific day, defaults to today
 export async function getAllBookingsForDay(
   date = new Date().toLocaleDateString("en-CA"),
 ) {
@@ -192,6 +202,27 @@ export async function getAllBookingsForDay(
   return result.rows;
 }
 
+// Marks a booking as completed
 export async function completeBooking(bookingId) {
   await bookingRepo.completeBooking(bookingId);
+}
+
+// Modifies a booking's time after validating the new slot is available
+export async function modifyBooking(bookingId, startTime, endTime) {
+  const bookingResult = await bookingRepo.getBookingById(bookingId);
+  const booking = bookingResult.rows[0];
+  if (!booking) throw new Error("Booking not found");
+
+  const date = new Date(booking.booking_start_time).toISOString().split("T")[0];
+  const availableSlots = await getAvailableSlots(
+    booking.staff_id,
+    booking.service_id,
+    date,
+  );
+  const isAvailable = availableSlots.some(
+    (slot) => new Date(slot).getTime() === new Date(startTime).getTime(),
+  );
+  if (!isAvailable) throw new Error("This slot is not available");
+
+  await bookingRepo.modifyBooking(bookingId, startTime, endTime);
 }
