@@ -178,8 +178,18 @@ watch(selectedDate, (val) => {
               <span class="font-bold">Start Time:</span>
               {{ formatTime(result.booking_start_time) }}
             </p>
-            <AppButton variant="secondary" class="mt-3" @click="cancelBooking(result.booking_id)">Cancel</AppButton>
-            <AppButton variant="primary" class="mt-3 ml-2" @click="markAsCompleted(result.booking_id)">Mark as completed</AppButton>
+            <AppButton
+              variant="secondary"
+              class="mt-3"
+              @click="cancelBooking(result.booking_id)"
+              >Cancel</AppButton
+            >
+            <AppButton
+              variant="primary"
+              class="mt-3 ml-2"
+              @click="markAsCompleted(result.booking_id)"
+              >Completed</AppButton
+            >
           </div>
 
           <div v-if="!filtered.length" class="text-gray-500 text-center mt-6">
