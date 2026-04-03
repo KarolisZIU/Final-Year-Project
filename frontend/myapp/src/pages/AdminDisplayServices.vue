@@ -255,7 +255,7 @@ onMounted(loadServices);
             viewBox="0 0 24 24"
             stroke-width="3"
             stroke="currentColor"
-            class="size-7 cursor-pointer hover:text-white hover:bg-black rounded-full mb-2"
+            class="size-10 cursor-pointer hover:text-white hover:bg-black rounded-full transition"
           >
             <path
               stroke-linecap="round"
