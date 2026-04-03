@@ -61,7 +61,9 @@ export async function deleteStaff(req, res) {
     res.json({ message: "Staff member deleted successfully" });
   } catch (err) {
     console.error(err);
-    res.status(400).json({ error: err.message || "Failed to delete staff member" });
+    res
+      .status(400)
+      .json({ error: err.message || "Failed to delete staff member" });
   }
 }
 
@@ -69,11 +71,18 @@ export async function addStaff(req, res) {
   const { name, username, password, role } = req.body;
   try {
     const result = await adminService.addStaff(name, username, password, role);
-    
-    res.status(201).json({ message: "Staff member added successfully", staffId: result.rows[0].staff_id });
+
+    res
+      .status(201)
+      .json({
+        message: "Staff member added successfully",
+        staffId: result.rows[0].staff_id,
+      });
   } catch (err) {
     console.error(err);
-    res.status(400).json({ error: err.message || "Failed to add staff member" });
+    res
+      .status(400)
+      .json({ error: err.message || "Failed to add staff member" });
   }
 }
 
@@ -100,7 +109,9 @@ export async function updateStaff(req, res) {
     res.json({ message: "Staff member updated successfully" });
   } catch (err) {
     console.error(err);
-    res.status(400).json({ error: err.message || "Failed to update staff member" });
+    res
+      .status(400)
+      .json({ error: err.message || "Failed to update staff member" });
   }
 }
 
@@ -111,6 +122,8 @@ export async function getStaffById(req, res) {
     res.json(staff);
   } catch (err) {
     console.error(err);
-    res.status(400).json({ error: err.message || "Failed to load staff member" });
+    res
+      .status(400)
+      .json({ error: err.message || "Failed to load staff member" });
   }
 }

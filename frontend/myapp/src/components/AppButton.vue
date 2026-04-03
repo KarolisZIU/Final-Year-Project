@@ -2,14 +2,13 @@
 defineProps({
   variant: {
     type: String,
-    default: "primary"
+    default: "primary",
   },
   size: {
     type: String,
-    default: "base"
-  }
+    default: "base",
+  },
 });
-
 </script>
 
 <template>
@@ -18,10 +17,12 @@ defineProps({
     :class="[
       {
         'bg-blue-500 hover:bg-blue-700 text-white': variant === 'primary',
-        'bg-white border border-slate-300 hover:bg-slate-200 text-black': variant === 'secondary',
-        'bg-red-500 border border-red-500 hover:bg-red-700 text-white': variant === 'danger',
-        'bg-green-600 border border-green-600 hover:bg-green-700 text-white': variant === 'success',
-
+        'bg-white border border-slate-300 hover:bg-slate-200 text-black':
+          variant === 'secondary',
+        'bg-red-500 border border-red-500 hover:bg-red-700 text-white':
+          variant === 'danger',
+        'bg-green-600 border border-green-600 hover:bg-green-700 text-white':
+          variant === 'success',
       },
       {
         'px-2 py-2 text-sm': size === 'sm',

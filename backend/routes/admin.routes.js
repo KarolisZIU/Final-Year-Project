@@ -4,7 +4,10 @@ import * as bookingController from "../controllers/booking.controller.js";
 import * as authMiddleware from "../middleware/auth.middleware.js";
 
 const router = Router();
-const isAdmin = [authMiddleware.requireAuth, authMiddleware.requireRole("admin")];
+const isAdmin = [
+  authMiddleware.requireAuth,
+  authMiddleware.requireRole("admin"),
+];
 
 router.get("/services", ...isAdmin, adminController.getAdminServices);
 router.post("/services", ...isAdmin, adminController.addService);

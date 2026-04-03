@@ -18,12 +18,18 @@ function logout() {
 }
 
 function formatTime(isoString) {
-  return new Date(isoString).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false });
+  return new Date(isoString).toLocaleTimeString([], {
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: false,
+  });
 }
 
 async function fetchBookings(date) {
   try {
-    const res = await fetch(`/api/booking/staff-bookings?date=${date}`, { headers: authHeaders() });
+    const res = await fetch(`/api/booking/staff-bookings?date=${date}`, {
+      headers: authHeaders(),
+    });
     if (!res.ok) {
       const data = await res.json();
       error.value = data.error || "Failed to load bookings";
@@ -46,7 +52,7 @@ async function cancelBooking(bookingId) {
       error.value = data.error || "Failed to cancel booking";
       return;
     }
-    results.value = results.value.filter(b => b.booking_id !== bookingId);
+    results.value = results.value.filter((b) => b.booking_id !== bookingId);
   } catch (err) {
     error.value = "Failed to cancel booking";
   }
@@ -68,17 +74,19 @@ function markAsCompleted(bookingId) {
   fetch(`/api/booking/${bookingId}/complete`, {
     method: "PATCH",
     headers: authHeaders(),
-  }).then(res => {
-    if (res.ok) {
-      results.value = results.value.filter(b => b.booking_id !== bookingId);
-    } else {
-      res.json().then(data => {
-        error.value = data.error || "Failed to mark booking as completed";
-      });
-    }
-  }).catch(() => {
-    error.value = "Failed to mark booking as completed";
-  });
+  })
+    .then((res) => {
+      if (res.ok) {
+        results.value = results.value.filter((b) => b.booking_id !== bookingId);
+      } else {
+        res.json().then((data) => {
+          error.value = data.error || "Failed to mark booking as completed";
+        });
+      }
+    })
+    .catch(() => {
+      error.value = "Failed to mark booking as completed";
+    });
 }
 
 onMounted(() => fetchBookings(currentDate.value));
@@ -100,7 +108,9 @@ watch(selectedDate, (val) => {
 
       <div class="flex-1">
         <div class="flex items-center justify-between mb-4">
-          <AppButton variant="secondary" @click="prevDay">Previous Day</AppButton>
+          <AppButton variant="secondary" @click="prevDay"
+            >Previous Day</AppButton
+          >
           <p class="font-medium text-slate-700">{{ currentDate }}</p>
           <AppButton variant="secondary" @click="nextDay">Next Day</AppButton>
         </div>
@@ -111,15 +121,38 @@ watch(selectedDate, (val) => {
           :key="result.booking_id"
           class="bg-white rounded-xl border text-bold border-slate-200 shadow-sm p-5 mb-4"
         >
-          <p><span class="font-bold">Customer Name:</span> {{ result.customer_name }}</p>
-          <p><span class="font-bold">Service:</span> {{ result.service_name }}</p>
-          <p><span class="font-bold">Duration:</span> {{ result.service_duration }}</p>
-          <p><span class="font-bold">Start Time:</span> {{ formatTime(result.booking_start_time) }}</p>
-          <AppButton variant="danger" class="mt-3" @click="cancelBooking(result.booking_id)">Cancel</AppButton>
-          <AppButton variant="success" class="mt-3 ml-2" @click="markAsCompleted(result.booking_id)">Mark as completed</AppButton>
+          <p>
+            <span class="font-bold">Customer Name:</span>
+            {{ result.customer_name }}
+          </p>
+          <p>
+            <span class="font-bold">Service:</span> {{ result.service_name }}
+          </p>
+          <p>
+            <span class="font-bold">Duration:</span>
+            {{ result.service_duration }}
+          </p>
+          <p>
+            <span class="font-bold">Start Time:</span>
+            {{ formatTime(result.booking_start_time) }}
+          </p>
+          <AppButton
+            variant="danger"
+            class="mt-3"
+            @click="cancelBooking(result.booking_id)"
+            >Cancel</AppButton
+          >
+          <AppButton
+            variant="success"
+            class="mt-3 ml-2"
+            @click="markAsCompleted(result.booking_id)"
+            >Mark as completed</AppButton
+          >
         </div>
 
-        <div v-if="!results.length" class="text-slate-500 text-center mt-6">No bookings for this day.</div>
+        <div v-if="!results.length" class="text-slate-500 text-center mt-6">
+          No bookings for this day.
+        </div>
       </div>
     </div>
 

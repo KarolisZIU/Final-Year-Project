@@ -1,9 +1,7 @@
-import pkg from 'pg';
-import dotenv from 'dotenv';
+import pkg from "pg";
+import dotenv from "dotenv";
 
 dotenv.config();
-
-
 
 export const pool = new pkg.Pool({
   host: process.env.DB_HOST,
@@ -12,18 +10,17 @@ export const pool = new pkg.Pool({
   database: process.env.DB_NAME,
   port: process.env.DB_PORT,
   ssl: {
-    rejectUnauthorized: false
-  }
+    rejectUnauthorized: false,
+  },
 });
-
 
 // test
 async function testDB() {
   try {
-    const res = await pool.query('SELECT NOW()');
-    console.log('✅ DB connection successful:', res.rows);
+    const res = await pool.query("SELECT NOW()");
+    console.log("✅ DB connection successful:", res.rows);
   } catch (err) {
-    console.error('❌ DB connection failed:', err);
+    console.error("❌ DB connection failed:", err);
   }
 }
 

@@ -12,8 +12,18 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-async function sendConfirmationEmail(customerEmail, customerName, serviceName, staffName, slotStart, slotEnd) {
-  const start = new Date(slotStart).toLocaleString("en-IE", { dateStyle: "full", timeStyle: "short" });
+async function sendConfirmationEmail(
+  customerEmail,
+  customerName,
+  serviceName,
+  staffName,
+  slotStart,
+  slotEnd,
+) {
+  const start = new Date(slotStart).toLocaleString("en-IE", {
+    dateStyle: "full",
+    timeStyle: "short",
+  });
   await transporter.sendMail({
     from: process.env.EMAIL_USER,
     to: customerEmail,
@@ -45,14 +55,15 @@ function generateSlots(startTime, endTime, date) {
 }
 
 function filterAvailableSlots(slots, bookings, serviceDuration, workEnd) {
-  return slots.filter(slot => {
+  return slots.filter((slot) => {
     const slotEnd = new Date(slot.getTime() + serviceDuration * 60000);
 
     if (slotEnd > workEnd) return false;
     if (slot < new Date()) return false;
-    return !bookings.some(booking =>
-      new Date(booking.booking_start_time) < slotEnd &&
-      new Date(booking.booking_end_time) > slot
+    return !bookings.some(
+      (booking) =>
+        new Date(booking.booking_start_time) < slotEnd &&
+        new Date(booking.booking_end_time) > slot,
     );
   });
 }
@@ -64,7 +75,10 @@ export async function getAvailableSlots(staffId, serviceId, date) {
 
   const allSlots = generateSlots(schedule.start_time, schedule.end_time, date);
 
-  const bookingsResult = await bookingRepo.getBookingsForStaffOnDay(staffId, date);
+  const bookingsResult = await bookingRepo.getBookingsForStaffOnDay(
+    staffId,
+    date,
+  );
   const bookings = bookingsResult.rows;
 
   const serviceResult = await servicesRepo.getServiceById(serviceId);
@@ -72,10 +86,22 @@ export async function getAvailableSlots(staffId, serviceId, date) {
   if (!service) return [];
 
   const workEnd = new Date(`${date}T${schedule.end_time}`);
-  return filterAvailableSlots(allSlots, bookings, service.service_duration, workEnd);
+  return filterAvailableSlots(
+    allSlots,
+    bookings,
+    service.service_duration,
+    workEnd,
+  );
 }
 
-export async function createBooking(serviceId, staffId, customerName, customerEmail, slotTime, date) {
+export async function createBooking(
+  serviceId,
+  staffId,
+  customerName,
+  customerEmail,
+  slotTime,
+  date,
+) {
   // check 1 - staff is working that day and slot is within working hours
   const scheduleResult = await staffRepo.getScheduleForDay(staffId, date);
   const schedule = scheduleResult.rows[0];
@@ -93,12 +119,18 @@ export async function createBooking(serviceId, staffId, customerName, customerEm
   const service = serviceResult.rows[0];
   if (!service) throw new Error("Service not found");
 
-  const slotEnd = new Date(slotStart.getTime() + service.service_duration * 60000);
-  const existingBookings = await bookingRepo.getBookingsForStaffOnDay(staffId, date);
+  const slotEnd = new Date(
+    slotStart.getTime() + service.service_duration * 60000,
+  );
+  const existingBookings = await bookingRepo.getBookingsForStaffOnDay(
+    staffId,
+    date,
+  );
 
-  const isDoubleBooked = existingBookings.rows.some(booking =>
-    new Date(booking.booking_start_time) < slotEnd &&
-    new Date(booking.booking_end_time) > slotStart
+  const isDoubleBooked = existingBookings.rows.some(
+    (booking) =>
+      new Date(booking.booking_start_time) < slotEnd &&
+      new Date(booking.booking_end_time) > slotStart,
   );
   if (isDoubleBooked) throw new Error("This slot is already booked");
 
@@ -107,7 +139,10 @@ export async function createBooking(serviceId, staffId, customerName, customerEm
   let customer = customerResult.rows[0];
 
   if (!customer) {
-    const newCustomer = await customerRepo.createCustomer(customerName, customerEmail);
+    const newCustomer = await customerRepo.createCustomer(
+      customerName,
+      customerEmail,
+    );
     customer = newCustomer.rows[0];
   }
 
@@ -116,17 +151,24 @@ export async function createBooking(serviceId, staffId, customerName, customerEm
     staffId,
     customer.customer_id,
     slotStart,
-    slotEnd
+    slotEnd,
   );
 
   const staffResult = await staffRepo.getStaffById(staffId);
   const staffName = staffResult.rows[0]?.staff_name || "your staff member";
-  await sendConfirmationEmail(customerEmail, customerName, service.service_name, staffName, slotStart, slotEnd);
+  await sendConfirmationEmail(
+    customerEmail,
+    customerName,
+    service.service_name,
+    staffName,
+    slotStart,
+    slotEnd,
+  );
 
   return booking.rows[0];
 }
 
-export async function getBookingsByEmail(email){
+export async function getBookingsByEmail(email) {
   const result = await bookingRepo.getBookingsByEmail(email);
   return result.rows;
 }
@@ -135,14 +177,17 @@ export async function cancelBooking(bookingId) {
   await bookingRepo.cancelBooking(bookingId);
 }
 
-
-export async function getBookingsForStaffForDay(staffId, date=new Date().toLocaleDateString("en-CA")) {
-
+export async function getBookingsForStaffForDay(
+  staffId,
+  date = new Date().toLocaleDateString("en-CA"),
+) {
   const result = await bookingRepo.getBookingsForStaffForDay(staffId, date);
   return result.rows;
 }
 
-export async function getAllBookingsForDay(date = new Date().toLocaleDateString("en-CA")) {
+export async function getAllBookingsForDay(
+  date = new Date().toLocaleDateString("en-CA"),
+) {
   const result = await bookingRepo.getAllBookingsForDay(date);
   return result.rows;
 }

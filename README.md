@@ -142,13 +142,17 @@ project/
 ## Common Issues
 
 **Backend won't start — "password authentication failed"**
+
 > Your PostgreSQL password in `.env` is wrong. Double-check `DATABASE_URL`.
 
 **Backend won't start — "database does not exist"**
+
 > Make sure you created the `booking_app` database and ran the schema SQL.
 
 **Frontend shows blank page or errors in console**
+
 > Make sure the backend is running first on port 3000.
 
 **Port already in use**
+
 > Something else is using port 3000 or 5173. Stop the other process or restart your computer.

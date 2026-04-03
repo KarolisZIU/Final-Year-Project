@@ -24,7 +24,9 @@ app.use("/api/admin", adminRoutes);
 app.use("/api/auth", authRoutes);
 
 // Health check
-app.get("/api/health", (req, res) => res.json({ ok: true, message: "Backend is running" }));
+app.get("/api/health", (req, res) =>
+  res.json({ ok: true, message: "Backend is running" }),
+);
 
 // Postgres DB test on startup (optional)/
 async function testDB() {

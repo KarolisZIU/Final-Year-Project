@@ -17,7 +17,10 @@ async function login() {
   const res = await fetch("/api/auth/login", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ username: username.value, password: password.value }),
+    body: JSON.stringify({
+      username: username.value,
+      password: password.value,
+    }),
   });
 
   const data = await res.json();
@@ -40,12 +43,19 @@ async function login() {
 <template>
   <NavBar />
   <div class="min-h-screen flex items-center justify-center">
-    <div class="bg-white text-start rounded-xl px-8 py-8 shadow-xl/30 w-full max-w-sm">
+    <div
+      class="bg-white text-start rounded-xl px-8 py-8 shadow-xl/30 w-full max-w-sm"
+    >
       <h1 class="text-2xl font-bold text-center text-black mb-6">Sign In</h1>
 
       <form class="flex flex-col gap-4" @submit.prevent="login">
         <FormField id="username" label="Username" v-model="username" />
-        <FormField id="password" label="Password" type="password" v-model="password" />
+        <FormField
+          id="password"
+          label="Password"
+          type="password"
+          v-model="password"
+        />
 
         <ErrorMessage :message="error" />
 
