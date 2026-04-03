@@ -3,6 +3,7 @@ import { authHeaders, getName } from "../auth.js";
 import AppButton from "../components/AppButton.vue";
 import ErrorMessage from "../components/ErrorMessage.vue";
 import Sidebar from "../components/Sidebar.vue";
+import { useBookingSocket } from "../composables/useBookingSocket.js";
 import { onMounted, ref, watch } from "vue";
 
 const staff_name = getName();
@@ -11,7 +12,6 @@ const results = ref([]);
 const selectedDate = ref(new Date());
 const currentDate = ref(new Date().toLocaleDateString("en-CA"));
 
-
 function formatTime(isoString) {
   return new Date(isoString).toLocaleTimeString([], {
     hour: "2-digit",
@@ -19,6 +19,12 @@ function formatTime(isoString) {
     hour12: false,
   });
 }
+
+useBookingSocket((data) => {
+  if (data.date === currentDate.value) {
+    fetchBookings(currentDate.value);
+  }
+});
 
 async function fetchBookings(date) {
   try {
@@ -84,6 +90,10 @@ function markAsCompleted(bookingId) {
     });
 }
 
+useBookingSocket(() => {
+  fetchBookings(currentDate.value);
+});
+
 onMounted(() => fetchBookings(currentDate.value));
 watch(selectedDate, (val) => {
   if (!val) return;
@@ -106,7 +116,9 @@ watch(selectedDate, (val) => {
 
         <div class="flex-1">
           <div class="flex items-center justify-between mb-4">
-            <AppButton variant="secondary" @click="prevDay">Previous Day</AppButton>
+            <AppButton variant="secondary" @click="prevDay"
+              >Previous Day</AppButton
+            >
             <p class="font-medium text-slate-700">{{ currentDate }}</p>
             <AppButton variant="secondary" @click="nextDay">Next Day</AppButton>
           </div>
@@ -115,14 +127,43 @@ watch(selectedDate, (val) => {
             v-if="results.length"
             v-for="result in results"
             :key="result.booking_id"
+            :class="result.status === 'completed' ? 'opacity-50' : ''"
             class="bg-white rounded-xl border border-slate-200 shadow-sm p-5 mb-4"
           >
-            <p><span class="font-bold">Customer Name:</span> {{ result.customer_name }}</p>
-            <p><span class="font-bold">Service:</span> {{ result.service_name }}</p>
-            <p><span class="font-bold">Duration:</span> {{ result.service_duration }}</p>
-            <p><span class="font-bold">Start Time:</span> {{ formatTime(result.booking_start_time) }}</p>
-            <AppButton variant="danger" class="mt-3" @click="cancelBooking(result.booking_id)">Cancel</AppButton>
-            <AppButton variant="success" class="mt-3 ml-2" @click="markAsCompleted(result.booking_id)">Mark as completed</AppButton>
+            <p>
+              <span class="font-bold">Customer Name:</span>
+              {{ result.customer_name }}
+            </p>
+            <p>
+              <span class="font-bold">Service:</span> {{ result.service_name }}
+            </p>
+            <p>
+              <span class="font-bold">Duration:</span>
+              {{ result.service_duration }}
+            </p>
+            <p>
+              <span class="font-bold">Start Time:</span>
+              {{ formatTime(result.booking_start_time) }}
+            </p>
+            <span
+              v-if="result.status === 'completed'"
+              class="text-xs font-semibold bg-green-100 text-green-700 px-2 py-1 rounded-xl"
+              >Completed</span
+            >
+            <template v-else>
+              <AppButton
+                variant="secondary"
+                class="mt-3"
+                @click="cancelBooking(result.booking_id)"
+                >Cancel</AppButton
+              >
+              <AppButton
+                variant="primary"
+                class="mt-3 ml-2"
+                @click="markAsCompleted(result.booking_id)"
+                >Mark as completed</AppButton
+              >
+            </template>
           </div>
 
           <div v-if="!results.length" class="text-slate-500 text-center mt-6">

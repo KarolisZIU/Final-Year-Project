@@ -49,7 +49,7 @@ export async function createBooking(req, res) {
     );
 
     res.status(201).json({ bookingId: booking.booking_id });
-    broadcast({ type: "new_booking", date: date, staffId: staffId });
+    broadcast({ date: date, staffId: staffId });
   } catch (err) {
     console.error(err);
     res.status(400).json({ error: err.message });
@@ -78,6 +78,7 @@ export async function cancelBooking(req, res) {
     }
     await bookingService.cancelBooking(bookingId);
     res.json({ message: "Booking cancelled successfully" });
+    broadcast({});
   } catch (err) {
     console.error(err);
     res.status(400).json({ error: err.message });
@@ -118,6 +119,7 @@ export async function completeBooking(req, res) {
     }
     await bookingService.completeBooking(bookingId);
     res.json({ message: "Booking marked as completed" });
+    broadcast({});
   } catch (err) {
     console.error(err);
     res.status(400).json({ error: err.message });

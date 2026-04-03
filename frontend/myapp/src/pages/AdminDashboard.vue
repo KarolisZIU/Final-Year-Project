@@ -23,10 +23,8 @@ const filtered = computed(() => {
   }
 });
 
-useBookingSocket((data) => {
-  if (data.date === currentDate.value) {
-    fetchBookings(currentDate.value);
-  }
+useBookingSocket(() => {
+  fetchBookings(currentDate.value);
 });
 
 function signOut() {
@@ -66,10 +64,7 @@ function markAsCompleted(bookingId) {
   })
     .then((res) => {
       if (res.ok) {
-        const booking = results.value.find((b) => b.booking_id === bookingId);
-        if (booking) {
-          booking.status = "completed";
-        }
+        results.value = results.value.filter((b) => b.booking_id !== bookingId);
       } else {
         res.json().then((data) => {
           error.value = data.error || "Failed to mark booking as completed";
@@ -165,7 +160,6 @@ watch(selectedDate, (val) => {
             v-if="results.length"
             v-for="result in filtered"
             :key="result.booking_id"
-            :class="result.status === 'completed' ? 'opacity-50' : ''"
             class="bg-white rounded-xl border border-slate-200 shadow-sm p-5 mb-4"
           >
             <p>
@@ -184,25 +178,8 @@ watch(selectedDate, (val) => {
               <span class="font-bold">Start Time:</span>
               {{ formatTime(result.booking_start_time) }}
             </p>
-            <span
-              v-if="result.status === 'completed'"
-              class="text-xs font-semibold bg-green-100 text-green-700 px-2 py-1 rounded-xl"
-              >Completed</span
-            >
-            <template v-else>
-              <AppButton
-                variant="secondary"
-                class="mt-3"
-                @click="cancelBooking(result.booking_id)"
-                >Cancel</AppButton
-              >
-              <AppButton
-                variant="primary"
-                class="mt-3 ml-2"
-                @click="markAsCompleted(result.booking_id)"
-                >Mark as completed</AppButton
-              >
-            </template>
+            <AppButton variant="secondary" class="mt-3" @click="cancelBooking(result.booking_id)">Cancel</AppButton>
+            <AppButton variant="primary" class="mt-3 ml-2" @click="markAsCompleted(result.booking_id)">Mark as completed</AppButton>
           </div>
 
           <div v-if="!filtered.length" class="text-gray-500 text-center mt-6">
