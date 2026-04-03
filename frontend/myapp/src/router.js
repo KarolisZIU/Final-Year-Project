@@ -14,6 +14,8 @@ import SlotSelection from "./pages/SlotSelection.vue";
 import BookingSummary from "./pages/BookingSummary.vue";
 import { isLoggedIn, getRole, clearAuth } from "./auth.js";
 import ManageBooking from "./pages/ManageBooking.vue";
+import AboutUs from "./pages/AboutUs.vue";
+import Contact from "./pages/Contact.vue";
 
 const router = createRouter({
   history: createWebHistory(),
@@ -22,23 +24,58 @@ const router = createRouter({
     { path: "/login", component: Login },
     { path: "/book/services", component: Services },
     { path: "/book/:serviceId/staff", component: Staff },
-    { path: "/book/:serviceId/:staffId/slotselection", component: SlotSelection },
+    {
+      path: "/book/:serviceId/:staffId/slotselection",
+      component: SlotSelection,
+    },
     { path: "/book/:serviceId/:staffId/summary", component: BookingSummary },
-    { path: "/staff/dashboard", component: StaffDashboard, meta: { requiresAuth: true, role: "staff" } },
-    { path: "/admin", component: AdminDashboard, meta: { requiresAuth: true, role: "admin" } },
-    { path: "/admin/services", component: AdminDisplayServices, meta: { requiresAuth: true, role: "admin" } },
-    { path: "/admin/staff", component: AdminDisplayStaff, meta: { requiresAuth: true, role: "admin" } },
-    { path: "/admin/services/add", component: AddService, meta: { requiresAuth: true, role: "admin" } },
-    { path: "/admin/staff/add", component: AddStaff, meta: { requiresAuth: true, role: "admin" } },
-    { path: "/admin/staff/edit/:id", component: EditStaff, meta: { requiresAuth: true, role: "admin" } },
-    { path: "/manage-booking", component: ManageBooking }
-
+    {
+      path: "/staff/dashboard",
+      component: StaffDashboard,
+      meta: { requiresAuth: true, role: "staff" },
+    },
+    {
+      path: "/admin",
+      component: AdminDashboard,
+      meta: { requiresAuth: true, role: "admin" },
+    },
+    {
+      path: "/admin/services",
+      component: AdminDisplayServices,
+      meta: { requiresAuth: true, role: "admin" },
+    },
+    {
+      path: "/admin/staff",
+      component: AdminDisplayStaff,
+      meta: { requiresAuth: true, role: "admin" },
+    },
+    {
+      path: "/admin/services/add",
+      component: AddService,
+      meta: { requiresAuth: true, role: "admin" },
+    },
+    {
+      path: "/admin/staff/add",
+      component: AddStaff,
+      meta: { requiresAuth: true, role: "admin" },
+    },
+    {
+      path: "/admin/staff/edit/:id",
+      component: EditStaff,
+      meta: { requiresAuth: true, role: "admin" },
+    },
+    { path: "/manage-booking", component: ManageBooking },
+    { path: "/about-us", component: AboutUs },
+    { path: "/contact-us", component: Contact },
   ],
 });
 
 router.beforeEach((to) => {
   if (!to.meta.requiresAuth) return true;
-  if (!isLoggedIn()) { clearAuth(); return "/login"; }
+  if (!isLoggedIn()) {
+    clearAuth();
+    return "/login";
+  }
   if (to.meta.role && getRole() !== to.meta.role) return "/login";
   return true;
 });

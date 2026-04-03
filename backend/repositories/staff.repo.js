@@ -5,12 +5,14 @@ export async function getAllStaff() {
     `SELECT staff_id, staff_name
      FROM staff
      WHERE is_active = true
-     ORDER BY staff_id`
+     ORDER BY staff_id`,
   );
 }
 
 export async function getStaffById(staffId) {
-  return pool.query(`SELECT staff_name FROM staff WHERE staff_id = $1`, [staffId]);
+  return pool.query(`SELECT staff_name FROM staff WHERE staff_id = $1`, [
+    staffId,
+  ]);
 }
 
 export async function getScheduleForDay(staffId, date) {
@@ -20,6 +22,6 @@ export async function getScheduleForDay(staffId, date) {
      FROM staff_schedule
      WHERE staff_id = $1
      AND day_of_week = $2`,
-    [staffId, dayOfWeek]
+    [staffId, dayOfWeek],
   );
 }

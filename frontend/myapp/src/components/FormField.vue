@@ -6,6 +6,7 @@ defineProps({
   modelValue: { type: [String, Number], default: "" },
   step: { type: String, default: undefined },
   min: { type: String, default: undefined },
+  placeholder: { type: String, default: "" },
 });
 
 defineEmits(["update:modelValue"]);
@@ -13,15 +14,18 @@ defineEmits(["update:modelValue"]);
 
 <template>
   <div>
-    <label :for="id" class="block text-sm font-medium text-black mb-1">{{ label }}</label>
+    <label :for="id" class="block text-sm font-medium text-black mb-1">{{
+      label
+    }}</label>
     <input
       :id="id"
       :type="type"
       :step="step"
       :min="min"
       :value="modelValue"
+      :placeholder="placeholder"
       @input="$emit('update:modelValue', $event.target.value)"
-      class="w-full bg-white border border-slate-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:black"
+      class="w-full bg-white border border-slate-300 rounded-lg shadow-lg px-2.5 py-3.25 text-sm focus:outline-none focus:ring-2 focus:black"
     />
   </div>
 </template>

@@ -21,7 +21,13 @@ export async function addService(name, price, duration) {
   if (!name) {
     throw new Error("Please enter a service name");
   }
-  if (price === undefined || price === null || price === "" || isNaN(price) || price < 0) {
+  if (
+    price === undefined ||
+    price === null ||
+    price === "" ||
+    isNaN(price) ||
+    price < 0
+  ) {
     throw new Error("Please enter a valid price (0 or above)");
   }
   if (!duration || isNaN(duration) || duration <= 0) {
@@ -34,7 +40,13 @@ export async function editService(serviceId, name, price, duration, isActive) {
   if (!name) {
     throw new Error("Please enter a service name");
   }
-  if (price === undefined || price === null || price === "" || isNaN(price) || price < 0) {
+  if (
+    price === undefined ||
+    price === null ||
+    price === "" ||
+    isNaN(price) ||
+    price < 0
+  ) {
     throw new Error("Please enter a valid price (0 or above)");
   }
   if (!duration || isNaN(duration) || duration <= 0) {
@@ -55,7 +67,9 @@ export async function deleteStaff(staffId) {
     const adminCountResult = await adminRepo.countAdmins();
     const adminCount = parseInt(adminCountResult.rows[0].count);
     if (adminCount <= 1) {
-      throw new Error("Cannot delete the last admin. There must be at least one admin.");
+      throw new Error(
+        "Cannot delete the last admin. There must be at least one admin.",
+      );
     }
   }
   try {
@@ -78,7 +92,7 @@ export async function addStaff(name, username, password, role) {
   if (!password) {
     throw new Error("Please enter a password");
   }
-  
+
   const hashedPassword = await bcrypt.hash(password, 10);
   return await adminRepo.addStaff(name, username, hashedPassword, role);
 }
@@ -90,37 +104,37 @@ export async function addSchedule(staffId, scheduleArray) {
   }
 }
 
-export async function updateStaff(staffId, name, username, role, isActive){
+export async function updateStaff(staffId, name, username, role, isActive) {
   if (!name) {
     throw new Error("Please enter a staff name");
   }
   if (!username) {
     throw new Error("Please enter a username");
   }
-  if (!role){
+  if (!role) {
     throw new Error("Please select a role");
   }
   await adminRepo.updateStaff(staffId, name, username, role, isActive);
 }
 
-export async function getStaffById(staffId){
+export async function getStaffById(staffId) {
   const staffResult = await adminRepo.getStaffById(staffId);
   const scheduleResult = await adminRepo.getStaffSchedule(staffId);
-  
+
   if (staffResult.rows.length === 0) {
     throw new Error("Staff member not found");
   }
-  
+
   return {
     staff_name: staffResult.rows[0].staff_name,
     staff_username: staffResult.rows[0].staff_username,
     staff_role: staffResult.rows[0].staff_role,
     is_active: staffResult.rows[0].is_active,
-    schedule: scheduleResult.rows
+    schedule: scheduleResult.rows,
   };
 }
 
-export async function updateStaffSchedule(staffId, scheduleArray){
+export async function updateStaffSchedule(staffId, scheduleArray) {
   await adminRepo.deleteStaffSchedule(staffId);
   for (const schedule of scheduleArray) {
     const { dayOfWeek, startTime, endTime } = schedule;
