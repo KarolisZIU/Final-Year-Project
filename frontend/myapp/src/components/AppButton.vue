@@ -18,9 +18,9 @@ defineProps({
     :class="[
       {
         'bg-blue-500 hover:bg-blue-700 text-white': variant === 'primary',
-        'bg-white border-1 border-slate-300 hover:bg-slate-200 text-black': variant === 'secondary',
-        'bg-red-500 border-1 border-red-500 hover:bg-red-700 text-white': variant === 'danger',
-        'bg-green-600 border-1 border-green-600 hover:bg-green-700 text-white': variant === 'success',
+        'bg-white border border-slate-300 hover:bg-slate-200 text-black': variant === 'secondary',
+        'bg-red-500 border border-red-500 hover:bg-red-700 text-white': variant === 'danger',
+        'bg-green-600 border border-green-600 hover:bg-green-700 text-white': variant === 'success',
 
       },
       {

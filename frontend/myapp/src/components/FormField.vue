@@ -23,7 +23,7 @@ defineEmits(["update:modelValue"]);
       :value="modelValue"
       :placeholder="placeholder"
       @input="$emit('update:modelValue', $event.target.value)"
-      class="w-full bg-white border border-slate-300 rounded-lg shadow-lg px-[10px] py-[13px] text-sm focus:outline-none focus:ring-2 focus:black"
+      class="w-full bg-white border border-slate-300 rounded-lg shadow-lg px-2.5 py-3.25 text-sm focus:outline-none focus:ring-2 focus:black"
     />
   </div>
 </template>

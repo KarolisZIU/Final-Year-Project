@@ -91,11 +91,11 @@ onMounted(loadServices)
     <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
       <table class="w-full text-sm text-left">
         <colgroup>
-          <col class="w-[100px]" />
-          <col class="w-[100px]" />
-          <col class="w-[100px]" />
-          <col class="w-[100px]" />
-          <col class="w-[100px]" />
+          <col class="w-25" />
+          <col class="w-25" />
+          <col class="w-25" />
+          <col class="w-25" />
+          <col class="w-25" />
         </colgroup>
         <thead class="bg-slate-50 border-b border-slate-200">
           <tr>
