@@ -75,6 +75,22 @@ async function confirmBooking() {
 <template>
   <NavBar />
   <PageWrapper title="Booking Summary" max-width="max-w-2xl">
+    <button v-if="!confirmed" @click="router.back()">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke-width="1.5"
+        stroke="black"
+        class="size-7 cursor-pointer hover:bg-black/10 rounded-full mb-2"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18"
+        />
+      </svg>
+    </button>
     <div
       v-if="confirmed"
       class="bg-green-50 border border-green-200 rounded-xl p-5 mb-4"
@@ -108,16 +124,11 @@ async function confirmBooking() {
       <p><span class="font-medium">Name:</span> {{ name }}</p>
       <p><span class="font-medium">Email:</span> {{ email }}</p>
     </div>
-    <div class="flex gap-3 mt-4">
+    <div class="flex mt-4 justify-center">
       <template v-if="!confirmed">
         <AppButton @click="confirmBooking">Confirm Booking</AppButton>
-        <AppButton
-          variant="secondary"
-          @click="router.push(`/book/${serviceId}/${staffId}/slotselection`)"
-          >Back</AppButton
-        >
       </template>
-      <AppButton v-else @click="router.push('/')">Back to Home</AppButton>
+      <AppButton v-else @click="router.push('/')">Done</AppButton>
     </div>
     <ErrorMessage class="mt-4" :message="error" />
   </PageWrapper>
