@@ -19,6 +19,7 @@ const staff = ref(null);
 const service = ref(null);
 const confirmed = ref(false);
 const error = ref("");
+const loading = ref(false);
 
 function formatTime(isoString) {
   return new Date(isoString).toLocaleTimeString([], {
@@ -47,6 +48,7 @@ onMounted(async () => {
 });
 
 async function confirmBooking() {
+  loading.value = true;
   try {
     const res = await fetch("/api/booking/", {
       method: "POST",
@@ -126,7 +128,31 @@ async function confirmBooking() {
     </div>
     <div class="flex mt-4 justify-center">
       <template v-if="!confirmed">
-        <AppButton @click="confirmBooking">Confirm Booking</AppButton>
+        <AppButton
+          :disabled="loading"
+          class="disabled:opacity-50 disabled:cursor-not-allowed"
+          @click="confirmBooking"
+        >
+          <span v-if="loading" class="flex items-center gap-2">
+            <svg class="animate-spin size-4" viewBox="0 0 24 24" fill="none">
+              <circle
+                class="opacity-25"
+                cx="12"
+                cy="12"
+                r="10"
+                stroke="currentColor"
+                stroke-width="4"
+              />
+              <path
+                class="opacity-75"
+                fill="currentColor"
+                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
+              />
+            </svg>
+            Securing your slot...
+          </span>
+          <span v-else>Confirm Booking</span>
+        </AppButton>
       </template>
       <AppButton v-else @click="router.push('/')">Done</AppButton>
     </div>
