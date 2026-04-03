@@ -5,6 +5,7 @@ import AppButton from "../components/AppButton.vue";
 import FormField from "../components/FormField.vue";
 import { authHeaders } from "../auth.js";
 import ErrorMessage from "../components/ErrorMessage.vue";
+import Sidebar from "../components/Sidebar.vue";
 
 const router = useRouter();
 const route = useRoute();
@@ -112,11 +113,14 @@ async function updateStaff() {
 </script>
 
 <template>
-  <div class="min-h-screen flex items-center justify-center">
-    <div
-      class="bg-white rounded-xl border border-slate-200 shadow-sm p-8 w-full max-w-md mx-4"
-    >
-      <h1 class="text-2xl font-bold text-slate-800 mb-6">Edit Staff Member</h1>
+  <div class="flex">
+    <Sidebar />
+    <div class="flex-1 min-h-screen flex items-center justify-center">
+      <div class="mt-10 mb-10 flex items-center justify-center">
+        <div
+          class="bg-white rounded-xl border border-slate-200 shadow-sm p-8 w-full max-w-md mx-4"
+        >
+      <h1 class="text-2xl font-bold text-black mb-6">Edit Staff Member</h1>
 
       <ErrorMessage :message="errorMessage" />
 
@@ -197,12 +201,12 @@ async function updateStaff() {
         </div>
 
         <div class="flex gap-3 pt-2">
-          <AppButton @click="updateStaff" class="flex-1">Update</AppButton>
-          <AppButton variant="secondary" @click="router.back()" class="flex-1"
-            >Back</AppButton
-          >
+          <AppButton type="submit" class="flex-1">Update</AppButton>
+          <AppButton variant="secondary" @click="router.back()" class="flex-1">Back</AppButton>
         </div>
       </form>
+        </div>
+      </div>
     </div>
   </div>
 </template>

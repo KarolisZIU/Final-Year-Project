@@ -1,4 +1,5 @@
 import * as bookingService from "../services/booking.service.js";
+import { broadcast } from "../server.js";
 
 export async function getAvailableSlots(req, res) {
   try {
@@ -48,6 +49,7 @@ export async function createBooking(req, res) {
     );
 
     res.status(201).json({ bookingId: booking.booking_id });
+    broadcast({ type: "new_booking", date: date, staffId: staffId });
   } catch (err) {
     console.error(err);
     res.status(400).json({ error: err.message });

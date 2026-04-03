@@ -140,7 +140,7 @@ watch(selectedDate, (val) => {
             v-model="filterStaff"
             class="w-full border focus:outline-none focus:ring-1 focus:ring-slate-300 bg-white border-slate-300 rounded-lg px-3 py-2 text-sm mb-5"
           >
-            <option value="">All Staff</option>
+            <option value="">Filter by Staff</option>
             <option
               v-for="s in staffList"
               :key="s.staff_id"

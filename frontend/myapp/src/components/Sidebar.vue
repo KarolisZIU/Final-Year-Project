@@ -2,6 +2,7 @@
 import { clearAuth } from "../auth.js";
 import { useRouter } from "vue-router";
 const router = useRouter();
+const props = defineProps({ role: { type: String, default: "admin" } });
 function signOut() {
   clearAuth();
   router.push("/login");
@@ -30,7 +31,7 @@ function signOut() {
       </div>
     </router-link>
     <router-link
-      to="/admin"
+      :to="props.role === 'admin' ? '/admin' : '/staff/dashboard'"
       class="flex items-center justify-center gap-2 py-4 text-white hover:bg-white transition hover:text-black"
     >
       <svg
@@ -49,6 +50,7 @@ function signOut() {
       >Dashboard</router-link
     >
     <router-link
+      v-if="props.role === 'admin'"
       to="/admin/services"
       class="flex items-center justify-center gap-2 py-4 text-white hover:bg-white transition hover:text-black"
     >
@@ -74,6 +76,7 @@ function signOut() {
     >
 
     <router-link
+      v-if="props.role === 'admin'"
       to="/admin/staff"
       class="flex items-center justify-center gap-2 py-4 text-white hover:bg-white transition hover:text-black"
     >

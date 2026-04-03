@@ -4,31 +4,30 @@ import express from "express";
 import cors from "cors";
 import path from "path";
 import { fileURLToPath } from "url";
-import { pool } from "./database.js"; // your Postgres connection
+import { pool } from "./database.js";
+import { createServer } from "http";
+import { WebSocketServer } from "ws";
 
-// Import your routes
 import servicesRoutes from "./routes/services.routes.js";
 import adminRoutes from "./routes/admin.routes.js";
 import authRoutes from "./routes/auth.routes.js";
 import bookingRoutes from "./routes/booking.routes.js";
 
-// Create Express app
 const app = express();
+const server = createServer(app);
+const wss = new WebSocketServer({ server, path: "/ws" });
 app.use(cors());
 app.use(express.json());
 
-// API routes
 app.use("/api", servicesRoutes);
 app.use("/api/booking", bookingRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api/auth", authRoutes);
 
-// Health check
 app.get("/api/health", (req, res) =>
   res.json({ ok: true, message: "Backend is running" }),
 );
 
-// Postgres DB test on startup (optional)/
 async function testDB() {
   try {
     const res = await pool.query("SELECT NOW()");
@@ -52,6 +51,15 @@ app.get(/^\/(?!api).*/, (req, res) => {
   res.sendFile(path.join(frontendDist, "index.html"));
 });
 
+export function broadcast(data) {
+  const message = JSON.stringify(data);
+  wss.clients.forEach((client) => {
+    if (client.readyState === 1) {
+      client.send(message);
+    }
+  });
+}
+
 // Start server
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`API + Frontend running on port ${PORT}`));
+server.listen(PORT, () => console.log(`API + Frontend running on port ${PORT}`));
