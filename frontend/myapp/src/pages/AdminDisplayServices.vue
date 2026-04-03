@@ -1,10 +1,10 @@
 <script setup>
 import { onMounted, ref } from "vue";
 import { useRouter } from "vue-router";
-import PageWrapper from "../components/PageWrapper.vue";
 import AppButton from "../components/AppButton.vue";
 import ErrorMessage from "../components/ErrorMessage.vue";
 import { authHeaders } from "../auth.js";
+import Sidebar from "../components/Sidebar.vue";
 const services = ref([]);
 const router = useRouter();
 const editingId = ref(null);
@@ -83,24 +83,27 @@ onMounted(loadServices)
 </script>
 
 <template>
-  <PageWrapper title="Services" max-width="max-w-4xl">
+  <div class="flex">
+  <Sidebar />
+  <div class="flex-1 min-h-screen p-5 flex flex-col">
+    <h1 class="text-4xl font-bold mb-15"> Your Services</h1>
     <ErrorMessage :message="error" />
     <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
       <table class="w-full text-sm text-left">
         <colgroup>
-          <col class="w-[200px]" />
-          <col class="w-[110px]" />
-          <col class="w-[140px]" />
-          <col class="w-[70px]" />
-          <col class="w-[150px]" />
+          <col class="w-[100px]" />
+          <col class="w-[100px]" />
+          <col class="w-[100px]" />
+          <col class="w-[100px]" />
+          <col class="w-[100px]" />
         </colgroup>
         <thead class="bg-slate-50 border-b border-slate-200">
           <tr>
-            <th class="px-4 py-3 font-semibold text-slate-600">Name</th>
-            <th class="px-4 py-3 font-semibold text-slate-600">Price (€)</th>
-            <th class="px-4 py-3 font-semibold text-slate-600">Duration (mins)</th>
-            <th class="px-4 py-3 font-semibold text-slate-600">Active</th>
-            <th class="px-4 py-3 font-semibold text-slate-600">Actions</th>
+            <th class="px-4 py-3 font-semibold text-black">Name</th>
+            <th class="px-4 py-3 font-semibold text-black">Price (€)</th>
+            <th class="px-4 py-3 font-semibold text-black">Duration (mins)</th>
+            <th class="px-4 py-3 font-semibold text-black">Active</th>
+            <th class="px-4 py-3 font-semibold text-black">Actions</th>
           </tr>
         </thead>
 
@@ -140,5 +143,6 @@ onMounted(loadServices)
       <AppButton @click="goToAddService">Add Service</AppButton>
       <AppButton variant="secondary" @click="router.back()">Back</AppButton>
     </div>
-  </PageWrapper>
+  </div>
+  </div>
 </template>
