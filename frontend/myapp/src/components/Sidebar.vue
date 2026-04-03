@@ -8,7 +8,7 @@ function signOut() {
 }
 </script>
 <template>
-  <div class="min-h-screen flex flex-col w-64 bg-black">
+  <div class="h-screen flex flex-col w-64 bg-black sticky top-0">
     <router-link to="/">
       <div class="flex items-center gap-4 justify-center px-4 py-5">
         <svg

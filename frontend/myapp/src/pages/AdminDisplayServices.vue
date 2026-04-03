@@ -92,13 +92,6 @@ onMounted(loadServices);
         class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden"
       >
         <table class="w-full text-sm text-left">
-          <colgroup>
-            <col class="w-25" />
-            <col class="w-25" />
-            <col class="w-25" />
-            <col class="w-25" />
-            <col class="w-25" />
-          </colgroup>
           <thead class="bg-slate-50 border-b border-slate-200">
             <tr>
               <th class="px-4 py-3 font-semibold text-black">Name</th>
@@ -118,13 +111,13 @@ onMounted(loadServices);
               class="hover:bg-slate-50"
             >
               <template v-if="editingId === s.service_id">
-                <td class="px-4 py-2">
+                <td class="px-4 py-3">
                   <input
                     v-model="editForm.name"
                     class="w-full border border-slate-300 rounded px-2 py-1 text-sm"
                   />
                 </td>
-                <td class="px-4 py-2">
+                <td class="px-4 py-3">
                   <input
                     v-model.number="editForm.price"
                     type="number"
@@ -133,7 +126,7 @@ onMounted(loadServices);
                     class="w-full border border-slate-300 rounded px-2 py-1 text-sm"
                   />
                 </td>
-                <td class="px-4 py-2">
+                <td class="px-4 py-3">
                   <input
                     v-model.number="editForm.duration"
                     type="number"
@@ -141,14 +134,14 @@ onMounted(loadServices);
                     class="w-full border border-slate-300 rounded px-2 py-1 text-sm"
                   />
                 </td>
-                <td class="px-4 py-2">
+                <td class="px-4 py-3">
                   <input
                     v-model="editForm.isActive"
                     type="checkbox"
                     class="w-4 h-4"
                   />
                 </td>
-                <td class="px-4 py-2 flex gap-2">
+                <td class="px-4 py-3 flex gap-2">
                   <AppButton @click="saveEdit(s.service_id)">Save</AppButton>
                   <AppButton variant="secondary" @click="cancelEdit"
                     >Cancel</AppButton
