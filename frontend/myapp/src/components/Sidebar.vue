@@ -31,7 +31,8 @@ function signOut() {
       </div>
     </router-link>
     <router-link
-      :to="props.role === 'admin' ? '/admin' : '/staff/dashboard'"
+      v-if="props.role === 'admin'"
+      to="/admin"
       class="flex items-center justify-center gap-2 py-4 text-white hover:bg-white transition hover:text-black"
     >
       <svg
