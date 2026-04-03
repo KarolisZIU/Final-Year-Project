@@ -1,10 +1,8 @@
-// server.js
 import "dotenv/config";
 import express from "express";
 import cors from "cors";
 import path from "path";
 import { fileURLToPath } from "url";
-import { pool } from "./database.js";
 import { createServer } from "http";
 import { WebSocketServer } from "ws";
 
@@ -13,30 +11,23 @@ import adminRoutes from "./routes/admin.routes.js";
 import authRoutes from "./routes/auth.routes.js";
 import bookingRoutes from "./routes/booking.routes.js";
 
+// creates express app
 const app = express();
 const server = createServer(app);
 const wss = new WebSocketServer({ server, path: "/ws" });
 app.use(cors());
 app.use(express.json());
 
+// Routers
 app.use("/api", servicesRoutes);
 app.use("/api/booking", bookingRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api/auth", authRoutes);
 
+//health check endpoint
 app.get("/api/health", (req, res) =>
   res.json({ ok: true, message: "Backend is running" }),
 );
-
-async function testDB() {
-  try {
-    const res = await pool.query("SELECT NOW()");
-    console.log("✅ DB connection successful:", res.rows);
-  } catch (err) {
-    console.error("❌ DB connection failed:", err);
-  }
-}
-testDB();
 
 // __dirname fix for ES Modules
 const __filename = fileURLToPath(import.meta.url);
@@ -62,4 +53,6 @@ export function broadcast(data) {
 
 // Start server
 const PORT = process.env.PORT || 3000;
-server.listen(PORT, () => console.log(`API + Frontend running on port ${PORT}`));
+server.listen(PORT, () =>
+  console.log(`API + Frontend running on port ${PORT}`),
+);
