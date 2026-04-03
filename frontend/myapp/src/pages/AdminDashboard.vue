@@ -5,6 +5,7 @@ import AppButton from "../components/AppButton.vue";
 import ErrorMessage from "../components/ErrorMessage.vue";
 import { computed, onMounted, ref, watch } from "vue";
 import Sidebar from "../components/Sidebar.vue";
+import { useBookingSocket } from "../composables/useBookingSocket.js";
 
 const router = useRouter();
 const staff_name = getName();
@@ -13,11 +14,20 @@ const results = ref([]);
 const selectedDate = ref(new Date());
 const currentDate = ref(new Date().toLocaleDateString("en-CA"));
 const filterStaff = ref("");
-const filtered = computed(() =>
-  results.value.filter((b) =>
-    b.staff_name.toLowerCase().includes(filterStaff.value.toLowerCase()),
-  ),
-);
+const staffList = ref([]);
+const filtered = computed(() => {
+  if (filterStaff.value) {
+    return results.value.filter((b) => b.staff_name === filterStaff.value);
+  } else {
+    return results.value;
+  }
+});
+
+useBookingSocket((data) => {
+  if (data.date === currentDate.value) {
+    fetchBookings(currentDate.value);
+  }
+});
 
 function signOut() {
   clearAuth();
@@ -96,7 +106,15 @@ function prevDay() {
   selectedDate.value = d;
 }
 
-onMounted(() => fetchBookings(currentDate.value));
+async function fetchStaff() {
+  const res = await fetch("/api/admin/staff", { headers: authHeaders() });
+  if (res.ok) staffList.value = await res.json();
+}
+
+onMounted(() => {
+  fetchBookings(currentDate.value);
+  fetchStaff();
+});
 watch(selectedDate, (val) => {
   if (!val) return;
   currentDate.value = val.toLocaleDateString("en-CA");
@@ -118,12 +136,19 @@ watch(selectedDate, (val) => {
         </div>
 
         <div class="flex-1">
-          <input
+          <select
             v-model="filterStaff"
-            type="text"
-            placeholder="Filter by staff name..."
-            class="w-full border focus:outline-none focus:ring-1 focus:ring-slate-300 bg-white border-slate-300 placeholder:text-black rounded-lg px-3 py-2 text-sm mb-5"
-          />
+            class="w-full border focus:outline-none focus:ring-1 focus:ring-slate-300 bg-white border-slate-300 rounded-lg px-3 py-2 text-sm mb-5"
+          >
+            <option value="">All Staff</option>
+            <option
+              v-for="s in staffList"
+              :key="s.staff_id"
+              :value="s.staff_name"
+            >
+              {{ s.staff_name }}
+            </option>
+          </select>
 
           <div class="flex items-center justify-between mb-4">
             <AppButton variant="secondary" @click="prevDay"
@@ -169,7 +194,7 @@ watch(selectedDate, (val) => {
             >
           </div>
 
-          <div v-if="!filtered.length" class="text-black text-center mt-6">
+          <div v-if="!filtered.length" class="text-gray-500 text-center mt-6">
             No bookings for this day.
           </div>
         </div>
