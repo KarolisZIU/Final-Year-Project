@@ -1,13 +1,11 @@
 <script setup>
 import { ref } from "vue";
-import { useRouter } from "vue-router";
 import PageWrapper from "../components/PageWrapper.vue";
 import AppButton from "../components/AppButton.vue";
 import ErrorMessage from "../components/ErrorMessage.vue";
 import FormField from "../components/FormField.vue";
 import NavBar from "../components/NavBar.vue";
 
-const router = useRouter();
 const bookings = ref([]);
 const error = ref("");
 const email = ref("");

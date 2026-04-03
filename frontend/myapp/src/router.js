@@ -14,6 +14,8 @@ import SlotSelection from "./pages/SlotSelection.vue";
 import BookingSummary from "./pages/BookingSummary.vue";
 import { isLoggedIn, getRole, clearAuth } from "./auth.js";
 import ManageBooking from "./pages/ManageBooking.vue";
+import AboutUs from "./pages/AboutUs.vue";
+import Contact from "./pages/Contact.vue";
 
 const router = createRouter({
   history: createWebHistory(),
@@ -63,6 +65,8 @@ const router = createRouter({
       meta: { requiresAuth: true, role: "admin" },
     },
     { path: "/manage-booking", component: ManageBooking },
+    { path: "/about-us", component: AboutUs },
+    { path: "/contact-us", component: Contact },
   ],
 });
 

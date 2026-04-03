@@ -29,22 +29,31 @@ const router = useRouter();
           <span class="text-xl font-bold text-white">Klink's Barbers</span>
         </div>
       </router-link>
-      <router-link to="/manage-booking" class="text-white hover:text-blue-200"
+      <router-link
+        to="/manage-booking"
+        class="text-white hover:bg-white rounded-3xl transition hover:text-black px-2.5 py-1"
         >Manage Booking</router-link
       >
-      <router-link to="/about-us" class="text-white t hover:text-blue-200"
-        >About Us</router-link
+      <router-link
+        to="/about-us"
+        class="text-white hover:bg-white rounded-3xl transition hover:text-black px-2.5 py-1"
+        >About</router-link
       >
-      <router-link to="/contact-us" class="text-white hover:text-blue-200"
-        >Contact Us</router-link
+      <router-link
+        to="/contact-us"
+        class="text-white hover:bg-white rounded-3xl transition hover:text-black px-2.5 py-1"
+        >Contact</router-link
       >
 
-      <button @click="router.push('/admin')" class="cursor-pointer">
+      <button
+        @click="router.push('/admin')"
+        class="cursor-pointer px-2.5 py-1 hover:bg-white rounded-3xl transition"
+      >
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 24 24"
-          fill="white"
-          class="w-7 h-7"
+          fill="currentColor"
+          class="w-7 h-7 fill-white hover:fill-black transition"
         >
           <path
             fill-rule="evenodd"
