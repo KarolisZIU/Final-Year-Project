@@ -3,6 +3,9 @@ import * as bookingRepo from "../repositories/booking.repo.js";
 import * as customerRepo from "../repositories/customer.repo.js";
 import * as servicesRepo from "../repositories/services.repo.js";
 import nodemailer from "nodemailer";
+import { fromZonedTime } from "date-fns-tz";
+
+const TIMEZONE = "Europe/Dublin";
 
 // Email transporter setup using Gmail credentials from environment variables
 const transporter = nodemailer.createTransport({
@@ -25,6 +28,7 @@ async function sendConfirmationEmail(
   const start = new Date(slotStart).toLocaleString("en-IE", {
     dateStyle: "full",
     timeStyle: "short",
+    timeZone: TIMEZONE,
   });
   await transporter.sendMail({
     from: process.env.EMAIL_USER,
@@ -47,8 +51,8 @@ async function sendConfirmationEmail(
 // Generates all 30-minute slots between a staff member's start and end time for a given date
 function generateSlots(startTime, endTime, date) {
   const slots = [];
-  let current = new Date(`${date}T${startTime}`);
-  const end = new Date(`${date}T${endTime}`);
+  let current = fromZonedTime(`${date}T${startTime}`, TIMEZONE);
+  const end = fromZonedTime(`${date}T${endTime}`, TIMEZONE);
 
   while (current < end) {
     slots.push(new Date(current));
@@ -90,7 +94,7 @@ export async function getAvailableSlots(staffId, serviceId, date) {
   const service = serviceResult.rows[0];
   if (!service) return [];
 
-  const workEnd = new Date(`${date}T${schedule.end_time}`);
+  const workEnd = fromZonedTime(`${date}T${schedule.end_time}`, TIMEZONE);
   return filterAvailableSlots(
     allSlots,
     bookings,
@@ -114,8 +118,8 @@ export async function createBooking(
   if (!schedule) throw new Error("Staff is not working on this day");
 
   const slotStart = new Date(slotTime);
-  const workStart = new Date(`${date}T${schedule.start_time}`);
-  const workEnd = new Date(`${date}T${schedule.end_time}`);
+  const workStart = fromZonedTime(`${date}T${schedule.start_time}`, TIMEZONE);
+  const workEnd = fromZonedTime(`${date}T${schedule.end_time}`, TIMEZONE);
   if (slotStart < workStart || slotStart >= workEnd) {
     throw new Error("Selected time is outside working hours");
   }
