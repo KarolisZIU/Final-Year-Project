@@ -16,6 +16,7 @@ import { isLoggedIn, getRole, clearAuth } from "./auth.js";
 import ManageBooking from "./pages/ManageBooking.vue";
 import AboutUs from "./pages/AboutUs.vue";
 import Contact from "./pages/Contact.vue";
+import ModifyBooking from "./pages/ModifyBooking.vue";
 
 const router = createRouter({
   history: createWebHistory(),
@@ -67,6 +68,7 @@ const router = createRouter({
     { path: "/manage-booking", component: ManageBooking },
     { path: "/about-us", component: AboutUs },
     { path: "/contact-us", component: Contact },
+    { path: "/manage-booking/:id/modify", component: ModifyBooking },
   ],
 });
 

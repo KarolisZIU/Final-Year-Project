@@ -5,11 +5,17 @@ import AppButton from "../components/AppButton.vue";
 import ErrorMessage from "../components/ErrorMessage.vue";
 import FormField from "../components/FormField.vue";
 import NavBar from "../components/NavBar.vue";
+import { useRouter } from "vue-router";
+const router = useRouter();
 
 const bookings = ref([]);
 const error = ref("");
 const email = ref("");
 const searched = ref(false);
+
+function modifyBooking(booking) {
+  router.push(`/manage-booking/${booking.booking_id}/modify`);
+}
 
 async function fetchBookings() {
   if (!email.value) {
@@ -94,10 +100,15 @@ async function cancelBooking(bookingId) {
           </p>
         </div>
         <div class="flex gap-2">
-          <AppButton variant="secondary">Modify</AppButton>
-          <AppButton variant="danger" @click="cancelBooking(booking.booking_id)"
-            >Cancel</AppButton
+          <AppButton variant="secondary" @click="modifyBooking(booking)">
+            Modify
+          </AppButton>
+          <AppButton
+            variant="danger"
+            @click="cancelBooking(booking.booking_id)"
           >
+            Cancel
+          </AppButton>
         </div>
       </div>
     </div>
