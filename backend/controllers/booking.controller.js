@@ -125,3 +125,16 @@ export async function completeBooking(req, res) {
     res.status(400).json({ error: err.message });
   }
 }
+
+export async function updateBooking(req, res) {
+  try {
+    const { bookingId } = req.params;
+    const { startTime, endTime } = req.body;
+    await bookingService.modifyBooking(bookingId, startTime, endTime);
+    res.json({ message: "Booking updated successfully" });
+    broadcast({});
+  } catch (err) {
+    console.error(err);
+    res.status(400).json({ error: err.message });
+  }
+}

@@ -21,5 +21,6 @@ router.patch(
   authMiddleware.requireAuth,
   bookingController.completeBooking,
 );
+router.put("/:bookingId", bookingController.updateBooking);
 
 export default router;

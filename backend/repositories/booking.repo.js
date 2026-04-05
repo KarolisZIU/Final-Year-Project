@@ -1,5 +1,6 @@
 import { pool } from "../database.js";
 
+// Returns all bookings for staff on a specific day, used to check availability when creating a booking
 export async function getBookingsForStaffOnDay(staffId, date) {
   return pool.query(
     `SELECT booking_start_time, booking_end_time
@@ -11,6 +12,7 @@ export async function getBookingsForStaffOnDay(staffId, date) {
   );
 }
 
+// Create new booking entry in the database
 export async function createBooking(
   serviceId,
   staffId,
@@ -26,6 +28,7 @@ export async function createBooking(
   );
 }
 
+// Return all bookings associated with an email address
 export async function getBookingsByEmail(email) {
   return pool.query(
     `SELECT b.booking_id, b.booking_start_time, b.booking_end_time, b.booking_status,
@@ -40,6 +43,7 @@ export async function getBookingsByEmail(email) {
   );
 }
 
+// Cancel booking, set status to cancelled
 export async function cancelBooking(bookingId) {
   return pool.query(
     `UPDATE bookings
@@ -49,6 +53,17 @@ export async function cancelBooking(bookingId) {
   );
 }
 
+// Change booking slot time, used for customer rescheduling booking
+export async function modifyBooking(bookingId, startTime, endTime) {
+  return pool.query(
+    `UPDATE bookings
+    SET booking_start_time = $1, booking_end_time = $2
+    WHERE booking_id = $3`,
+    [startTime, endTime, bookingId],
+  );
+}
+
+// Return all bookings for a specific staff member on specific day, used for staff dashboard
 export async function getBookingsForStaffForDay(staffId, date) {
   return pool.query(
     `SELECT b.booking_id, b.booking_start_time, s.service_name, s.service_duration, c.customer_name
@@ -61,6 +76,7 @@ export async function getBookingsForStaffForDay(staffId, date) {
   );
 }
 
+// Returns all bookings across the application for a specific day, used for admin dashboard
 export async function getAllBookingsForDay(date) {
   return pool.query(
     `SELECT b.booking_id, b.booking_start_time, s.service_name, s.service_duration, c.customer_name, st.staff_name
@@ -74,9 +90,19 @@ export async function getAllBookingsForDay(date) {
   );
 }
 
+// Change booking status to completed, used for admin/staff dashboard
 export async function completeBooking(bookingId) {
   return pool.query(
     `UPDATE bookings SET booking_status = 'completed' WHERE booking_id = $1`,
+    [bookingId],
+  );
+}
+
+// Returns staffID and ServiceID for a specific booking, used for feeding info to modifyBooking function
+export async function getBookingById(bookingId) {
+  return pool.query(
+    `SELECT staff_id, service_id, booking_start_time
+     FROM bookings WHERE booking_id = $1`,
     [bookingId],
   );
 }

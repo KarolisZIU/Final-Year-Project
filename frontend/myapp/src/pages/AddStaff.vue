@@ -136,7 +136,7 @@ async function addStaff() {
                     type="checkbox"
                     v-model="day.isAvailable"
                     :id="'toggle-' + day.dayOfWeek"
-                    class="w-4 h-4 rounded"
+                    class="w-4 h-4 rounded accent-black"
                   />
                   <label
                     :for="'toggle-' + day.dayOfWeek"
