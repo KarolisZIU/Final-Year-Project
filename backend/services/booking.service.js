@@ -217,7 +217,7 @@ export async function modifyBooking(bookingId, startTime) {
   const booking = bookingResult.rows[0];
   if (!booking) throw new Error("Booking not found");
 
-  const date = new Date(booking.booking_start_time).toISOString().split("T")[0];
+  const date = new Date(startTime).toISOString().split("T")[0];
   const availableSlots = await getAvailableSlots(
     booking.staff_id,
     booking.service_id,

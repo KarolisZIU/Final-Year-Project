@@ -30,7 +30,7 @@ async function fetchSlots() {
   }
 }
 
-async function confirmModify(){
+async function confirmModify() {
   if (!selectedSlot.value) {
     slotError.value = "Please select a new time slot";
     return;
@@ -40,16 +40,20 @@ async function confirmModify(){
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        startTime: selectedSlot.value
+        startTime: selectedSlot.value,
       }),
     });
-    if (!res.ok) throw new Error("Failed to modify booking");
-    router.push("/manage-bookings");
+    if (!res.ok) {
+      const data = await res.json();
+      slotError.value = data.error || "Failed to modify booking";
+      return;
+    }
+
+    router.push("/manage-booking");
   } catch (e) {
     slotError.value = "Failed to modify booking. Please try again.";
   }
 }
-
 
 function formatTime(isoString) {
   return new Date(isoString).toLocaleTimeString([], {
@@ -71,10 +75,8 @@ watch(selectedDate, (val) => {
 
 <template>
   <NavBar />
-  <PageWrapper title="Select New Time For Your Booking"> 
-  
-  
-      <div class="flex gap-23 bg-white rounded-xl">
+  <PageWrapper title="Select New Time For Your Booking">
+    <div class="flex gap-23 bg-white rounded-xl">
       <div class="pl-15">
         <VDatePicker v-model="selectedDate" :min-date="new Date()" />
       </div>
@@ -100,8 +102,15 @@ watch(selectedDate, (val) => {
           </p>
         </div>
       </div>
-</div>
-
-<AppButton v-if="selectedSlot" variant="primary" @click="confirmModify" class="mt-4">Reschedule Booking</AppButton>
+    </div>
+    <div class="flex justify-center mt-4">
+      <AppButton
+        v-if="selectedSlot"
+        variant="primary"
+        @click="confirmModify"
+        class="mt-4"
+        >Reschedule Booking</AppButton
+      >
+    </div>
   </PageWrapper>
 </template>

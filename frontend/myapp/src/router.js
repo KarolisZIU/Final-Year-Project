@@ -68,7 +68,7 @@ const router = createRouter({
     { path: "/manage-booking", component: ManageBooking },
     { path: "/about-us", component: AboutUs },
     { path: "/contact-us", component: Contact },
-    { path: "/manage-booking/:id/modify", component: ModifyBooking },
+    { path: "/manage-booking/:bookingId/modify", component: ModifyBooking },
   ],
 });
 
