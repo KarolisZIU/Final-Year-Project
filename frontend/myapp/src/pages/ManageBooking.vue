@@ -1,20 +1,31 @@
 <script setup>
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 import PageWrapper from "../components/PageWrapper.vue";
 import AppButton from "../components/AppButton.vue";
 import ErrorMessage from "../components/ErrorMessage.vue";
 import FormField from "../components/FormField.vue";
 import NavBar from "../components/NavBar.vue";
-import { useRouter } from "vue-router";
+import { useRouter, useRoute } from "vue-router";
 const router = useRouter();
+const route = useRoute();
 
 const bookings = ref([]);
 const error = ref("");
+const success = ref("");
 const email = ref("");
 const searched = ref(false);
 
+onMounted(() => {
+  if (route.query.success) {
+    success.value = route.query.success;
+    router.replace("/manage-booking");
+  }
+});
+
 function modifyBooking(booking) {
-  router.push(`/manage-booking/${booking.booking_id}/modify?staffId=${booking.staff_id}&serviceId=${booking.service_id}`);
+  router.push(
+    `/manage-booking/${booking.booking_id}/modify?staffId=${booking.staff_id}&serviceId=${booking.service_id}`,
+  );
 }
 
 async function fetchBookings() {
@@ -48,10 +59,10 @@ async function cancelBooking(bookingId) {
       error.value = data.error || "Failed to cancel booking";
       return;
     }
-    // Remove the canceled booking from the list
     bookings.value = bookings.value.filter(
       (booking) => booking.booking_id !== bookingId,
     );
+    success.value = "Booking cancelled successfully.";
   } catch (err) {
     error.value = "Failed to cancel booking";
   }
@@ -62,6 +73,9 @@ async function cancelBooking(bookingId) {
   <NavBar />
   <PageWrapper title="Retrieve Your Bookings">
     <ErrorMessage :message="error" />
+    <div v-if="success" class="bg-green-50 border border-green-200 rounded-xl p-5 mb-4">
+      <p class="text-green-600 text-sm mt-1">{{ success }}</p>
+    </div>
 
     <div class="flex gap-2 items-end justify-center mb-6">
       <FormField
@@ -102,7 +116,7 @@ async function cancelBooking(bookingId) {
         </div>
         <div class="flex gap-2">
           <AppButton variant="secondary" @click="modifyBooking(booking)">
-            Modify
+            Reschedule
           </AppButton>
           <AppButton
             variant="danger"

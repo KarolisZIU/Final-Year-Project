@@ -69,7 +69,7 @@ async function confirmBooking() {
     }
     confirmed.value = true;
   } catch (e) {
-    error.value = "Failed to confirm booking. Please try again.";
+    error.value = "Failed to confirm booking";
   }
 }
 </script>

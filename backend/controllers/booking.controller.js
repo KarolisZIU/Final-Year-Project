@@ -49,7 +49,7 @@ export async function createBooking(req, res) {
     );
 
     res.status(201).json({ bookingId: booking.booking_id });
-    broadcast({ date: date, staffId: staffId });
+    broadcast({});
   } catch (err) {
     console.error(err);
     res.status(400).json({ error: err.message });

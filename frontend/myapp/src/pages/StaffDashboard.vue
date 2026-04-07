@@ -20,10 +20,8 @@ function formatTime(isoString) {
   });
 }
 
-useBookingSocket((data) => {
-  if (data.date === currentDate.value) {
-    fetchBookings(currentDate.value);
-  }
+useBookingSocket(() => {
+  fetchBookings(currentDate.value);
 });
 
 async function fetchBookings(date) {
@@ -38,7 +36,7 @@ async function fetchBookings(date) {
     }
     results.value = await res.json();
   } catch (err) {
-    error.value = "Failed to load staff bookings";
+    error.value = "Failed to load bookings";
   }
 }
 
@@ -89,10 +87,6 @@ function markAsCompleted(bookingId) {
       error.value = "Failed to mark booking as completed";
     });
 }
-
-useBookingSocket(() => {
-  fetchBookings(currentDate.value);
-});
 
 onMounted(() => fetchBookings(currentDate.value));
 watch(selectedDate, (val) => {

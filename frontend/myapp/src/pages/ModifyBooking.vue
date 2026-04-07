@@ -16,7 +16,7 @@ const selectedDate = ref("");
 const availableSlots = ref([]);
 const selectedSlot = ref(null);
 const formattedDate = ref("");
-const slotError = ref("");
+const error = ref("");
 
 async function fetchSlots() {
   try {
@@ -26,13 +26,13 @@ async function fetchSlots() {
     if (!res.ok) throw new Error("Failed to fetch slots");
     availableSlots.value = await res.json();
   } catch (e) {
-    slotError.value = "Failed to load available slots";
+    error.value = "Failed to load available slots";
   }
 }
 
 async function confirmModify() {
   if (!selectedSlot.value) {
-    slotError.value = "Please select a new time slot";
+    error.value = "Please select a new time slot";
     return;
   }
   try {
@@ -45,13 +45,13 @@ async function confirmModify() {
     });
     if (!res.ok) {
       const data = await res.json();
-      slotError.value = data.error || "Failed to modify booking";
+      error.value = data.error || "Failed to modify booking";
       return;
     }
 
-    router.push("/manage-booking");
+    router.push("/manage-booking?success=Booking+rescheduled+successfully");
   } catch (e) {
-    slotError.value = "Failed to modify booking. Please try again.";
+    error.value = "Failed to modify booking";
   }
 }
 
@@ -65,7 +65,7 @@ function formatTime(isoString) {
 
 watch(selectedDate, (val) => {
   if (!val) return;
-  slotError.value = "";
+  error.value = "";
   availableSlots.value = [];
   selectedSlot.value = null;
   formattedDate.value = val.toLocaleDateString("en-CA");
@@ -81,7 +81,7 @@ watch(selectedDate, (val) => {
         <VDatePicker v-model="selectedDate" :min-date="new Date()" />
       </div>
       <div class="flex flex-col items-start justify-center">
-        <ErrorMessage :message="slotError" />
+        <ErrorMessage :message="error" />
         <div
           v-if="availableSlots.length"
           class="grid grid-cols-5 gap-2 max-h-64 overflow-y-auto pb-2"
