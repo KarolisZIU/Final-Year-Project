@@ -129,8 +129,8 @@ export async function completeBooking(req, res) {
 export async function updateBooking(req, res) {
   try {
     const { bookingId } = req.params;
-    const { startTime, endTime } = req.body;
-    await bookingService.modifyBooking(bookingId, startTime, endTime);
+    const { startTime } = req.body;
+    await bookingService.modifyBooking(bookingId, startTime);
     res.json({ message: "Booking updated successfully" });
     broadcast({});
   } catch (err) {

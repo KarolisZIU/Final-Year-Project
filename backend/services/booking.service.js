@@ -212,12 +212,12 @@ export async function completeBooking(bookingId) {
 }
 
 // Modifies a booking's time after validating the new slot is available
-export async function modifyBooking(bookingId, startTime, endTime) {
+export async function modifyBooking(bookingId, startTime) {
   const bookingResult = await bookingRepo.getBookingById(bookingId);
   const booking = bookingResult.rows[0];
   if (!booking) throw new Error("Booking not found");
 
-  const date = new Date(booking.booking_start_time).toISOString().split("T")[0];
+  const date = new Date(startTime).toISOString().split("T")[0];
   const availableSlots = await getAvailableSlots(
     booking.staff_id,
     booking.service_id,
@@ -227,6 +227,11 @@ export async function modifyBooking(bookingId, startTime, endTime) {
     (slot) => new Date(slot).getTime() === new Date(startTime).getTime(),
   );
   if (!isAvailable) throw new Error("This slot is not available");
+  const serviceResult = await servicesRepo.getServiceById(booking.service_id);
+  const service = serviceResult.rows[0];
+  if (!service) throw new Error("Service not found");
 
-  await bookingRepo.modifyBooking(bookingId, startTime, endTime);
+  const slotEnd = new Date(new Date(startTime).getTime() + service.service_duration * 60000);
+
+  await bookingRepo.modifyBooking(bookingId, startTime, slotEnd);
 }

@@ -14,7 +14,7 @@ const email = ref("");
 const searched = ref(false);
 
 function modifyBooking(booking) {
-  router.push(`/manage-booking/${booking.booking_id}/modify`);
+  router.push(`/manage-booking/${booking.booking_id}/modify?staffId=${booking.staff_id}&serviceId=${booking.service_id}`);
 }
 
 async function fetchBookings() {
@@ -95,6 +95,7 @@ async function cancelBooking(bookingId) {
                 hour: "2-digit",
                 minute: "2-digit",
                 hour12: false,
+                timeZone: "Europe/Dublin",
               })
             }}
           </p>

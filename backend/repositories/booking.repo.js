@@ -31,7 +31,7 @@ export async function createBooking(
 // Return all bookings associated with an email address
 export async function getBookingsByEmail(email) {
   return pool.query(
-    `SELECT b.booking_id, b.booking_start_time, b.booking_end_time, b.booking_status,
+    `SELECT b.booking_id, b.booking_start_time, b.staff_id, b.service_id, b.booking_end_time, b.booking_status,
             s.service_name, st.staff_name
      FROM bookings b
      JOIN customers c ON b.customer_id = c.customer_id
